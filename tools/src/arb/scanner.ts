@@ -50,12 +50,20 @@ export type ArbOpportunity = {
   netProfit: number | null;
 };
 
+export type SpotPrice = {
+  pairLabel: string;
+  venue: string;
+  tokenAPerTokenB: number;
+  deviationPct: number | null;
+};
+
 export type ArbScanResult = {
   chain: EvmChainConfig;
   blockNumber: bigint;
   gasPriceWei: bigint;
   gasUnitsEstimate: number;
   opportunities: ArbOpportunity[];
+  spotPrices: SpotPrice[];
   skipped: Array<{ pairLabel: string; router: string; reason: string }>;
   warnings: string[];
 };
@@ -231,6 +239,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const warnings: string[] = [];
   const skipped: ArbScanResult['skipped'] = [];
   const opportunities: ArbOpportunity[] = [];
+  const spotPrices: SpotPrice[] = [];
 
   const client = createPublicClient({
     // No transport-level batching: Multicall3 already aggregates every read into a
@@ -277,6 +286,31 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     if (reserves.length < 2) {
       warnings.push(`${pairLabel}: fewer than 2 usable router quotes on ${options.chain.key}, skipping`);
       continue;
+    }
+
+    // Raw spot price per venue (tokenA per 1 tokenB, e.g. USDC per WETH) - computed
+    // directly from reserves, with no fee, no optimizer, no threshold. This exists so
+    // "found nothing" can be double-checked against the actual underlying price gap
+    // instead of just trusted: if venues are already within roughly one fee round-trip
+    // of each other, zero opportunities is the CORRECT answer, not a bug or a threshold
+    // problem (min-net defaults to 0 - opportunities are pre-filtered to gross-profitable
+    // before any threshold is even applied, so a high threshold can't hide anything here).
+    const venuePrices = reserves.map((r) => ({
+      venue: r.label,
+      price:
+        Number(formatUnits(r.reserveA, pairConfig.tokenA.decimals)) /
+        Number(formatUnits(r.reserveB, pairConfig.tokenB.decimals)),
+    }));
+    const medianPrice = [...venuePrices.map((v) => v.price)].sort((a, b) => a - b)[
+      Math.floor(venuePrices.length / 2)
+    ]!;
+    for (const vp of venuePrices) {
+      spotPrices.push({
+        pairLabel,
+        venue: vp.venue,
+        tokenAPerTokenB: vp.price,
+        deviationPct: medianPrice > 0 ? ((vp.price - medianPrice) / medianPrice) * 100 : null,
+      });
     }
 
     // Reference price for converting gas cost into loan-token terms, derived from the
@@ -362,5 +396,14 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const rank = (o: ArbOpportunity): number => o.netProfit ?? Number(o.grossProfitFormatted);
   opportunities.sort((a, b) => rank(b) - rank(a));
 
-  return { chain: options.chain, blockNumber, gasPriceWei, gasUnitsEstimate, opportunities, skipped, warnings };
+  return {
+    chain: options.chain,
+    blockNumber,
+    gasPriceWei,
+    gasUnitsEstimate,
+    opportunities,
+    spotPrices,
+    skipped,
+    warnings,
+  };
 }

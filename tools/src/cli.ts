@@ -723,6 +723,21 @@ function printArbScan(result: ArbScanResult, minNetProfit: number): void {
   ui.section(`${result.chain.name} / ARBITRAGE SCAN (read-only, no funds moved)`);
   console.log(`${color.dim('Block')} ${color.white(result.blockNumber)}  ${color.dim('Gas estimate')} ${color.yellow(`${result.gasUnitsEstimate.toLocaleString('en-US')} units`)}`);
 
+  if (result.spotPrices.length) {
+    ui.section('SPOT PRICES (raw, no fee, no threshold - always shown)');
+    console.log(renderTable(
+      [
+        { title: 'PAIR' }, { title: 'VENUE' },
+        { title: 'PRICE', align: 'right' }, { title: 'VS MEDIAN', align: 'right' },
+      ],
+      result.spotPrices.map((p) => [
+        color.yellow(p.pairLabel), color.white(p.venue),
+        color.dim(p.tokenAPerTokenB.toFixed(6)),
+        p.deviationPct === null ? color.dim('n/a') : color.cyan(`${p.deviationPct >= 0 ? '+' : ''}${p.deviationPct.toFixed(4)}%`),
+      ]),
+    ));
+  }
+
   const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
 
   if (shown.length === 0) {
