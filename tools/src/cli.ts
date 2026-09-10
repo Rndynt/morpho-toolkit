@@ -19,6 +19,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { evmChains, type EvmChainConfig } from './config/chains.js';
 import { loadToolEnv } from './config/env.js';
 import { scanMorphoBalances, type ScanResult, type ScannedAsset } from './morpho/scanner.js';
+import { scanArbOpportunities, type ArbOpportunity, type ArbScanResult } from './arb/scanner.js';
 import { centerBlock, color, joinBlocks, promptText, renderBanner, renderTable, terminalLink, ui } from './ui/index.js';
 import {
   artifactPath,
@@ -705,6 +706,53 @@ async function scanAll(args: ParsedArgs): Promise<void> {
   }
 }
 
+async function runArbScan(args: ParsedArgs): Promise<ArbScanResult> {
+  const chain = chainFromArgs(args);
+  const progress = hasFlag(args, 'json')
+    ? undefined
+    : (message: string): void => console.log(`${color.cyan('◌')} ${color.dim(message)}`);
+  return scanArbOpportunities({
+    chain,
+    rpcUrl: rpcUrl(chain),
+    gasUnitsEstimate: numberFlag(args, 'gas-units', 400_000) || undefined,
+    onProgress: progress,
+  });
+}
+
+function printArbScan(result: ArbScanResult, minNetProfit: number): void {
+  ui.section(`${result.chain.name} / ARBITRAGE SCAN (read-only, no funds moved)`);
+  console.log(`${color.dim('Block')} ${color.white(result.blockNumber)}  ${color.dim('Gas estimate')} ${color.yellow(`${result.gasUnitsEstimate.toLocaleString('en-US')} units`)}`);
+
+  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+
+  if (shown.length === 0) {
+    ui.info('No opportunity found above the profit threshold at this block. This is normal - real cross-DEX gaps are intermittent, not constant.');
+  } else {
+    console.log(renderTable(
+      [
+        { title: 'PAIR' }, { title: 'LOAN' }, { title: 'BUY ON' }, { title: 'SELL ON' },
+        { title: 'AMOUNT', align: 'right' }, { title: 'GROSS', align: 'right' }, { title: 'EST. NET', align: 'right' },
+      ],
+      shown.map((o: ArbOpportunity) => [
+        color.yellow(o.pairLabel), color.cyan(o.loanTokenSymbol), color.white(o.buyOn), color.white(o.sellOn),
+        color.dim(o.loanAmountFormatted), color.green(o.grossProfitFormatted),
+        o.netProfit !== null ? color.green(o.netProfit.toFixed(6)) : color.dim('n/a (no price ref)'),
+      ]),
+    ));
+  }
+
+  if (result.skipped.length) {
+    ui.section('SKIPPED ROUTERS');
+    console.log(renderTable(
+      [{ title: 'PAIR' }, { title: 'ROUTER' }, { title: 'REASON' }],
+      result.skipped.map((s) => [color.yellow(s.pairLabel), color.white(s.router), color.dim(s.reason)]),
+    ));
+  }
+  if (result.warnings.length) {
+    for (const warning of result.warnings) ui.info(warning);
+  }
+}
+
 function printHelp(): void {
   console.log(renderBanner());
   console.log(`${color.bold('Usage:')}
@@ -713,6 +761,7 @@ Usage:
   npm run cli -- chains
   npm run cli -- scan  --chain ethereum [--min-usd 100000] [--token 0x...]
   npm run cli -- scan-all [--chains ethereum,base,arbitrum] [--min-usd 100000]
+  npm run cli -- arb-scan --chain base [--gas-units 400000] [--min-net 0]
   npm run cli -- setup --chain ethereum [--min-usd 100000] [--select all|1,2|USDC,WETH]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount 10 [--broadcast]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount '$100000' [--broadcast]
@@ -726,7 +775,8 @@ Output flags:
   --json
   --max-price-age-hours 24
 
-Default setup adalah plan-only dan tidak mengirim transaksi.`);
+Default setup adalah plan-only dan tidak mengirim transaksi.
+arb-scan selalu read-only - tidak pernah mengirim transaksi atau butuh private key.`);
 }
 
 async function main(): Promise<void> {
@@ -747,6 +797,15 @@ async function main(): Promise<void> {
     case 'scan-all':
       await scanAll(args);
       break;
+    case 'arb-scan': {
+      const result = await runArbScan(args);
+      if (hasFlag(args, 'json')) {
+        console.log(JSON.stringify(result, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2));
+      } else {
+        printArbScan(result, numberFlag(args, 'min-net', 0));
+      }
+      break;
+    }
     case 'setup':
       await setup(args);
       break;
