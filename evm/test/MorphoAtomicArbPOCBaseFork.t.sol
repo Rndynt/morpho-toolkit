@@ -17,6 +17,19 @@ pragma solidity ^0.8.24;
 // FIRST, in isolation - if it fails, the router/pair addresses below need adjusting before
 // anything else in this file means anything.
 //
+// AUDIT NOTE (2026-09-10): the original SUSHI_V2_ROUTER value here was wrong on Base and
+// is why test_PairsExistOnBothRouters reverted on factory() for a real run - see the
+// constant below for the corrected address and how it was verified. Separately, live
+// Base liquidity data (GeckoTerminal, checked same day) shows the classic SushiSwap V2
+// WETH/USDC pool on Base is extremely thin (~$4k TVL) next to Uniswap V2's (~$9.6M) -
+// roughly a 2,000x gap. test_CapturesRealImbalanceAcrossUniswapAndSushi was rewritten to
+// size every trade off *live* on-chain reserves instead of fixed dollar amounts, and to
+// dump into/buy from the shallow venue (Sushi) before clearing through the deep one
+// (Uniswap) - the original fixed-5,000-USDC version would still fail the profitability
+// assertion even with the router address fixed, because 5,000 USDC is ~2,000% of Sushi's
+// entire pool. Re-run test_PairsExistOnBothRouters after pulling this file to confirm
+// today's real reserves before trusting any of the numbers below.
+//
 // Setup (run once in your morpho-toolkit clone):
 //   cd evm
 //   forge install foundry-rs/forge-std --no-commit
@@ -66,9 +79,18 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
     address constant USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
     // Canonical OP-stack WETH predeploy, identical on every OP-stack chain incl. Base.
     address constant WETH = 0x4200000000000000000000000000000000000006;
-    // Cross-checked via BaseScan search - RE-VERIFY on basescan.org before relying on these.
+    // Matches docs.uniswap.org's v2-deployments page and the address seen live in the
+    // Termux test run (factory() succeeded, real WETH/USDC pair returned). No change needed.
     address constant UNISWAP_V2_ROUTER = 0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24;
-    address constant SUSHI_V2_ROUTER = 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506;
+    // CORRECTED. The old value (0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506) *is* Sushi's
+    // V2 Router on Polygon/Arbitrum/BSC/Ethereum/Fantom (same deployer, deterministic
+    // address), but on Base that exact address is a completely different, unrelated
+    // unverified contract (an old NFT-descriptor-style contract, not a router at all) -
+    // that's why factory() reverted. The real address below is pulled straight from
+    // SushiSwap's own deployments repo (github.com/sushiswap/v2-core, deployments/base/
+    // UniswapV2Router02.json) and independently confirmed as "Sushi: Router v2" (verified
+    // contract) on basescan.org.
+    address constant SUSHI_V2_ROUTER = 0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891;
 
     address constant PROFIT_RECEIVER = address(0xFEED);
     uint256 constant MIN_USABLE_RESERVE = 0.1 ether; // below this, pool is too thin to trust
@@ -97,43 +119,51 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
     }
 
     /// The core proof. Steps:
-    ///  1. Read Uniswap V2's real WETH/USDC reserves.
-    ///  2. Simulate a whale dumping WETH into that pool via a REAL swap call (exactly what
-    ///     creates real arbitrage opportunities in the wild) - this makes WETH temporarily
-    ///     cheap on Uniswap relative to Sushi.
-    ///  3. Quote both legs on-chain (getAmountsOut) to size a profitable USDC -> WETH
-    ///     (Uniswap, now cheap) -> USDC (Sushi, fair) round trip.
+    ///  1. Read both pools' REAL, LIVE reserves - Sushi's Base pool is ~2,000x shallower
+    ///     than Uniswap's right now (checked via GeckoTerminal the same day this was
+    ///     written: ~$4k vs ~$9.6M), so every amount below is derived as a fraction of
+    ///     the live reserves instead of a fixed dollar figure. A fixed 5,000 USDC loan
+    ///     would be ~2,000% of Sushi's entire pool and would fail no matter which router
+    ///     address is used - this is a sizing problem, not just an address problem.
+    ///  2. Simulate a whale dumping WETH into the SHALLOW pool (Sushi) via a REAL swap
+    ///     call - a modest absolute size still moves a thin pool a lot, which is exactly
+    ///     what makes small-pool venues attractive (and risky) arb targets in the wild.
+    ///  3. Quote both legs on-chain (getAmountsOut): buy the now-cheap WETH on Sushi,
+    ///     then clear it through Uniswap's deep pool, where the sell leg barely moves the
+    ///     price and doesn't eat the profit from the first leg.
     ///  4. Call executeArbitrage and verify Morpho gets repaid and PROFIT_RECEIVER is paid
     ///     real USDC - all against real Base mainnet bytecode, not mocks.
     function test_CapturesRealImbalanceAcrossUniswapAndSushi() public {
-        uint256 uniWethReserve = _wethReserve(UNISWAP_V2_ROUTER, "Uniswap V2");
-        _wethReserve(SUSHI_V2_ROUTER, "Sushi V2");
+        (uint256 sushiWethReserve, uint256 sushiUsdcReserve) = _reserves(SUSHI_V2_ROUTER, "Sushi V2");
+        _wethReserve(UNISWAP_V2_ROUTER, "Uniswap V2"); // just re-confirm the deep pool is healthy too
 
-        // --- Step 2: manufacture a real imbalance ---
+        // --- Step 2: manufacture a real imbalance on the shallow venue ---
         address whale = address(0xB0B);
-        uint256 dumpAmount = uniWethReserve * 20 / 100; // 20% of pool depth: guarantees a
-        // visible price impact regardless of the pool's absolute size.
+        uint256 dumpAmount = sushiWethReserve * 20 / 100; // 20% of THIS pool's depth, not
+        // the deep pool's - sizing off the wrong pool is exactly what broke the original.
         deal(WETH, whale, dumpAmount);
 
         vm.startPrank(whale);
-        IERC20Min(WETH).approve(UNISWAP_V2_ROUTER, dumpAmount);
+        IERC20Min(WETH).approve(SUSHI_V2_ROUTER, dumpAmount);
         address[] memory dumpPath = new address[](2);
         dumpPath[0] = WETH;
         dumpPath[1] = USDC;
-        IV2Router(UNISWAP_V2_ROUTER).swapExactTokensForTokens(dumpAmount, 0, dumpPath, whale, block.timestamp);
+        IV2Router(SUSHI_V2_ROUTER).swapExactTokensForTokens(dumpAmount, 0, dumpPath, whale, block.timestamp);
         vm.stopPrank();
 
-        console2.log("Whale dumped WETH into Uniswap V2:", dumpAmount);
+        console2.log("Whale dumped WETH into Sushi V2:", dumpAmount);
 
-        // --- Step 3: size the round trip off real post-dump quotes ---
-        uint256 loanAmount = 5_000e6; // 5,000 USDC - adjust down if Morpho's Base USDC
-        // liquidity or pool depth can't support this (see console output if it reverts).
-        uint256 wethOut = _quote(UNISWAP_V2_ROUTER, USDC, WETH, loanAmount);
-        uint256 usdcBack = _quote(SUSHI_V2_ROUTER, WETH, USDC, wethOut);
+        // --- Step 3: size the round trip off Sushi's own (pre-dump) USDC depth ---
+        uint256 loanAmount = sushiUsdcReserve * 10 / 100; // 10% of Sushi's own liquidity -
+        // small enough that the buy leg doesn't dominate the pool on top of the dump.
+        require(loanAmount > 0, "Sushi pool too thin to size a loan - pick a deeper pair");
+
+        uint256 wethOut = _quote(SUSHI_V2_ROUTER, USDC, WETH, loanAmount);
+        uint256 usdcBack = _quote(UNISWAP_V2_ROUTER, WETH, USDC, wethOut);
 
         console2.log("Loan (USDC, 6dp):", loanAmount);
-        console2.log("WETH bought on Uniswap:", wethOut);
-        console2.log("USDC back from Sushi:", usdcBack);
+        console2.log("WETH bought on Sushi:", wethOut);
+        console2.log("USDC back from Uniswap:", usdcBack);
 
         assertGt(usdcBack, loanAmount, "no real opportunity created - increase dump size or pick a different pair");
 
@@ -143,8 +173,8 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
         MorphoAtomicArbPOC.ArbitrageParams memory params = MorphoAtomicArbPOC.ArbitrageParams({
             loanToken: USDC,
             intermediateToken: WETH,
-            firstRouter: UNISWAP_V2_ROUTER,
-            secondRouter: SUSHI_V2_ROUTER,
+            firstRouter: SUSHI_V2_ROUTER,
+            secondRouter: UNISWAP_V2_ROUTER,
             loanAmount: loanAmount,
             minIntermediateAmount: wethOut * 995 / 1000,
             minFinalAmount: usdcBack * 995 / 1000,
@@ -228,16 +258,33 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
     // ---- helpers ----
 
     function _wethReserve(address router, string memory label) internal view returns (uint256 wethReserve) {
+        (wethReserve,) = _reserves(router, label);
+    }
+
+    /// Same lookup as _wethReserve, but also returns the USDC side - used to size trades
+    /// as a fraction of a pool's own live depth instead of a fixed dollar amount, which is
+    /// what let this test silently assume Sushi and Uniswap have comparable liquidity on
+    /// Base when in reality they can differ by orders of magnitude.
+    function _reserves(address router, string memory label)
+        internal
+        view
+        returns (uint256 wethReserve, uint256 usdcReserve)
+    {
         address factory = IV2Router(router).factory();
         address pair = IV2Factory(factory).getPair(WETH, USDC);
         require(pair != address(0), string.concat(label, ": no WETH/USDC pair on this router - pick a different one"));
 
         (uint112 r0, uint112 r1,) = IV2Pair(pair).getReserves();
         address token0 = IV2Pair(pair).token0();
-        wethReserve = token0 == WETH ? uint256(r0) : uint256(r1);
+        if (token0 == WETH) {
+            (wethReserve, usdcReserve) = (uint256(r0), uint256(r1));
+        } else {
+            (wethReserve, usdcReserve) = (uint256(r1), uint256(r0));
+        }
 
         console2.log(label, "pair:", pair);
         console2.log(label, "WETH reserve:", wethReserve);
+        console2.log(label, "USDC reserve:", usdcReserve);
         require(wethReserve > MIN_USABLE_RESERVE, string.concat(label, ": pool too thin to trust for this test"));
     }
 
