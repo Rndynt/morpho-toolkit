@@ -69,6 +69,13 @@ Aerodrome dicek silang dari beberapa sumber tapi belum dijalankan langsung (liha
 komentar "VERIFY ON BASESCAN" di `routes.ts`) - `arb-scan` akan skip dengan alasan yang
 jelas di tabel SKIPPED kalau alamatnya ternyata salah, tidak bikin scan lain gagal.
 
+Estimasi gas dikurangi dari gross profit menggunakan referensi harga ETH yang dibangun
+dari SEMUA pair yang terdaftar (bukan cuma pair yang lagi discan) - jadi USDC/AERO tetap
+dapat referensi harga gas yang benar walau pair itu sendiri tidak mengandung WETH, selama
+ada pair lain (USDC/WETH, WETH/AERO) yang menjembatani. Kalau belum ada jembatan sama
+sekali ke WETH untuk suatu token, kolom EST. NET akan tampil "n/a" - itu artinya perlu
+pair tambahan yang melibatkan token itu dan WETH, bukan berarti scanner-nya salah.
+
 Angka yang keluar dari scanner ini adalah **estimasi untuk deteksi**, bukan parameter
 transaksi final - sebelum benar-benar memanggil `executeArbitrage`, kuotasi ulang secara
 presisi on-chain (mis. `getAmountsOut`) di titik itu juga, karena reserve bisa berubah

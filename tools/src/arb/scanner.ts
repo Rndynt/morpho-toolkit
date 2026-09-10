@@ -265,6 +265,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     warnings.push(`no configured v2Pairs for chain "${options.chain.key}" - add one in tools/src/arb/routes.ts`);
   }
 
+  const resolvedPairs: Array<{ pairConfig: V2PairConfig; reserves: RouterReserves[] }> = [];
+
   for (const pairConfig of pairsForChain) {
     const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
     const matchingSolidly = solidlyPairs.filter(
@@ -313,15 +315,50 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
       });
     }
 
-    // Reference price for converting gas cost into loan-token terms, derived from the
-    // deepest pool's own reserves - no external price API, self-consistent with what we
-    // just read on-chain. Only meaningful when tokenB is the chain's wrapped-native asset.
+    resolvedPairs.push({ pairConfig, reserves });
+  }
+
+  // Chain-wide "units of token per 1 WETH" reference, built from whichever already-
+  // resolved pairs happen to touch WETH on either side - no extra RPC calls, no external
+  // price API. This lets gas-cost conversion work for pairs that don't themselves
+  // contain WETH (e.g. USDC/AERO can use the USDC/WETH and WETH/AERO pairs' own reserves)
+  // as long as at least one WETH-containing pair is configured for the token in question.
+  // Falls back to null (shown as "n/a" in the CLI) when no such reference exists yet.
+  const ethPriceInToken = new Map<string, number>();
+  const wethAddressLower = pairsForChain
+    .flatMap((p) => [p.tokenA, p.tokenB])
+    .find((t) => t.symbol === 'WETH')?.address.toLowerCase();
+  if (wethAddressLower) ethPriceInToken.set(wethAddressLower, 1);
+  for (const { pairConfig, reserves } of resolvedPairs) {
     const deepest = [...reserves].sort((a, b) => (a.reserveB < b.reserveB ? 1 : -1))[0]!;
-    const nativePriceInTokenA =
-      pairConfig.tokenB.symbol === 'WETH' && deepest.reserveB > 0n
-        ? Number(formatUnits(deepest.reserveA, pairConfig.tokenA.decimals)) /
-          Number(formatUnits(deepest.reserveB, pairConfig.tokenB.decimals))
-        : null;
+    const tokenALower = pairConfig.tokenA.address.toLowerCase();
+    const tokenBLower = pairConfig.tokenB.address.toLowerCase();
+    if (pairConfig.tokenA.symbol === 'WETH' && !ethPriceInToken.has(tokenBLower) && deepest.reserveA > 0n) {
+      // units of tokenB per 1 WETH(=tokenA)
+      ethPriceInToken.set(
+        tokenBLower,
+        Number(formatUnits(deepest.reserveB, pairConfig.tokenB.decimals)) /
+          Number(formatUnits(deepest.reserveA, pairConfig.tokenA.decimals)),
+      );
+    }
+    if (pairConfig.tokenB.symbol === 'WETH' && !ethPriceInToken.has(tokenALower) && deepest.reserveB > 0n) {
+      // units of tokenA per 1 WETH(=tokenB)
+      ethPriceInToken.set(
+        tokenALower,
+        Number(formatUnits(deepest.reserveA, pairConfig.tokenA.decimals)) /
+          Number(formatUnits(deepest.reserveB, pairConfig.tokenB.decimals)),
+      );
+    }
+  }
+
+  for (const { pairConfig, reserves } of resolvedPairs) {
+    const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
+    const gasCostInTokenA = ethPriceInToken.has(pairConfig.tokenA.address.toLowerCase())
+      ? gasCostEth * ethPriceInToken.get(pairConfig.tokenA.address.toLowerCase())!
+      : null;
+    const gasCostInTokenB = ethPriceInToken.has(pairConfig.tokenB.address.toLowerCase())
+      ? gasCostEth * ethPriceInToken.get(pairConfig.tokenB.address.toLowerCase())!
+      : null;
 
     for (const buyOn of reserves) {
       for (const sellOn of reserves) {
@@ -341,7 +378,6 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultA.profitable) {
-          const gasCostInTokenA = nativePriceInTokenA !== null ? gasCostEth * nativePriceInTokenA : null;
           opportunities.push({
             pairLabel,
             loanTokenSymbol: pairConfig.tokenA.symbol,
@@ -370,9 +406,6 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultB.profitable) {
-          // tokenB is WETH for every pair configured today, so gas (already in ETH) is
-          // directly comparable without a price conversion.
-          const gasCostInTokenB = pairConfig.tokenB.symbol === 'WETH' ? gasCostEth : null;
           opportunities.push({
             pairLabel,
             loanTokenSymbol: pairConfig.tokenB.symbol,
