@@ -30,6 +30,18 @@ pragma solidity ^0.8.24;
 // entire pool. Re-run test_PairsExistOnBothRouters after pulling this file to confirm
 // today's real reserves before trusting any of the numbers below.
 //
+// AUDIT NOTE (2026-09-10, cont.): test_RevertsWhenMinProfitUnrealistic previously used
+// minProfit: type(uint256).max to force a guaranteed-unreachable profit target. That
+// value overflows `activeBalanceBefore + assets + params.minProfit` inside
+// MorphoAtomicArbPOC.executeArbitrage, which reverts with a generic Panic(0x11) instead
+// of the intended InsufficientProfit() custom error - confirmed via the Termux test run
+// (trace showed the revert happening on that addition, right after both real swaps and
+// the balance checks had already succeeded). Not a fund-loss issue either way - the
+// whole call still reverts atomically and onlyOwner already restricts who can trigger it
+// - but it meant this test wasn't actually exercising the revert path it claimed to.
+// Fixed by using loanAmount * 1_000_000 instead: still unreachable, but far below the
+// point where the addition overflows.
+//
 // Setup (run once in your morpho-toolkit clone):
 //   cd evm
 //   forge install foundry-rs/forge-std --no-commit
@@ -205,7 +217,11 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
             loanAmount: 1_000e6,
             minIntermediateAmount: 0,
             minFinalAmount: 0,
-            minProfit: type(uint256).max, // impossible to satisfy
+            // 1,000,000x the loan amount: impossible to satisfy, but small enough not to
+            // overflow `activeBalanceBefore + assets + minProfit` inside the contract -
+            // type(uint256).max here previously tripped a Panic(0x11) overflow instead of
+            // the intended InsufficientProfit() revert (see AUDIT NOTE below).
+            minProfit: loanAmount * 1_000_000,
             deadline: block.timestamp + 300,
             profitReceiver: PROFIT_RECEIVER
         });
