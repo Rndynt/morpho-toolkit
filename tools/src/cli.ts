@@ -71,6 +71,11 @@ function flag(args: ParsedArgs, name: string): string | undefined {
   return args.flags.get(name)?.at(-1);
 }
 
+function cliErrorMessage(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.split('\n', 1)[0]!;
+}
+
 function hasFlag(args: ParsedArgs, name: string): boolean {
   return args.flags.has(name) && flag(args, name) !== 'false';
 }
@@ -768,6 +773,61 @@ function printArbScan(result: ArbScanResult, minNetProfit: number): void {
   }
 }
 
+function printArbScanCompact(result: ArbScanResult, minNetProfit: number, timestamp: Date): void {
+  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+  const time = timestamp.toISOString().slice(11, 19);
+  if (shown.length === 0) {
+    console.log(`${color.dim(time)} block ${color.white(result.blockNumber)}  ${color.dim('no opportunity')}`);
+  } else {
+    const best = shown[0]!;
+    console.log(
+      `${color.dim(time)} block ${color.white(result.blockNumber)}  ` +
+      `${color.green(`${shown.length} opportunit${shown.length === 1 ? 'y' : 'ies'}`)} - best: ${color.yellow(best.pairLabel)} ` +
+      `${color.cyan(best.loanTokenSymbol)} ${best.buyOn}->${best.sellOn} net ${color.green(best.netProfit?.toFixed(6) ?? best.grossProfitFormatted)}`,
+    );
+  }
+  if (result.warnings.length) {
+    for (const warning of result.warnings) console.log(`${color.dim(time)} ${color.dim(warning)}`);
+  }
+}
+
+async function watchArbScan(args: ParsedArgs, minNetProfit: number): Promise<void> {
+  const intervalSeconds = Math.max(5, numberFlag(args, 'interval', 20));
+  ui.info(`Watching every ${intervalSeconds}s. Ctrl+C to stop. Full detail only prints when something clears the threshold.`);
+  let running = true;
+  process.on('SIGINT', () => {
+    running = false;
+    ui.info('Stopping after the current cycle...');
+  });
+
+  while (running) {
+    const cycleStart = new Date();
+    try {
+      const chain = chainFromArgs(args);
+      const result = await scanArbOpportunities({
+        chain,
+        rpcUrl: rpcUrl(chain),
+        gasUnitsEstimate: numberFlag(args, 'gas-units', 400_000) || undefined,
+      });
+      const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+      if (shown.length > 0) {
+        console.log('');
+        printArbScan(result, minNetProfit);
+        console.log('');
+      } else {
+        printArbScanCompact(result, minNetProfit, cycleStart);
+      }
+    } catch (error) {
+      // A single bad cycle (RPC hiccup, rate limit, timeout) should not kill a long-
+      // running watch loop - log it and keep going.
+      console.log(`${color.dim(cycleStart.toISOString().slice(11, 19))} ${color.dim(`cycle failed: ${cliErrorMessage(error)}`)}`);
+    }
+    if (!running) break;
+    await new Promise((resolve) => setTimeout(resolve, intervalSeconds * 1000));
+  }
+  ui.info('Stopped.');
+}
+
 function printHelp(): void {
   console.log(renderBanner());
   console.log(`${color.bold('Usage:')}
@@ -777,6 +837,7 @@ Usage:
   npm run cli -- scan  --chain ethereum [--min-usd 100000] [--token 0x...]
   npm run cli -- scan-all [--chains ethereum,base,arbitrum] [--min-usd 100000]
   npm run cli -- arb-scan --chain base [--gas-units 400000] [--min-net 0]
+  npm run cli -- arb-scan --chain base --watch [--interval 20]
   npm run cli -- setup --chain ethereum [--min-usd 100000] [--select all|1,2|USDC,WETH]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount 10 [--broadcast]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount '$100000' [--broadcast]
@@ -813,11 +874,16 @@ async function main(): Promise<void> {
       await scanAll(args);
       break;
     case 'arb-scan': {
+      const minNet = numberFlag(args, 'min-net', 0);
+      if (hasFlag(args, 'watch')) {
+        await watchArbScan(args, minNet);
+        break;
+      }
       const result = await runArbScan(args);
       if (hasFlag(args, 'json')) {
         console.log(JSON.stringify(result, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2));
       } else {
-        printArbScan(result, numberFlag(args, 'min-net', 0));
+        printArbScan(result, minNet);
       }
       break;
     }

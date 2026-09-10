@@ -59,7 +59,17 @@ apa pun yang salah satu sisinya WETH).
 npm run cli -- arb-scan --chain base                 # tabel, threshold profit = 0
 npm run cli -- arb-scan --chain base --min-net 5      # cuma tampilkan net profit >= 5 (unit loan token)
 npm run cli -- arb-scan --chain base --gas-units 350000 --json
+npm run cli -- arb-scan --chain base --watch                    # loop tiap 20 detik, Ctrl+C untuk stop
+npm run cli -- arb-scan --chain base --watch --interval 10       # loop tiap 10 detik
 ```
+
+Mode `--watch` polling berkelanjutan (baca-saja, tetap tidak pernah broadcast apapun):
+tiap siklus cuma print satu baris ringkas (jam, block, ada opportunity atau tidak) supaya
+gak berisik; begitu ada yang lolos `--min-net`, baru tabel lengkap (SPOT PRICES + tabel
+opportunity) ditampilkan penuh. Error RPC sesaat (rate limit, timeout) di satu siklus
+tidak menghentikan loop - cuma dicatat, lanjut ke siklus berikutnya. Karena gap harga
+lintas-DEX sifatnya intermiten, cara paling realistis menangkapnya memang dengan
+mengawasi terus-menerus, bukan cek manual sesekali.
 
 Route yang terdaftar di `arb/routes.ts`: WETH/USDC di Base lewat Uniswap V2 + Sushi V2
 (diverifikasi via `evm/test/MorphoAtomicArbPOCBaseFork.t.sol`), plus Aerodrome (volatile
