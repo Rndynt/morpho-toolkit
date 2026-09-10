@@ -8,7 +8,7 @@ import {
 } from 'viem';
 import type { EvmChainConfig } from '../config/chains.js';
 import type { Address } from '../config/registry.js';
-import { v2Pairs, type RouterCandidate, type V2PairConfig } from './routes.js';
+import { v2Pairs, solidlyPairs, type RouterCandidate, type V2PairConfig, type SolidlyPairEntry } from './routes.js';
 import { optimalTwoLegArbitrage } from './math.js';
 
 const MULTICALL3 = '0xcA11bde05977b3631167028862bE2a173976CA11' as Address;
@@ -22,12 +22,19 @@ const v2PairAbi = parseAbi([
   'function token0() view returns (address)',
 ]);
 
+const solidlyFactoryAbi = parseAbi(['function getPool(address,address,bool) view returns (address)']);
+const solidlyPoolAbi = parseAbi([
+  'function getReserves() view returns (uint256,uint256,uint256)',
+  'function token0() view returns (address)',
+]);
+
 type RouterReserves = {
   label: string;
   router: Address;
   pair: Address;
   reserveA: bigint;
   reserveB: bigint;
+  feeBps: number;
 };
 
 export type ArbOpportunity = {
@@ -155,9 +162,62 @@ async function resolveRouterReserves(
       pair: entry.pair,
       reserveA: isAToken0 ? r0 : r1,
       reserveB: isAToken0 ? r1 : r0,
+      feeBps: pairConfig.feeBps,
     });
   });
   return results;
+}
+
+async function resolveSolidlyReserves(
+  client: PublicClient,
+  entry: SolidlyPairEntry,
+  skipped: ArbScanResult['skipped'],
+): Promise<RouterReserves | null> {
+  const pairLabel = `${entry.tokenA.symbol}/${entry.tokenB.symbol}`;
+  let poolAddress: Address;
+  try {
+    poolAddress = (await client.readContract({
+      address: entry.pool.factory,
+      abi: solidlyFactoryAbi,
+      functionName: 'getPool',
+      args: [entry.tokenA.address, entry.tokenB.address, entry.pool.stable],
+    })) as Address;
+  } catch (error) {
+    skipped.push({ pairLabel, router: entry.pool.label, reason: `getPool() failed: ${errorMessage(error)}` });
+    return null;
+  }
+  if (!poolAddress || getAddress(poolAddress) === getAddress(ZERO_ADDRESS)) {
+    skipped.push({ pairLabel, router: entry.pool.label, reason: 'no pool for this token combination' });
+    return null;
+  }
+
+  try {
+    const [reservesResult, token0Result] = await client.multicall({
+      allowFailure: true,
+      multicallAddress: MULTICALL3,
+      contracts: [
+        { address: poolAddress, abi: solidlyPoolAbi, functionName: 'getReserves' as const },
+        { address: poolAddress, abi: solidlyPoolAbi, functionName: 'token0' as const },
+      ],
+    });
+    if (reservesResult?.status !== 'success' || token0Result?.status !== 'success') {
+      skipped.push({ pairLabel, router: entry.pool.label, reason: 'getReserves/token0 read failed' });
+      return null;
+    }
+    const [r0, r1] = reservesResult.result as readonly [bigint, bigint, bigint];
+    const isAToken0 = getAddress(token0Result.result as Address) === getAddress(entry.tokenA.address);
+    return {
+      label: entry.pool.label,
+      router: poolAddress,
+      pair: poolAddress,
+      reserveA: isAToken0 ? r0 : r1,
+      reserveB: isAToken0 ? r1 : r0,
+      feeBps: entry.pool.feeBps,
+    };
+  } catch (error) {
+    skipped.push({ pairLabel, router: entry.pool.label, reason: `read failed: ${errorMessage(error)}` });
+    return null;
+  }
 }
 
 /**
@@ -198,8 +258,22 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
 
   for (const pairConfig of pairsForChain) {
     const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
-    options.onProgress?.(`Reading ${pairLabel} reserves across ${pairConfig.routers.length} routers...`);
+    const matchingSolidly = solidlyPairs.filter(
+      (s) =>
+        s.chain === options.chain.key &&
+        getAddress(s.tokenA.address) === getAddress(pairConfig.tokenA.address) &&
+        getAddress(s.tokenB.address) === getAddress(pairConfig.tokenB.address),
+    );
+    options.onProgress?.(
+      `Reading ${pairLabel} reserves across ${pairConfig.routers.length + matchingSolidly.length} venues...`,
+    );
     const reserves = await resolveRouterReserves(client, pairConfig, skipped);
+
+    for (const solidlyEntry of matchingSolidly) {
+      const solidlyReserves = await resolveSolidlyReserves(client, solidlyEntry, skipped);
+      if (solidlyReserves) reserves.push(solidlyReserves);
+    }
+
     if (reserves.length < 2) {
       warnings.push(`${pairLabel}: fewer than 2 usable router quotes on ${options.chain.key}, skipping`);
       continue;
@@ -224,12 +298,12 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           {
             reserveIn: Number(formatUnits(buyOn.reserveA, pairConfig.tokenA.decimals)),
             reserveOut: Number(formatUnits(buyOn.reserveB, pairConfig.tokenB.decimals)),
-            feeBps: pairConfig.feeBps,
+            feeBps: buyOn.feeBps,
           },
           {
             reserveIn: Number(formatUnits(sellOn.reserveB, pairConfig.tokenB.decimals)),
             reserveOut: Number(formatUnits(sellOn.reserveA, pairConfig.tokenA.decimals)),
-            feeBps: pairConfig.feeBps,
+            feeBps: sellOn.feeBps,
           },
         );
         if (resultA.profitable) {
@@ -253,12 +327,12 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           {
             reserveIn: Number(formatUnits(buyOn.reserveB, pairConfig.tokenB.decimals)),
             reserveOut: Number(formatUnits(buyOn.reserveA, pairConfig.tokenA.decimals)),
-            feeBps: pairConfig.feeBps,
+            feeBps: buyOn.feeBps,
           },
           {
             reserveIn: Number(formatUnits(sellOn.reserveA, pairConfig.tokenA.decimals)),
             reserveOut: Number(formatUnits(sellOn.reserveB, pairConfig.tokenB.decimals)),
-            feeBps: pairConfig.feeBps,
+            feeBps: sellOn.feeBps,
           },
         );
         if (resultB.profitable) {

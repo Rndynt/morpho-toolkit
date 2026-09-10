@@ -61,12 +61,13 @@ npm run cli -- arb-scan --chain base --min-net 5      # cuma tampilkan net profi
 npm run cli -- arb-scan --chain base --gas-units 350000 --json
 ```
 
-Route yang terdaftar di `arb/routes.ts` baru satu: WETH/USDC di Base lewat Uniswap V2 +
-Sushi V2 - persis alamat yang sudah diverifikasi lewat
-`evm/test/MorphoAtomicArbPOCBaseFork.t.sol`. Menambah pair/router baru berarti
-memverifikasi dulu (getPair tidak revert, reserve masuk akal) sebelum dipercaya; entry
-yang salah alamat cukup di-skip otomatis dengan alasan di kolom `SKIPPED ROUTERS`, tidak
-bikin scan lain gagal.
+Route yang terdaftar di `arb/routes.ts`: WETH/USDC di Base lewat Uniswap V2 + Sushi V2
+(diverifikasi via `evm/test/MorphoAtomicArbPOCBaseFork.t.sol`), plus Aerodrome (volatile
+pool) - DEX dengan likuiditas terbesar di Base, jauh lebih mungkin jadi sumber selisih
+harga asli dibanding dua V2 fork yang nyaris tidak ada volume. Alamat PoolFactory
+Aerodrome dicek silang dari beberapa sumber tapi belum dijalankan langsung (lihat
+komentar "VERIFY ON BASESCAN" di `routes.ts`) - `arb-scan` akan skip dengan alasan yang
+jelas di tabel SKIPPED kalau alamatnya ternyata salah, tidak bikin scan lain gagal.
 
 Angka yang keluar dari scanner ini adalah **estimasi untuk deteksi**, bukan parameter
 transaksi final - sebelum benar-benar memanggil `executeArbitrage`, kuotasi ulang secara
