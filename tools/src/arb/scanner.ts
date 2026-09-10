@@ -69,7 +69,6 @@ function errorMessage(error: unknown): string {
 async function resolveRouterReserves(
   client: PublicClient,
   pairConfig: V2PairConfig,
-  blockNumber: bigint,
   skipped: ArbScanResult['skipped'],
 ): Promise<RouterReserves[]> {
   const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
@@ -77,7 +76,6 @@ async function resolveRouterReserves(
   const factoryCalls = await client.multicall({
     allowFailure: true,
     multicallAddress: MULTICALL3,
-    blockNumber,
     contracts: pairConfig.routers.map((r) => ({
       address: r.router,
       abi: v2RouterAbi,
@@ -109,7 +107,6 @@ async function resolveRouterReserves(
   const pairCalls = await client.multicall({
     allowFailure: true,
     multicallAddress: MULTICALL3,
-    blockNumber,
     contracts: resolvable.map((e) => ({
       address: e.factory,
       abi: v2FactoryAbi,
@@ -136,7 +133,6 @@ async function resolveRouterReserves(
   const reserveCalls = await client.multicall({
     allowFailure: true,
     multicallAddress: MULTICALL3,
-    blockNumber,
     contracts: usablePairs.flatMap((e) => [
       { address: e.pair, abi: v2PairAbi, functionName: 'getReserves' as const },
       { address: e.pair, abi: v2PairAbi, functionName: 'token0' as const },
@@ -177,7 +173,12 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const opportunities: ArbOpportunity[] = [];
 
   const client = createPublicClient({
-    transport: http(options.rpcUrl, { batch: { batchSize: 5 }, retryCount: 1, timeout: REQUEST_TIMEOUT_MS }),
+    // No transport-level batching: Multicall3 already aggregates every read into a
+    // single eth_call, and stacking viem's JSON-RPC array-batching on top of that broke
+    // against at least one public multi-node gateway during testing ("Invalid parameters
+    // were provided to the RPC method"). Keeping this off trades a little latency for
+    // much better compatibility with free/public RPC endpoints.
+    transport: http(options.rpcUrl, { retryCount: 1, timeout: REQUEST_TIMEOUT_MS }),
   });
 
   options.onProgress?.('Connecting to RPC...');
@@ -185,6 +186,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   if (actualChainId !== options.chain.chainId) {
     throw new Error(`RPC chainId ${actualChainId}, expected ${options.chain.chainId} (${options.chain.key})`);
   }
+  // Fetched once for display/reporting only - reads below intentionally do NOT pin to
+  // this exact block (see the transport comment above for why).
   const [blockNumber, gasPriceWei] = await Promise.all([client.getBlockNumber(), client.getGasPrice()]);
   const gasCostEth = Number(formatUnits(gasPriceWei * BigInt(gasUnitsEstimate), 18));
 
@@ -196,7 +199,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   for (const pairConfig of pairsForChain) {
     const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
     options.onProgress?.(`Reading ${pairLabel} reserves across ${pairConfig.routers.length} routers...`);
-    const reserves = await resolveRouterReserves(client, pairConfig, blockNumber, skipped);
+    const reserves = await resolveRouterReserves(client, pairConfig, skipped);
     if (reserves.length < 2) {
       warnings.push(`${pairLabel}: fewer than 2 usable router quotes on ${options.chain.key}, skipping`);
       continue;

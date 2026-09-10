@@ -73,6 +73,19 @@ transaksi final - sebelum benar-benar memanggil `executeArbitrage`, kuotasi ulan
 presisi on-chain (mis. `getAmountsOut`) di titik itu juga, karena reserve bisa berubah
 antara waktu scan dan waktu eksekusi.
 
+### Troubleshooting RPC
+
+- **URL yang muncul di error beda dari isi `.env` kamu** (mis. `wss://...` padahal
+  `.env` isinya `https://...`): `dotenv` tidak menimpa environment variable yang sudah
+  ke-`export` duluan di shell kamu. Jalankan `unset BASE_RPC_URL` (atau nama var chain
+  lain yang relevan) sebelum menjalankan CLI, supaya nilai di `.env` yang dipakai.
+- **`factory()`/`getPair()` gagal dengan pesan generik semacam "Invalid parameters"**:
+  biasanya gateway publik multi-node yang node-nya belum sinkron sempurna satu sama
+  lain, atau tidak mendukung fitur tertentu. Coba RPC lain - `https://base.drpc.org`
+  dan `https://mainnet.base.org` sudah terverifikasi jalan normal untuk `arb-scan`.
+- **Respons HTML/403 dari Cloudflare**: itu proxy/gateway-nya sendiri yang memblokir,
+  ganti provider.
+
 CLI selalu mengambil `.env` dari folder `tools/`, sehingga command aman dijalankan dari working directory lain. Registry contract dan artifact dibaca dari `../evm/`.
 
 ## Data rahasia
