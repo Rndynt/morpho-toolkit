@@ -15,11 +15,13 @@ Implementasi Solidity minimal yang dapat di-import atau disalin ada di `src/poc/
 | Uniswap SwapRouter02 | `exactInputSingle` / `exactInput` | struct tanpa `deadline` | Perlu adapter Router02 terpisah |
 | Uniswap Universal Router | `execute` | commands + encoded inputs | Tunda; calldata dinamis |
 | Sushi RedSnwapper | `snwap` | executor + `executorData` | Tunda; executor dinamis |
-| Aerodrome / Velodrome | `swapExactTokensForTokens` | `Route[]` | Perlu adapter Aero |
+| Aerodrome / Velodrome | `swapExactTokensForTokens` | `Route[]` | Diimplementasikan di `MorphoAtomicArbPOCv2` (`RouterKind.AERODROME`) - lihat catatan di bawah |
 | Balancer V2 Vault | `swap` / `batchSwap` | pool ID + asset arrays | Perlu adapter Vault |
 | Curve Router NG | `exchange` | fixed route + swap params | Perlu adapter Curve |
 
-`MorphoAtomicArbPOC.sol` saat ini hanya menerima router V2-compatible. Karena Sushi V2 mempertahankan ABI Router02, Uniswap V2 dan Sushi V2 dapat dipakai tanpa mengubah ABI POC; alamat router tetap harus di-allowlist per chain.
+`MorphoAtomicArbPOC.sol` (v1) hanya menerima router V2-compatible. Karena Sushi V2 mempertahankan ABI Router02, Uniswap V2 dan Sushi V2 dapat dipakai tanpa mengubah ABI POC; alamat router tetap harus di-allowlist per chain.
+
+`MorphoAtomicArbPOCv2.sol` menambahkan adapter Aerodrome/Velodrome: tiap leg (`firstLeg`/`secondLeg`) sekarang punya `RouterKind` sendiri (`V2` atau `AERODROME`), jadi satu kaki bisa lewat V2 dan kaki lain lewat Aerodrome. Alamat *factory* Aerodrome wajib di-allowlist terpisah (`allowedAerodromeFactory`) karena factory menentukan pool mana yang bisa dijangkau — ini guard tambahan yang tidak ada di v1. Diuji dengan mock (`test/MorphoAtomicArbPOCv2.t.sol`) dan fork test lawan Aerodrome asli di Base (`test/MorphoAtomicArbPOCv2BaseFork.t.sol`) — **fork test itu belum pernah dijalankan** (tidak ada akses Foundry/RPC di sandbox tempat ini ditulis), jalankan `forge test --match-test test_AerodromePoolExists` dulu sebelum mempercayai bagian lain.
 
 ## 1. Uniswap V2 dan Sushi V2
 
@@ -223,10 +225,11 @@ Untuk semua adapter, hitung output dari selisih `balanceOf(tokenOut)` sebelum da
 
 ## Urutan implementasi
 
-1. Pertahankan Uniswap V2 + Sushi V2 pada adapter POC yang sekarang.
-2. Tambahkan dua adapter berbeda: V3 legacy dan SwapRouter02.
-3. Tambahkan Aerodrome/Velodrome untuk Base/OP, lalu Balancer V2 dan Curve dengan allowlist pool.
-4. Integrasikan Universal Router atau RedSnwapper hanya jika parser/encoder ketat dan fork test sudah tersedia.
+1. ~~Pertahankan Uniswap V2 + Sushi V2 pada adapter POC yang sekarang.~~ Selesai, tervalidasi fork test asli di Base.
+2. ~~Tambahkan Aerodrome/Velodrome untuk Base/OP.~~ Selesai di `MorphoAtomicArbPOCv2` (belum di-fork-test langsung oleh manusia - lihat catatan di bagian atas dokumen ini). Dikerjakan lebih dulu dari urutan asli karena data `tools/arb-scan` menunjukkan Aerodrome, bukan V3, yang jadi venue paling likuid/relevan di Base saat ini.
+3. Tambahkan dua adapter berbeda: V3 legacy dan SwapRouter02.
+4. Tambahkan Balancer V2 dan Curve dengan allowlist pool.
+5. Integrasikan Universal Router atau RedSnwapper hanya jika parser/encoder ketat dan fork test sudah tersedia.
 
 ## Checklist keamanan adapter
 
