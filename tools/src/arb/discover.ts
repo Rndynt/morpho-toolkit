@@ -2,6 +2,7 @@ import { getAddress } from 'viem';
 import type { Address } from '../config/registry.js';
 import {
   BASE_AERODROME_FACTORY,
+  BASE_AERODROME_ROUTER,
   type SolidlyPairEntry,
   type V2PairConfig,
   type RouterCandidate,
@@ -88,6 +89,7 @@ export function expandPairs(
           pool: {
             chain,
             label: 'Aerodrome (volatile)',
+            router: BASE_AERODROME_ROUTER,
             factory: BASE_AERODROME_FACTORY,
             stable: false,
             feeBps: 30,

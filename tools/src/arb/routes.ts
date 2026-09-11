@@ -16,6 +16,11 @@ export type V2PairConfig = {
 export type SolidlyPoolConfig = {
   chain: string;
   label: string;
+  // The Router contract - what MorphoAtomicArbPOCv2 actually calls for execution.
+  router: Address;
+  // The PoolFactory - used both to read reserves (getPool) and as the on-chain guard
+  // the contract checks (allowedAerodromeFactory). Distinct from router: the contract
+  // calls router.swapExactTokensForTokens(...), never the pool or factory directly.
   factory: Address;
   stable: boolean;
   // Best-effort default. Solidly-fork fees (Aerodrome included) are governance-set per
@@ -68,6 +73,7 @@ export const solidlyPairs: SolidlyPairEntry[] = BASE_PAIRS.map(([tokenA, tokenB]
   pool: {
     chain: 'base',
     label: 'Aerodrome (volatile)',
+    router: BASE_AERODROME_ROUTER,
     factory: BASE_AERODROME_FACTORY,
     stable: false,
     feeBps: 30,

@@ -8,7 +8,7 @@ import {
 } from 'viem';
 import type { EvmChainConfig } from '../config/chains.js';
 import type { Address } from '../config/registry.js';
-import { v2Pairs, solidlyPairs, type RouterCandidate, type V2PairConfig, type SolidlyPairEntry } from './routes.js';
+import { v2Pairs, solidlyPairs, type RouterCandidate, type V2PairConfig, type SolidlyPairEntry, type VenueKind } from './routes.js';
 import { optimalTwoLegArbitrage } from './math.js';
 
 const MULTICALL3 = '0xcA11bde05977b3631167028862bE2a173976CA11' as Address;
@@ -35,6 +35,10 @@ type RouterReserves = {
   reserveA: bigint;
   reserveB: bigint;
   feeBps: number;
+  kind: VenueKind;
+  // Only set for kind === 'aerodrome' - a V2 router has no equivalent since the router
+  // address alone fully determines which pool it reaches.
+  factory: Address | null;
 };
 
 export type ArbOpportunity = {
@@ -48,6 +52,24 @@ export type ArbOpportunity = {
   estGasCostNative: number | null;
   estGasCostInLoanToken: number | null;
   netProfit: number | null;
+  // Raw fields for feeding into plan.ts's calldata encoder - the fields above are for
+  // display (labels, formatted strings); these are for actually building an
+  // executeArbitrage() call. loanAmountFormatted/grossProfitFormatted stay display-only
+  // (fixed 6dp strings) - plan.ts re-derives raw amounts itself via parseUnits.
+  loanToken: Address;
+  intermediateToken: Address;
+  loanTokenDecimals: number;
+  buyRouter: Address;
+  sellRouter: Address;
+  buyKind: VenueKind;
+  sellKind: VenueKind;
+  buyFactory: Address | null;
+  sellFactory: Address | null;
+};
+
+export type SeedTokenPrice = {
+  address: Address;
+  priceUsd?: number | null;
 };
 
 export type SpotPrice = {
@@ -73,6 +95,12 @@ export type ArbScanOptions = {
   rpcUrl: string;
   gasUnitsEstimate?: number;
   onProgress?: (message: string) => void;
+  // USD prices (e.g. from Morpho's own asset list) used to estimate each venue's TVL and
+  // drop the ones below minTvlUsd. A venue whose tokens have no known price is never
+  // dropped by this filter (we can't estimate it) - it just isn't reported with a TVL
+  // figure. Omit both to disable filtering entirely (existing behavior, unchanged).
+  seedTokens?: SeedTokenPrice[];
+  minTvlUsd?: number;
 };
 
 function errorMessage(error: unknown): string {
@@ -117,7 +145,11 @@ async function resolveRouterReserves(
   const resolvable = withFactory.filter(
     (e): e is { router: RouterCandidate; factory: Address } => e.factory !== null,
   );
-  if (resolvable.length < 2) return [];
+  // Used to require >= 2 V2 routers to resolve before doing anything, which silently
+  // threw away a perfectly good single V2 reading (e.g. only Uniswap V2 has a pair,
+  // Sushi doesn't) even though the caller can still pair it against an Aerodrome venue
+  // resolved separately. >= 1 is all this function itself needs.
+  if (resolvable.length < 1) return [];
 
   const pairCalls = await client.multicall({
     allowFailure: true,
@@ -143,7 +175,9 @@ async function resolveRouterReserves(
       skipped.push({ pairLabel, router: e.router.label, reason: 'no pair for this token combination' });
     }
   });
-  if (usablePairs.length < 2) return [];
+  // Same reasoning as the factory gate above: a single resolved V2 pair is still useful
+  // once combined with an Aerodrome venue by the caller, so >= 1 not >= 2.
+  if (usablePairs.length < 1) return [];
 
   const reserveCalls = await client.multicall({
     allowFailure: true,
@@ -171,6 +205,8 @@ async function resolveRouterReserves(
       reserveA: isAToken0 ? r0 : r1,
       reserveB: isAToken0 ? r1 : r0,
       feeBps: pairConfig.feeBps,
+      kind: 'v2',
+      factory: null,
     });
   });
   return results;
@@ -216,11 +252,16 @@ async function resolveSolidlyReserves(
     const isAToken0 = getAddress(token0Result.result as Address) === getAddress(entry.tokenA.address);
     return {
       label: entry.pool.label,
-      router: poolAddress,
+      // The Router contract, NOT the pool - MorphoAtomicArbPOCv2 calls
+      // router.swapExactTokensForTokens(...), never the pool directly. poolAddress is
+      // only used above/below for reading reserves.
+      router: entry.pool.router,
       pair: poolAddress,
       reserveA: isAToken0 ? r0 : r1,
       reserveB: isAToken0 ? r1 : r0,
       feeBps: entry.pool.feeBps,
+      kind: 'aerodrome',
+      factory: entry.pool.factory,
     };
   } catch (error) {
     skipped.push({ pairLabel, router: entry.pool.label, reason: `read failed: ${errorMessage(error)}` });
@@ -265,6 +306,31 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     warnings.push(`no configured v2Pairs for chain "${options.chain.key}" - add one in tools/src/arb/routes.ts`);
   }
 
+  // USD price lookup for the TVL filter below, built once from whatever prices the
+  // caller passed in (e.g. Morpho's own asset list already carries priceUsd). A token
+  // with no known price is simply never TVL-filtered (we can't estimate it), not
+  // silently treated as $0 - see estimateTvlUsd.
+  const usdPriceByAddress = new Map<string, number>();
+  for (const token of options.seedTokens ?? []) {
+    if (token.priceUsd != null && token.priceUsd > 0) {
+      usdPriceByAddress.set(token.address.toLowerCase(), token.priceUsd);
+    }
+  }
+  function estimateTvlUsd(pairConfig: V2PairConfig, r: RouterReserves): number | null {
+    const priceA = usdPriceByAddress.get(pairConfig.tokenA.address.toLowerCase()) ?? null;
+    const priceB = usdPriceByAddress.get(pairConfig.tokenB.address.toLowerCase()) ?? null;
+    const valueA = priceA !== null ? Number(formatUnits(r.reserveA, pairConfig.tokenA.decimals)) * priceA : null;
+    const valueB = priceB !== null ? Number(formatUnits(r.reserveB, pairConfig.tokenB.decimals)) * priceB : null;
+    // Prefer both sides when we have both (most accurate); fall back to doubling
+    // whichever single side is known (assumes a roughly balanced pool, which is true
+    // for constant-product AMMs away from extreme imbalance - fine for a filter
+    // threshold, not precise enough for anything else).
+    if (valueA !== null && valueB !== null) return valueA + valueB;
+    if (valueA !== null) return valueA * 2;
+    if (valueB !== null) return valueB * 2;
+    return null;
+  }
+
   const resolvedPairs: Array<{ pairConfig: V2PairConfig; reserves: RouterReserves[] }> = [];
 
   for (const pairConfig of pairsForChain) {
@@ -283,6 +349,20 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     for (const solidlyEntry of matchingSolidly) {
       const solidlyReserves = await resolveSolidlyReserves(client, solidlyEntry, skipped);
       if (solidlyReserves) reserves.push(solidlyReserves);
+    }
+
+    if (options.minTvlUsd !== undefined) {
+      for (let i = reserves.length - 1; i >= 0; i--) {
+        const tvlUsd = estimateTvlUsd(pairConfig, reserves[i]!);
+        if (tvlUsd !== null && tvlUsd < options.minTvlUsd) {
+          skipped.push({
+            pairLabel,
+            router: reserves[i]!.label,
+            reason: `TVL ~$${tvlUsd.toFixed(0)} below minimum $${options.minTvlUsd}`,
+          });
+          reserves.splice(i, 1);
+        }
+      }
     }
 
     if (reserves.length < 2) {
@@ -389,6 +469,15 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenA,
             netProfit: gasCostInTokenA !== null ? resultA.grossProfit - gasCostInTokenA : null,
+            loanToken: pairConfig.tokenA.address,
+            intermediateToken: pairConfig.tokenB.address,
+            loanTokenDecimals: pairConfig.tokenA.decimals,
+            buyRouter: buyOn.router,
+            sellRouter: sellOn.router,
+            buyKind: buyOn.kind,
+            sellKind: sellOn.kind,
+            buyFactory: buyOn.factory,
+            sellFactory: sellOn.factory,
           });
         }
 
@@ -417,6 +506,15 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenB,
             netProfit: gasCostInTokenB !== null ? resultB.grossProfit - gasCostInTokenB : null,
+            loanToken: pairConfig.tokenB.address,
+            intermediateToken: pairConfig.tokenA.address,
+            loanTokenDecimals: pairConfig.tokenB.decimals,
+            buyRouter: buyOn.router,
+            sellRouter: sellOn.router,
+            buyKind: buyOn.kind,
+            sellKind: sellOn.kind,
+            buyFactory: buyOn.factory,
+            sellFactory: sellOn.factory,
           });
         }
       }
