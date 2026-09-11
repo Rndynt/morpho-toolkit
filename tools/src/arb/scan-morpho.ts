@@ -3,6 +3,8 @@ import { loadToolEnv } from '../config/env.js';
 import { deploymentFor, loadDeployments, loadStablecoins, type Address } from '../config/registry.js';
 import { scanMorphoBalances } from '../morpho/scanner.js';
 import { color, renderTable, ui } from '../ui/index.js';
+import { solidlyPairs, v2Pairs } from './routes.js';
+import { expandPairs } from './discover.js';
 import { scanArbOpportunities } from './scanner.js';
 
 loadToolEnv();
@@ -54,6 +56,11 @@ const seeds = morpho.assets
   .slice(0, maxTokens)
   .map((a) => ({ symbol: a.symbol, address: a.address, decimals: a.decimals, priceUsd: a.priceUsd }));
 ui.info(`Using ${seeds.length} Morpho assets (>= $${minUsd} inventory, cap ${maxTokens})`);
+const staticPairs = v2Pairs.filter((p) => p.chain === chain.key);
+const extra = expandPairs(chain.key, seeds, staticPairs);
+for (const pair of extra.v2) v2Pairs.push(pair);
+for (const pair of extra.solidly) solidlyPairs.push(pair);
+ui.info(`quoting ${staticPairs.length + extra.v2.length} pairs across Uni/Sushi/Aero`);
 
 const result = await scanArbOpportunities({
   chain,
