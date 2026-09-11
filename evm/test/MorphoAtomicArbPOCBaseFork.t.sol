@@ -221,7 +221,7 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
             // overflow `activeBalanceBefore + assets + minProfit` inside the contract -
             // type(uint256).max here previously tripped a Panic(0x11) overflow instead of
             // the intended InsufficientProfit() revert (see AUDIT NOTE below).
-            minProfit: loanAmount * 1_000_000,
+            minProfit: 1_000e6 * 1_000_000,
             deadline: block.timestamp + 300,
             profitReceiver: PROFIT_RECEIVER
         });
