@@ -82,19 +82,15 @@ export function expandPairs(
       };
       v2.push(pair);
       if (chain === 'base') {
-        solidly.push({
-          chain,
-          tokenA: pair.tokenA,
-          tokenB: pair.tokenB,
-          pool: {
-            chain,
-            label: 'Aerodrome (volatile)',
-            router: BASE_AERODROME_ROUTER,
-            factory: BASE_AERODROME_FACTORY,
-            stable: false,
-            feeBps: 30,
-          },
-        });
+        for (const stable of [false, true]) {
+          solidly.push({
+            chain, tokenA: pair.tokenA, tokenB: pair.tokenB,
+            pool: {
+              chain, label: `Aerodrome (${stable ? 'stable' : 'volatile'})`,
+              router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable, feeBps: 30,
+            },
+          });
+        }
       }
     }
   }

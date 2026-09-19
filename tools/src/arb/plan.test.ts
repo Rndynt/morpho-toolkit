@@ -10,6 +10,7 @@ const sample: ArbOpportunity = {
   loanToken: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', intermediateToken: '0x4200000000000000000000000000000000000006', loanTokenDecimals: 6,
   buyOn: 'Sushi V2', sellOn: 'Aerodrome (volatile)', buyRouter: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', sellRouter: '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43',
   buyKind: 'v2', sellKind: 'aerodrome', buyFactory: null, sellFactory: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
+  buyAeroStable: null, sellAeroStable: false,
   loanAmountFormatted: '182.228176', grossProfitFormatted: '50.240348', loanAmountRaw: 182_228_176n, expectedIntermediateRaw: 100_000_000n, expectedFinalRaw: 240_000_000n, grossProfitRaw: 50_240_348n, estGasCostNative: 0.001, estGasCostInLoanToken: 3, netProfit: 47.24,
 };
 
@@ -53,6 +54,15 @@ test('encodePocV2Plan flags same-router routes after safety validation', () => {
   const plan = encodePocV2Plan({ ...sample, sellRouter: sample.buyRouter, sellKind: 'v2', sellFactory: null }, safeOptions);
   assert.equal(plan.executableByPocV2, false);
   assert.ok(plan.notes.some((note) => note.includes('same router')));
+});
+
+test('encodePocV2Plan uses the quoted Solidly pool type instead of a hard-coded route', () => {
+  const plan = encodePocV2Plan({ ...sample, sellAeroStable: true }, safeOptions);
+  const decoded = decodeFunctionData({ abi: parseAbi([
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+  ]), data: plan.calldata });
+  const params = decoded.args[0] as { secondLeg: { aeroStable: boolean } };
+  assert.equal(params.secondLeg.aeroStable, true);
 });
 
 test('encodePocV2Plan preserves raw sub-unit amounts for 6, 8, and 18 decimal tokens', () => {
