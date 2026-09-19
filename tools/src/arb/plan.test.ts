@@ -31,7 +31,7 @@ test('encodePocV2Plan creates calldata only with slippage-protected raw quotes',
   assert.equal(plan.executableByPocV2, true);
   assert.equal(params.minIntermediateAmount, 99_000_000n);
   assert.equal(params.minFinalAmount, 237_600_000n);
-  assert.equal(params.minProfit, sample.grossProfitRaw);
+  assert.equal(params.minProfit, 55_371_824n);
   assert.ok(params.minIntermediateAmount > 0n);
   assert.ok(params.minFinalAmount >= plan.loanAmountRaw + params.minProfit);
   assert.ok(params.deadline >= before + 60n && params.deadline <= before + 61n);
@@ -41,13 +41,22 @@ test('encodePocV2Plan rejects missing quote/min-out inputs and unavailable snaps
   assert.throws(() => encodePocV2Plan(sample, { profitReceiver: safeOptions.profitReceiver } as never), /quotes/);
   assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, costs: undefined } as never), /costs/);
   assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, quotes: { ...safeOptions.quotes, blockNumber: 0n } }), /blockNumber/);
+  assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, quotes: { ...safeOptions.quotes, blockNumber: 12_346n } }), /does not match opportunity snapshot/);
   assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, quotes: { ...safeOptions.quotes, firstLegAmountOutRaw: 0n } }), /first-leg quote/);
 });
 
 test('encodePocV2Plan rejects unsafe final amounts, incomplete costs, and long deadlines', () => {
   assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, quotes: { ...safeOptions.quotes, secondLegAmountOutRaw: 180_000_000n } }), /minFinalAmount/);
-  assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, costs: { ...safeOptions.costs, gasCostRaw: sample.grossProfitRaw + 1n } }), /grossProfitRaw must include gas/);
+  assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, costs: { ...safeOptions.costs, gasCostRaw: 55_371_825n } }), /quoted gross profit must include gas/);
   assert.throws(() => encodePocV2Plan(sample, { ...safeOptions, deadlineSeconds: MAX_DEADLINE_SECONDS + 1 }), /deadlineSeconds/);
+});
+
+test('encodePocV2Plan derives min-profit from the pinned on-chain quote, not scanner profit', () => {
+  const plan = encodePocV2Plan({ ...sample, grossProfitRaw: 1n }, safeOptions);
+  const decoded = decodeFunctionData({ abi: parseAbi([
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+  ]), data: plan.calldata });
+  assert.equal((decoded.args[0] as { minProfit: bigint }).minProfit, 55_371_824n);
 });
 
 test('encodePocV2Plan flags same-router routes after safety validation', () => {
@@ -100,6 +109,6 @@ test('encodePocV2Plan preserves raw sub-unit amounts for 6, 8, and 18 decimal to
     assert.equal(params.loanAmount, loanAmountRaw, `${decimals}-decimal loan amount changed during serialization`);
     assert.equal(params.minIntermediateAmount, expectedIntermediateRaw);
     assert.equal(params.minFinalAmount, expectedFinalRaw);
-    assert.equal(params.minProfit, grossProfitRaw, `${decimals}-decimal gross profit changed during serialization`);
+    assert.equal(params.minProfit, expectedFinalRaw - loanAmountRaw, `${decimals}-decimal quoted profit changed during serialization`);
   }
 });

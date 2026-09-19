@@ -77,6 +77,9 @@ test('pins all execution-critical reads to one block snapshot', async () => {
     assert.equal(result.blockNumber, SNAPSHOT_BLOCK);
     assert.equal(result.blockHash, '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     assert.equal(result.blockTimestamp, 1_700_000_000n);
+    assert.ok(result.venueTvl.length > 0);
+    assert.ok(result.venueTvl.every((venue) => venue.status === 'unpriced'));
+    assert.ok(result.venueTvl.every((venue) => venue.executableCandidate === false));
     assert.ok(result.opportunities.length > 0, 'mocked reserve imbalance yields an opportunity');
     for (const opportunity of result.opportunities) {
       assert.equal(opportunity.blockNumber, SNAPSHOT_BLOCK);

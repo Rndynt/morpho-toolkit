@@ -50,11 +50,24 @@ export type ScannedAsset = {
   priceUsd: number | null;
   priceTimestamp: number | null;
   priceSource: 'morpho-api' | 'defillama' | null;
+  /**
+   * Third-party USD prices are deliberately limited to discovery, inventory filtering,
+   * and display ranking. They are never an executable swap quote or a calldata input.
+   */
+  priceMetadata: {
+    executable: false;
+    allowedUses: readonly ['discovery', 'inventory-filter', 'ranking'];
+  };
   usdValue: number | null;
   eligible: boolean;
   sources: string[];
   exclusionReason?: string;
 };
+
+const NON_EXECUTABLE_PRICE_METADATA = {
+  executable: false,
+  allowedUses: ['discovery', 'inventory-filter', 'ranking'],
+} as const;
 
 export type ScanResult = {
   chain: EvmChainConfig;
@@ -62,6 +75,8 @@ export type ScanResult = {
   blockNumber: bigint;
   minimumUsd: number;
   maxPriceAgeHours: number;
+  /** Global policy for every Morpho/DefiLlama price included in this scan. */
+  pricePolicy: typeof NON_EXECUTABLE_PRICE_METADATA;
   assets: ScannedAsset[];
   warnings: string[];
 };
@@ -373,6 +388,7 @@ export async function scanMorphoBalances(options: ScanOptions): Promise<ScanResu
         address: candidate.address, symbol: candidate.symbol ?? '?', decimals: candidate.decimals ?? 0,
         balance: 0n, formattedBalance: '0', priceUsd: candidate.priceUsd ?? null,
         priceTimestamp: candidate.priceTimestamp ?? null, priceSource: candidate.priceSource ?? null,
+        priceMetadata: NON_EXECUTABLE_PRICE_METADATA,
         usdValue: null, eligible: false, sources: [...candidate.sources], exclusionReason: 'metadata-unavailable',
       };
     }
@@ -382,6 +398,7 @@ export async function scanMorphoBalances(options: ScanOptions): Promise<ScanResu
         address: candidate.address, symbol: candidate.symbol, decimals: candidate.decimals,
         balance: 0n, formattedBalance: '0', priceUsd: candidate.priceUsd ?? null,
         priceTimestamp: candidate.priceTimestamp ?? null, priceSource: candidate.priceSource ?? null,
+        priceMetadata: NON_EXECUTABLE_PRICE_METADATA,
         usdValue: null, eligible: false, sources: [...candidate.sources],
         exclusionReason: `balance-read-failed: ${balanceResult?.message ?? 'missing result'}`,
       };
@@ -393,6 +410,7 @@ export async function scanMorphoBalances(options: ScanOptions): Promise<ScanResu
         address: candidate.address, symbol: candidate.symbol, decimals: candidate.decimals,
         balance, formattedBalance: formatUnits(balance, candidate.decimals), priceUsd: candidate.priceUsd ?? null,
         priceTimestamp: candidate.priceTimestamp ?? null, priceSource: candidate.priceSource ?? null,
+        priceMetadata: NON_EXECUTABLE_PRICE_METADATA,
         usdValue: null, eligible: false, sources: [...candidate.sources],
         exclusionReason: 'price-missing-or-stale',
       };
@@ -409,6 +427,7 @@ export async function scanMorphoBalances(options: ScanOptions): Promise<ScanResu
       priceUsd: candidate.priceUsd ?? null,
       priceTimestamp: candidate.priceTimestamp ?? null,
       priceSource: candidate.priceSource ?? null,
+      priceMetadata: NON_EXECUTABLE_PRICE_METADATA,
       usdValue,
       eligible,
       sources: [...candidate.sources].sort(),
@@ -417,5 +436,8 @@ export async function scanMorphoBalances(options: ScanOptions): Promise<ScanResu
   });
 
   assets.sort((a, b) => (b.usdValue ?? -1) - (a.usdValue ?? -1));
-  return { chain: options.chain, morpho: options.morpho, blockNumber, minimumUsd, maxPriceAgeHours, assets, warnings };
+  return {
+    chain: options.chain, morpho: options.morpho, blockNumber, minimumUsd, maxPriceAgeHours,
+    pricePolicy: NON_EXECUTABLE_PRICE_METADATA, assets, warnings,
+  };
 }
