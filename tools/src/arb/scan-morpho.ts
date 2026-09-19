@@ -71,7 +71,7 @@ const result = await scanArbOpportunities({
 });
 
 ui.section(`${result.chain.name} / ARBITRAGE SCAN (Morpho universe, read-only)`);
-console.log(`${color.dim('Block')} ${color.white(String(result.blockNumber))}  ${color.dim('quoted rows')} ${color.white(String(result.spotPrices.length))}`);
+console.log(`${color.dim('Snapshot')} ${color.white(String(result.blockNumber))} ${color.dim(result.blockHash)} ${color.dim(new Date(Number(result.blockTimestamp) * 1000).toISOString())}  ${color.dim('quoted rows')} ${color.white(String(result.spotPrices.length))}`);
 
 if (result.spotPrices.length) {
   ui.section('SPOT PRICES');

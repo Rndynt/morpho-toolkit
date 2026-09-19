@@ -726,7 +726,7 @@ async function runArbScan(args: ParsedArgs): Promise<ArbScanResult> {
 
 function printArbScan(result: ArbScanResult, minNetProfit: number): void {
   ui.section(`${result.chain.name} / ARBITRAGE SCAN (read-only, no funds moved)`);
-  console.log(`${color.dim('Block')} ${color.white(result.blockNumber)}  ${color.dim('Gas estimate')} ${color.yellow(`${result.gasUnitsEstimate.toLocaleString('en-US')} units`)}`);
+  console.log(`${color.dim('Snapshot')} ${color.white(result.blockNumber)} ${color.dim(result.blockHash)} ${color.dim(new Date(Number(result.blockTimestamp) * 1000).toISOString())}  ${color.dim('Gas estimate')} ${color.yellow(`${result.gasUnitsEstimate.toLocaleString('en-US')} units`)}`);
 
   if (result.spotPrices.length) {
     ui.section('SPOT PRICES (raw, no fee, no threshold - always shown)');
@@ -777,11 +777,11 @@ function printArbScanCompact(result: ArbScanResult, minNetProfit: number, timest
   const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals))) >= minNetProfit);
   const time = timestamp.toISOString().slice(11, 19);
   if (shown.length === 0) {
-    console.log(`${color.dim(time)} block ${color.white(result.blockNumber)}  ${color.dim('no opportunity')}`);
+    console.log(`${color.dim(time)} snapshot ${color.white(result.blockNumber)} ${color.dim(result.blockHash)}  ${color.dim('no opportunity')}`);
   } else {
     const best = shown[0]!;
     console.log(
-      `${color.dim(time)} block ${color.white(result.blockNumber)}  ` +
+      `${color.dim(time)} snapshot ${color.white(result.blockNumber)} ${color.dim(result.blockHash)}  ` +
       `${color.green(`${shown.length} opportunit${shown.length === 1 ? 'y' : 'ies'}`)} - best: ${color.yellow(best.pairLabel)} ` +
       `${color.cyan(best.loanTokenSymbol)} ${best.buyOn}->${best.sellOn} net ${color.green(best.netProfit?.toFixed(6) ?? best.grossProfitFormatted)}`,
     );

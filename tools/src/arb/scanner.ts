@@ -43,6 +43,10 @@ type RouterReserves = {
 };
 
 export type ArbOpportunity = {
+  /** Immutable chain snapshot used for every reserve/factory read in this opportunity. */
+  blockNumber: bigint;
+  blockHash: string;
+  blockTimestamp: bigint;
   pairLabel: string;
   loanTokenSymbol: string;
   intermediateTokenSymbol: string;
@@ -105,6 +109,8 @@ export type SpotPrice = {
 export type ArbScanResult = {
   chain: EvmChainConfig;
   blockNumber: bigint;
+  blockHash: string;
+  blockTimestamp: bigint;
   gasPriceWei: bigint;
   gasUnitsEstimate: number;
   opportunities: ArbOpportunity[];
@@ -124,6 +130,8 @@ export type ArbScanOptions = {
   // figure. Omit both to disable filtering entirely (existing behavior, unchanged).
   seedTokens?: SeedTokenPrice[];
   minTvlUsd?: number;
+  /** Injectable for tests; production scans create a client from rpcUrl. */
+  publicClient?: PublicClient;
 };
 
 function errorMessage(error: unknown): string {
@@ -135,11 +143,13 @@ function errorMessage(error: unknown): string {
 async function resolveRouterReserves(
   client: PublicClient,
   pairConfig: V2PairConfig,
+  blockNumber: bigint,
   skipped: ArbScanResult['skipped'],
 ): Promise<RouterReserves[]> {
   const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
 
   const factoryCalls = await client.multicall({
+    blockNumber,
     allowFailure: true,
     multicallAddress: MULTICALL3,
     contracts: pairConfig.routers.map((r) => ({
@@ -175,6 +185,7 @@ async function resolveRouterReserves(
   if (resolvable.length < 1) return [];
 
   const pairCalls = await client.multicall({
+    blockNumber,
     allowFailure: true,
     multicallAddress: MULTICALL3,
     contracts: resolvable.map((e) => ({
@@ -203,6 +214,7 @@ async function resolveRouterReserves(
   if (usablePairs.length < 1) return [];
 
   const reserveCalls = await client.multicall({
+    blockNumber,
     allowFailure: true,
     multicallAddress: MULTICALL3,
     contracts: usablePairs.flatMap((e) => [
@@ -238,12 +250,14 @@ async function resolveRouterReserves(
 async function resolveSolidlyReserves(
   client: PublicClient,
   entry: SolidlyPairEntry,
+  blockNumber: bigint,
   skipped: ArbScanResult['skipped'],
 ): Promise<RouterReserves | null> {
   const pairLabel = `${entry.tokenA.symbol}/${entry.tokenB.symbol}`;
   let poolAddress: Address;
   try {
     poolAddress = (await client.readContract({
+      blockNumber,
       address: entry.pool.factory,
       abi: solidlyFactoryAbi,
       functionName: 'getPool',
@@ -260,6 +274,7 @@ async function resolveSolidlyReserves(
 
   try {
     const [reservesResult, token0Result] = await client.multicall({
+      blockNumber,
       allowFailure: true,
       multicallAddress: MULTICALL3,
       contracts: [
@@ -305,7 +320,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const opportunities: ArbOpportunity[] = [];
   const spotPrices: SpotPrice[] = [];
 
-  const client = createPublicClient({
+  const client = options.publicClient ?? createPublicClient({
     // No transport-level batching: Multicall3 already aggregates every read into a
     // single eth_call, and stacking viem's JSON-RPC array-batching on top of that broke
     // against at least one public multi-node gateway during testing ("Invalid parameters
@@ -319,9 +334,13 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   if (actualChainId !== options.chain.chainId) {
     throw new Error(`RPC chainId ${actualChainId}, expected ${options.chain.chainId} (${options.chain.key})`);
   }
-  // Fetched once for display/reporting only - reads below intentionally do NOT pin to
-  // this exact block (see the transport comment above for why).
-  const [blockNumber, gasPriceWei] = await Promise.all([client.getBlockNumber(), client.getGasPrice()]);
+  // Resolve an immutable snapshot before any execution-critical reads. Every factory,
+  // pool, reserve, and token-order lookup below is pinned to this exact block.
+  const blockNumber = await client.getBlockNumber();
+  const block = await client.getBlock({ blockNumber });
+  if (!block.hash) throw new Error(`block ${blockNumber} has no hash`);
+  const [blockHash, blockTimestamp] = [block.hash, block.timestamp];
+  const gasPriceWei = await client.getGasPrice();
   const gasCostEth = Number(formatUnits(gasPriceWei * BigInt(gasUnitsEstimate), 18));
 
   const pairsForChain = v2Pairs.filter((p) => p.chain === options.chain.key);
@@ -367,10 +386,10 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     options.onProgress?.(
       `Reading ${pairLabel} reserves across ${pairConfig.routers.length + matchingSolidly.length} venues...`,
     );
-    const reserves = await resolveRouterReserves(client, pairConfig, skipped);
+    const reserves = await resolveRouterReserves(client, pairConfig, blockNumber, skipped);
 
     for (const solidlyEntry of matchingSolidly) {
-      const solidlyReserves = await resolveSolidlyReserves(client, solidlyEntry, skipped);
+      const solidlyReserves = await resolveSolidlyReserves(client, solidlyEntry, blockNumber, skipped);
       if (solidlyReserves) reserves.push(solidlyReserves);
     }
 
@@ -487,6 +506,9 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
           if (grossProfitRaw <= 0n) continue;
           opportunities.push({
+            blockNumber,
+            blockHash,
+            blockTimestamp,
             pairLabel,
             loanTokenSymbol: pairConfig.tokenA.symbol,
             intermediateTokenSymbol: pairConfig.tokenB.symbol,
@@ -533,6 +555,9 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
           if (grossProfitRaw <= 0n) continue;
           opportunities.push({
+            blockNumber,
+            blockHash,
+            blockTimestamp,
             pairLabel,
             loanTokenSymbol: pairConfig.tokenB.symbol,
             intermediateTokenSymbol: pairConfig.tokenA.symbol,
@@ -571,6 +596,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   return {
     chain: options.chain,
     blockNumber,
+    blockHash,
+    blockTimestamp,
     gasPriceWei,
     gasUnitsEstimate,
     opportunities,

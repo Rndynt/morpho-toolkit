@@ -5,6 +5,7 @@ import { encodePocV2Plan, MAX_DEADLINE_SECONDS } from './plan.js';
 import type { ArbOpportunity } from './scanner.js';
 
 const sample: ArbOpportunity = {
+  blockNumber: 12_345n, blockHash: '0x1234', blockTimestamp: 1_700_000_000n,
   pairLabel: 'USDC/WETH', loanTokenSymbol: 'USDC', intermediateTokenSymbol: 'WETH',
   loanToken: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', intermediateToken: '0x4200000000000000000000000000000000000006', loanTokenDecimals: 6,
   buyOn: 'Sushi V2', sellOn: 'Aerodrome (volatile)', buyRouter: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', sellRouter: '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43',
