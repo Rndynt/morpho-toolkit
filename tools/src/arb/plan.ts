@@ -1,4 +1,4 @@
-import { encodeFunctionData, parseAbi, parseUnits, type Hex } from 'viem';
+import { encodeFunctionData, parseAbi, type Hex } from 'viem';
 import type { Address } from '../config/registry.js';
 import type { ArbOpportunity } from './scanner.js';
 import type { VenueKind } from './routes.js';
@@ -47,10 +47,6 @@ function kindToEnum(kind: VenueKind): number {
   return kind === 'aerodrome' ? 1 : 0;
 }
 
-function parseLoanAmount(opp: ArbOpportunity): bigint {
-  return parseUnits(opp.loanAmountFormatted, opp.loanTokenDecimals);
-}
-
 function minAmountAfterSlippage(quoteAmountRaw: bigint, slippageBps: number): bigint {
   return (quoteAmountRaw * BigInt(10_000 - slippageBps)) / BPS_DENOMINATOR;
 }
@@ -76,8 +72,6 @@ export function encodePocV2Plan(
     costs: ExecutionCostsRaw;
     slippageBps: number;
     deadlineSeconds?: number;
-    /** Minimum final surplus required by the contract, including every listed cost. */
-    minProfitRaw: bigint;
   },
 ): EncodedArbPlan {
   const { quotes, costs } = options;
@@ -102,18 +96,19 @@ export function encodePocV2Plan(
   requireNonNegative(costs.gasCostRaw, 'gasCostRaw');
   requireNonNegative(costs.chainFeeRaw, 'chainFeeRaw');
   requireNonNegative(costs.safetyMarginRaw, 'safetyMarginRaw');
-  requireNonNegative(options.minProfitRaw, 'minProfitRaw');
+  requirePositive(opp.grossProfitRaw, 'grossProfitRaw');
 
-  const loanAmountRaw = parseLoanAmount(opp);
+  const loanAmountRaw = opp.loanAmountRaw;
   requirePositive(loanAmountRaw, 'loanAmountRaw');
   const minIntermediateAmount = minAmountAfterSlippage(quotes.firstLegAmountOutRaw, options.slippageBps);
   const minFinalAmount = minAmountAfterSlippage(quotes.secondLegAmountOutRaw, options.slippageBps);
   const requiredCostsRaw = costs.gasCostRaw + costs.chainFeeRaw + costs.safetyMarginRaw;
-  if (options.minProfitRaw < requiredCostsRaw) {
-    throw new Error('minProfitRaw must include gas, chain/L2 fees, and a safety margin');
+  const minProfitRaw = opp.grossProfitRaw;
+  if (minProfitRaw < requiredCostsRaw) {
+    throw new Error('grossProfitRaw must include gas, chain/L2 fees, and a safety margin');
   }
   if (minIntermediateAmount <= 0n) throw new Error('minIntermediateAmount must be greater than zero');
-  if (minFinalAmount < loanAmountRaw + options.minProfitRaw) {
+  if (minFinalAmount < loanAmountRaw + minProfitRaw) {
     throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
   }
 
@@ -142,11 +137,11 @@ export function encodePocV2Plan(
       loanAmount: loanAmountRaw,
       minIntermediateAmount,
       minFinalAmount,
-      minProfit: options.minProfitRaw,
+      minProfit: minProfitRaw,
       deadline,
       profitReceiver: options.profitReceiver,
     }],
   });
 
-  return { opportunity: opp, loanAmountRaw, minIntermediateAmount, minFinalAmount, minProfitRaw: options.minProfitRaw, deadline, profitReceiver: options.profitReceiver, calldata, executableByPocV2, notes };
+  return { opportunity: opp, loanAmountRaw, minIntermediateAmount, minFinalAmount, minProfitRaw, deadline, profitReceiver: options.profitReceiver, calldata, executableByPocV2, notes };
 }

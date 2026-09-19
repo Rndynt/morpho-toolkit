@@ -743,7 +743,7 @@ function printArbScan(result: ArbScanResult, minNetProfit: number): void {
     ));
   }
 
-  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals))) >= minNetProfit);
 
   if (shown.length === 0) {
     ui.info('No opportunity found above the profit threshold at this block. This is normal - real cross-DEX gaps are intermittent, not constant.');
@@ -774,7 +774,7 @@ function printArbScan(result: ArbScanResult, minNetProfit: number): void {
 }
 
 function printArbScanCompact(result: ArbScanResult, minNetProfit: number, timestamp: Date): void {
-  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+  const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals))) >= minNetProfit);
   const time = timestamp.toISOString().slice(11, 19);
   if (shown.length === 0) {
     console.log(`${color.dim(time)} block ${color.white(result.blockNumber)}  ${color.dim('no opportunity')}`);
@@ -809,7 +809,7 @@ async function watchArbScan(args: ParsedArgs, minNetProfit: number): Promise<voi
         rpcUrl: rpcUrl(chain),
         gasUnitsEstimate: numberFlag(args, 'gas-units', 400_000) || undefined,
       });
-      const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(o.grossProfitFormatted)) >= minNetProfit);
+      const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals))) >= minNetProfit);
       if (shown.length > 0) {
         console.log('');
         printArbScan(result, minNetProfit);
