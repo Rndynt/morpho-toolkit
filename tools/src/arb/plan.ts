@@ -96,18 +96,27 @@ export function encodePocV2Plan(
   requireNonNegative(costs.gasCostRaw, 'gasCostRaw');
   requireNonNegative(costs.chainFeeRaw, 'chainFeeRaw');
   requireNonNegative(costs.safetyMarginRaw, 'safetyMarginRaw');
-  requirePositive(opp.grossProfitRaw, 'grossProfitRaw');
+  if (quotes.blockNumber !== opp.blockNumber) {
+    throw new Error(`quote blockNumber ${quotes.blockNumber} does not match opportunity snapshot ${opp.blockNumber}`);
+  }
 
   const loanAmountRaw = opp.loanAmountRaw;
   requirePositive(loanAmountRaw, 'loanAmountRaw');
   const minIntermediateAmount = minAmountAfterSlippage(quotes.firstLegAmountOutRaw, options.slippageBps);
   const minFinalAmount = minAmountAfterSlippage(quotes.secondLegAmountOutRaw, options.slippageBps);
-  const requiredCostsRaw = costs.gasCostRaw + costs.chainFeeRaw + costs.safetyMarginRaw;
-  const minProfitRaw = opp.grossProfitRaw;
-  if (minProfitRaw < requiredCostsRaw) {
-    throw new Error('grossProfitRaw must include gas, chain/L2 fees, and a safety margin');
-  }
   if (minIntermediateAmount <= 0n) throw new Error('minIntermediateAmount must be greater than zero');
+  if (minFinalAmount <= loanAmountRaw) {
+    throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
+  }
+  const requiredCostsRaw = costs.gasCostRaw + costs.chainFeeRaw + costs.safetyMarginRaw;
+  // Execution limits are derived exclusively from the two on-chain router quotes at
+  // the pinned snapshot, including the same slippage protection as min-out. Scanner
+  // USD prices remain discovery/TVL metadata only.
+  const minProfitRaw = minFinalAmount - loanAmountRaw;
+  requirePositive(minProfitRaw, 'quoted gross profit');
+  if (minProfitRaw < requiredCostsRaw) {
+    throw new Error('quoted gross profit must include gas, chain/L2 fees, and a safety margin');
+  }
   if (minFinalAmount < loanAmountRaw + minProfitRaw) {
     throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
   }

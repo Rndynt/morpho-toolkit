@@ -95,6 +95,25 @@ function formatRawForDisplay(amount: bigint, decimals: number): string {
 export type SeedTokenPrice = {
   address: Address;
   priceUsd?: number | null;
+  priceTimestamp?: number | null;
+  priceSource?: 'morpho-api' | 'defillama' | null;
+};
+
+export type VenueTvl = {
+  pairLabel: string;
+  venue: string;
+  tvlUsd: number | null;
+  tokenPrices: Array<{
+    address: Address;
+    priceUsd: number | null;
+    source: 'morpho-api' | 'defillama' | null;
+    timestamp: number | null;
+  }>;
+  /** full = both reserve sides priced; partial is a doubled one-sided estimate. */
+  confidence: 'full' | 'partial' | 'unpriced';
+  status: 'priced' | 'unpriced';
+  /** TVL pricing never promotes a venue to executable; a quote-based plan must do that separately. */
+  executableCandidate: boolean;
 };
 
 export type SpotPrice = {
@@ -113,6 +132,7 @@ export type ArbScanResult = {
   gasUnitsEstimate: number;
   opportunities: ArbOpportunity[];
   spotPrices: SpotPrice[];
+  venueTvl: VenueTvl[];
   skipped: Array<{ pairLabel: string; router: string; reason: string }>;
   warnings: string[];
 };
@@ -122,10 +142,8 @@ export type ArbScanOptions = {
   rpcUrl: string;
   gasUnitsEstimate?: number;
   onProgress?: (message: string) => void;
-  // USD prices (e.g. from Morpho's own asset list) used to estimate each venue's TVL and
-  // drop the ones below minTvlUsd. A venue whose tokens have no known price is never
-  // dropped by this filter (we can't estimate it) - it just isn't reported with a TVL
-  // figure. Omit both to disable filtering entirely (existing behavior, unchanged).
+  // External scanner prices may only estimate/display TVL and apply the inventory-style
+  // TVL filter. They MUST NOT be used for min-out, min-profit, or executable calldata.
   seedTokens?: SeedTokenPrice[];
   minTvlUsd?: number;
   /** Injectable for tests; production scans create a client from rpcUrl. */
@@ -319,6 +337,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const skipped: ArbScanResult['skipped'] = [];
   const opportunities: ArbOpportunity[] = [];
   const spotPrices: SpotPrice[] = [];
+  const venueTvl: VenueTvl[] = [];
 
   const client = options.publicClient ?? createPublicClient({
     // No transport-level batching: Multicall3 already aggregates every read into a
@@ -351,26 +370,35 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   // USD price lookup for the TVL filter below, built once from whatever prices the
   // caller passed in (e.g. Morpho's own asset list already carries priceUsd). A token
   // with no known price is simply never TVL-filtered (we can't estimate it), not
-  // silently treated as $0 - see estimateTvlUsd.
-  const usdPriceByAddress = new Map<string, number>();
+  // silently treated as $0 - see assessVenueTvl.
+  const usdPriceByAddress = new Map<string, SeedTokenPrice>();
   for (const token of options.seedTokens ?? []) {
     if (token.priceUsd != null && token.priceUsd > 0) {
-      usdPriceByAddress.set(token.address.toLowerCase(), token.priceUsd);
+      usdPriceByAddress.set(token.address.toLowerCase(), token);
     }
   }
-  function estimateTvlUsd(pairConfig: V2PairConfig, r: RouterReserves): number | null {
-    const priceA = usdPriceByAddress.get(pairConfig.tokenA.address.toLowerCase()) ?? null;
-    const priceB = usdPriceByAddress.get(pairConfig.tokenB.address.toLowerCase()) ?? null;
-    const valueA = priceA !== null ? Number(formatUnits(r.reserveA, pairConfig.tokenA.decimals)) * priceA : null;
-    const valueB = priceB !== null ? Number(formatUnits(r.reserveB, pairConfig.tokenB.decimals)) * priceB : null;
+  function assessVenueTvl(pairLabel: string, pairConfig: V2PairConfig, r: RouterReserves): VenueTvl {
+    const priceA = usdPriceByAddress.get(pairConfig.tokenA.address.toLowerCase());
+    const priceB = usdPriceByAddress.get(pairConfig.tokenB.address.toLowerCase());
+    const valueA = priceA ? Number(formatUnits(r.reserveA, pairConfig.tokenA.decimals)) * priceA.priceUsd! : null;
+    const valueB = priceB ? Number(formatUnits(r.reserveB, pairConfig.tokenB.decimals)) * priceB.priceUsd! : null;
     // Prefer both sides when we have both (most accurate); fall back to doubling
     // whichever single side is known (assumes a roughly balanced pool, which is true
     // for constant-product AMMs away from extreme imbalance - fine for a filter
     // threshold, not precise enough for anything else).
-    if (valueA !== null && valueB !== null) return valueA + valueB;
-    if (valueA !== null) return valueA * 2;
-    if (valueB !== null) return valueB * 2;
-    return null;
+    const tvlUsd = valueA !== null && valueB !== null ? valueA + valueB
+      : valueA !== null ? valueA * 2 : valueB !== null ? valueB * 2 : null;
+    const confidence = valueA !== null && valueB !== null ? 'full'
+      : tvlUsd !== null ? 'partial' : 'unpriced';
+    return {
+      pairLabel, venue: r.label, tvlUsd,
+      tokenPrices: [
+        { address: pairConfig.tokenA.address, priceUsd: priceA?.priceUsd ?? null, source: priceA?.priceSource ?? null, timestamp: priceA?.priceTimestamp ?? null },
+        { address: pairConfig.tokenB.address, priceUsd: priceB?.priceUsd ?? null, source: priceB?.priceSource ?? null, timestamp: priceB?.priceTimestamp ?? null },
+      ],
+      confidence, status: confidence === 'unpriced' ? 'unpriced' : 'priced',
+      executableCandidate: false,
+    };
   }
 
   const resolvedPairs: Array<{ pairConfig: V2PairConfig; reserves: RouterReserves[] }> = [];
@@ -393,9 +421,15 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
       if (solidlyReserves) reserves.push(solidlyReserves);
     }
 
+    const tvlByVenue = new Map<RouterReserves, VenueTvl>();
+    for (const reserve of reserves) {
+      const assessment = assessVenueTvl(pairLabel, pairConfig, reserve);
+      tvlByVenue.set(reserve, assessment);
+      venueTvl.push(assessment);
+    }
     if (options.minTvlUsd !== undefined) {
       for (let i = reserves.length - 1; i >= 0; i--) {
-        const tvlUsd = estimateTvlUsd(pairConfig, reserves[i]!);
+        const tvlUsd = tvlByVenue.get(reserves[i]!)!.tvlUsd;
         if (tvlUsd !== null && tvlUsd < options.minTvlUsd) {
           skipped.push({
             pairLabel,
@@ -634,6 +668,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
     gasUnitsEstimate,
     opportunities,
     spotPrices,
+    venueTvl,
     skipped,
     warnings,
   };

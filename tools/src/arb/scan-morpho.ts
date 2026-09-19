@@ -54,7 +54,12 @@ const seeds = morpho.assets
   .filter((a) => a.decimals > 0 && a.symbol)
   .sort((a, b) => (b.usdValue ?? 0) - (a.usdValue ?? 0))
   .slice(0, maxTokens)
-  .map((a) => ({ symbol: a.symbol, address: a.address, decimals: a.decimals, priceUsd: a.priceUsd }));
+  .map((a) => ({
+    symbol: a.symbol, address: a.address, decimals: a.decimals,
+    // Do not forward stale scanner prices into the TVL display/filter.
+    priceUsd: a.exclusionReason === 'price-missing-or-stale' ? null : a.priceUsd,
+    priceTimestamp: a.priceTimestamp, priceSource: a.priceSource,
+  }));
 ui.info(`Using ${seeds.length} Morpho assets (>= $${minUsd} inventory, cap ${maxTokens})`);
 const staticPairs = v2Pairs.filter((p) => p.chain === chain.key);
 const extra = expandPairs(chain.key, seeds, staticPairs);
@@ -72,6 +77,20 @@ const result = await scanArbOpportunities({
 
 ui.section(`${result.chain.name} / ARBITRAGE SCAN (Morpho universe, read-only)`);
 console.log(`${color.dim('Snapshot')} ${color.white(String(result.blockNumber))} ${color.dim(result.blockHash)} ${color.dim(new Date(Number(result.blockTimestamp) * 1000).toISOString())}  ${color.dim('quoted rows')} ${color.white(String(result.spotPrices.length))}`);
+
+if (result.venueTvl.length) {
+  ui.section('VENUE TVL (external, non-executable pricing)');
+  console.log(renderTable(
+    [{ title: 'PAIR' }, { title: 'VENUE' }, { title: 'TVL USD', align: 'right' }, { title: 'SOURCE / TIMESTAMP' }, { title: 'CONFIDENCE' }, { title: 'STATUS' }],
+    result.venueTvl.map((v) => [
+      color.yellow(v.pairLabel), color.white(v.venue),
+      v.tvlUsd === null ? color.dim('unpriced') : color.dim(`$${v.tvlUsd.toFixed(0)}`),
+      color.dim(v.tokenPrices.map((p) => `${p.source ?? 'unknown'}@${p.timestamp ? new Date(p.timestamp * 1000).toISOString() : 'n/a'}`).join(' / ')),
+      color.dim(v.confidence),
+      v.status === 'unpriced' ? color.yellow('unpriced; review required') : color.cyan('priced'),
+    ]),
+  ));
+}
 
 if (result.spotPrices.length) {
   ui.section('SPOT PRICES');
