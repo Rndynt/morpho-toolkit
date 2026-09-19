@@ -7,9 +7,34 @@ const pocV2Abi = parseAbi([
   'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params) returns (uint256 profit)',
 ]);
 
+/** The execution window is deliberately short so a quote cannot become stale. */
+export const MIN_DEADLINE_SECONDS = 1;
+export const MAX_DEADLINE_SECONDS = 300;
+const BPS_DENOMINATOR = 10_000n;
+
+export type RawLegQuotes = {
+  /** Exact-input amount quoted for the first swap at blockNumber. */
+  firstLegAmountOutRaw: bigint;
+  /** Exact-input amount quoted for the second swap at blockNumber. */
+  secondLegAmountOutRaw: bigint;
+  /** Block at which both quotes were obtained. */
+  blockNumber: bigint;
+};
+
+export type ExecutionCostsRaw = {
+  /** Gas cost denominated in the loan token. */
+  gasCostRaw: bigint;
+  /** Chain/L2 execution fee denominated in the loan token. */
+  chainFeeRaw: bigint;
+  /** Additional loan-token buffer for estimation and execution risk. */
+  safetyMarginRaw: bigint;
+};
+
 export type EncodedArbPlan = {
   opportunity: ArbOpportunity;
   loanAmountRaw: bigint;
+  minIntermediateAmount: bigint;
+  minFinalAmount: bigint;
   minProfitRaw: bigint;
   deadline: bigint;
   profitReceiver: Address;
@@ -26,26 +51,77 @@ function parseLoanAmount(opp: ArbOpportunity): bigint {
   return parseUnits(opp.loanAmountFormatted, opp.loanTokenDecimals);
 }
 
+function minAmountAfterSlippage(quoteAmountRaw: bigint, slippageBps: number): bigint {
+  return (quoteAmountRaw * BigInt(10_000 - slippageBps)) / BPS_DENOMINATOR;
+}
+
+function requirePositive(value: bigint, field: string): void {
+  if (typeof value !== 'bigint' || value <= 0n) throw new Error(`${field} must be greater than zero`);
+}
+
+function requireNonNegative(value: bigint, field: string): void {
+  if (typeof value !== 'bigint' || value < 0n) throw new Error(`${field} must be a non-negative bigint`);
+}
+
+/**
+ * Produces calldata only from block-pinned raw quotes and fully accounted loan-token
+ * costs. This function fails closed: callers must refresh a quote, snapshot, or costs
+ * rather than submitting an unprotected plan.
+ */
 export function encodePocV2Plan(
   opp: ArbOpportunity,
   options: {
     profitReceiver: Address;
+    quotes: RawLegQuotes;
+    costs: ExecutionCostsRaw;
+    slippageBps: number;
     deadlineSeconds?: number;
-    minProfitBps?: number;
-    minIntermediateAmount?: bigint;
-    minFinalAmount?: bigint;
+    /** Minimum final surplus required by the contract, including every listed cost. */
+    minProfitRaw: bigint;
   },
 ): EncodedArbPlan {
-  const notes: string[] = [];
+  const { quotes, costs } = options;
+  if (!quotes) throw new Error('quotes are required');
+  if (!costs) throw new Error('execution costs are required');
+  if (!Number.isInteger(options.slippageBps) || options.slippageBps < 0 || options.slippageBps >= 10_000) {
+    throw new Error('slippageBps must be an integer from 0 through 9999');
+  }
+
+  const deadlineSeconds = options.deadlineSeconds ?? 60;
+  if (
+    !Number.isInteger(deadlineSeconds) ||
+    deadlineSeconds < MIN_DEADLINE_SECONDS ||
+    deadlineSeconds > MAX_DEADLINE_SECONDS
+  ) {
+    throw new Error(`deadlineSeconds must be an integer from ${MIN_DEADLINE_SECONDS} through ${MAX_DEADLINE_SECONDS}`);
+  }
+
+  requirePositive(quotes.blockNumber, 'quote blockNumber');
+  requirePositive(quotes.firstLegAmountOutRaw, 'first-leg quote');
+  requirePositive(quotes.secondLegAmountOutRaw, 'second-leg quote');
+  requireNonNegative(costs.gasCostRaw, 'gasCostRaw');
+  requireNonNegative(costs.chainFeeRaw, 'chainFeeRaw');
+  requireNonNegative(costs.safetyMarginRaw, 'safetyMarginRaw');
+  requireNonNegative(options.minProfitRaw, 'minProfitRaw');
+
   const loanAmountRaw = parseLoanAmount(opp);
-  const minProfitBps = options.minProfitBps ?? 5_000;
-  const gross = Number(opp.grossProfitFormatted);
-  const minProfitHuman = Math.max(0, (gross * minProfitBps) / 10_000);
-  const minProfitRaw = parseUnits(minProfitHuman.toFixed(Math.min(6, opp.loanTokenDecimals)), opp.loanTokenDecimals);
-  const deadline = BigInt(Math.floor(Date.now() / 1000) + (options.deadlineSeconds ?? 300));
+  requirePositive(loanAmountRaw, 'loanAmountRaw');
+  const minIntermediateAmount = minAmountAfterSlippage(quotes.firstLegAmountOutRaw, options.slippageBps);
+  const minFinalAmount = minAmountAfterSlippage(quotes.secondLegAmountOutRaw, options.slippageBps);
+  const requiredCostsRaw = costs.gasCostRaw + costs.chainFeeRaw + costs.safetyMarginRaw;
+  if (options.minProfitRaw < requiredCostsRaw) {
+    throw new Error('minProfitRaw must include gas, chain/L2 fees, and a safety margin');
+  }
+  if (minIntermediateAmount <= 0n) throw new Error('minIntermediateAmount must be greater than zero');
+  if (minFinalAmount < loanAmountRaw + options.minProfitRaw) {
+    throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
+  }
+
+  const notes: string[] = [];
+  const deadline = BigInt(Math.floor(Date.now() / 1000) + deadlineSeconds);
 
   if (opp.buyRouter.toLowerCase() === opp.sellRouter.toLowerCase()) {
-    notes.push('same router on both legs \u2014 POC v2 rejects this as InvalidRoute');
+    notes.push('same router on both legs — POC v2 rejects this as InvalidRoute');
   }
   if (opp.buyKind === 'aerodrome' && !opp.buyFactory) {
     notes.push('Aerodrome buy leg missing factory');
@@ -54,45 +130,23 @@ export function encodePocV2Plan(
     notes.push('Aerodrome sell leg missing factory');
   }
 
-  const executableByPocV2 = notes.length === 0 && loanAmountRaw > 0n;
-
+  const executableByPocV2 = notes.length === 0;
   const calldata = encodeFunctionData({
     abi: pocV2Abi,
     functionName: 'executeArbitrage',
-    args: [
-      {
-        loanToken: opp.loanToken,
-        intermediateToken: opp.intermediateToken,
-        firstLeg: {
-          router: opp.buyRouter,
-          kind: kindToEnum(opp.buyKind),
-          aeroStable: false,
-          aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000',
-        },
-        secondLeg: {
-          router: opp.sellRouter,
-          kind: kindToEnum(opp.sellKind),
-          aeroStable: false,
-          aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000',
-        },
-        loanAmount: loanAmountRaw,
-        minIntermediateAmount: options.minIntermediateAmount ?? 0n,
-        minFinalAmount: options.minFinalAmount ?? 0n,
-        minProfit: minProfitRaw,
-        deadline,
-        profitReceiver: options.profitReceiver,
-      },
-    ],
+    args: [{
+      loanToken: opp.loanToken,
+      intermediateToken: opp.intermediateToken,
+      firstLeg: { router: opp.buyRouter, kind: kindToEnum(opp.buyKind), aeroStable: false, aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000' },
+      secondLeg: { router: opp.sellRouter, kind: kindToEnum(opp.sellKind), aeroStable: false, aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000' },
+      loanAmount: loanAmountRaw,
+      minIntermediateAmount,
+      minFinalAmount,
+      minProfit: options.minProfitRaw,
+      deadline,
+      profitReceiver: options.profitReceiver,
+    }],
   });
 
-  return {
-    opportunity: opp,
-    loanAmountRaw,
-    minProfitRaw,
-    deadline,
-    profitReceiver: options.profitReceiver,
-    calldata,
-    executableByPocV2,
-    notes,
-  };
+  return { opportunity: opp, loanAmountRaw, minIntermediateAmount, minFinalAmount, minProfitRaw: options.minProfitRaw, deadline, profitReceiver: options.profitReceiver, calldata, executableByPocV2, notes };
 }
