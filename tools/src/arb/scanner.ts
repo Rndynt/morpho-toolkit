@@ -11,6 +11,7 @@ import type { EvmChainConfig } from '../config/chains.js';
 import type { Address } from '../config/registry.js';
 import { v2Pairs, solidlyPairs, type RouterCandidate, type V2PairConfig, type SolidlyPairEntry, type VenueKind } from './routes.js';
 import { optimalTwoLegArbitrage } from './math.js';
+import { quoteExactInput, type QuoteVenue } from './quotes.js';
 
 const MULTICALL3 = '0xcA11bde05977b3631167028862bE2a173976CA11' as Address;
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -40,6 +41,7 @@ type RouterReserves = {
   // Only set for kind === 'aerodrome' - a V2 router has no equivalent since the router
   // address alone fully determines which pool it reaches.
   factory: Address | null;
+  stable: boolean | null;
 };
 
 export type ArbOpportunity = {
@@ -72,6 +74,9 @@ export type ArbOpportunity = {
   sellKind: VenueKind;
   buyFactory: Address | null;
   sellFactory: Address | null;
+  /** Actual Solidly pool type read as part of the router quote; null for V2. */
+  buyAeroStable: boolean | null;
+  sellAeroStable: boolean | null;
 };
 
 function numberToRaw(amount: number, decimals: number): bigint {
@@ -86,13 +91,6 @@ function formatRawForDisplay(amount: bigint, decimals: number): string {
   const [whole, fraction = ''] = formatUnits(amount, decimals).split('.');
   return `${whole}.${fraction.padEnd(6, '0').slice(0, 6)}`;
 }
-
-function amountOutRaw(amountIn: bigint, reserveIn: bigint, reserveOut: bigint, feeBps: number): bigint {
-  const amountInWithFee = amountIn * BigInt(10_000 - feeBps);
-  return (amountInWithFee * reserveOut) / (reserveIn * BPS_DENOMINATOR + amountInWithFee);
-}
-
-const BPS_DENOMINATOR = 10_000n;
 
 export type SeedTokenPrice = {
   address: Address;
@@ -242,6 +240,7 @@ async function resolveRouterReserves(
       feeBps: pairConfig.feeBps,
       kind: 'v2',
       factory: null,
+      stable: null,
     });
   });
   return results;
@@ -300,6 +299,7 @@ async function resolveSolidlyReserves(
       feeBps: entry.pool.feeBps,
       kind: 'aerodrome',
       factory: entry.pool.factory,
+      stable: entry.pool.stable,
     };
   } catch (error) {
     skipped.push({ pairLabel, router: entry.pool.label, reason: `read failed: ${errorMessage(error)}` });
@@ -482,6 +482,20 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
       ? gasCostEth * ethPriceInToken.get(pairConfig.tokenB.address.toLowerCase())!
       : null;
 
+    const quoteVenue = (reserve: RouterReserves): QuoteVenue => ({
+      kind: reserve.kind, label: reserve.label, router: reserve.router, factory: reserve.factory,
+      pool: reserve.pair, feeBps: reserve.feeBps,
+    });
+    const quoteTwoLegs = async (loanAmountRaw: bigint, buyOn: RouterReserves, sellOn: RouterReserves, loanToken: Address, intermediateToken: Address) => {
+      const first = await quoteExactInput(client, {
+        venue: quoteVenue(buyOn), tokenIn: loanToken, tokenOut: intermediateToken, amountInRaw: loanAmountRaw, snapshotBlock: blockNumber,
+      });
+      const second = await quoteExactInput(client, {
+        venue: quoteVenue(sellOn), tokenIn: intermediateToken, tokenOut: loanToken, amountInRaw: first.amountOutRaw, snapshotBlock: blockNumber,
+      });
+      return { first, second };
+    };
+
     for (const buyOn of reserves) {
       for (const sellOn of reserves) {
         if (buyOn.router === sellOn.router) continue;
@@ -501,8 +515,15 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         );
         if (resultA.profitable) {
           const loanAmountRaw = numberToRaw(resultA.loanAmount, pairConfig.tokenA.decimals);
-          const expectedIntermediateRaw = amountOutRaw(loanAmountRaw, buyOn.reserveA, buyOn.reserveB, buyOn.feeBps);
-          const expectedFinalRaw = amountOutRaw(expectedIntermediateRaw, sellOn.reserveB, sellOn.reserveA, sellOn.feeBps);
+          let quoted;
+          try {
+            quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenA.address, pairConfig.tokenB.address);
+          } catch (error) {
+            skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
+            continue;
+          }
+          const expectedIntermediateRaw = quoted.first.amountOutRaw;
+          const expectedFinalRaw = quoted.second.amountOutRaw;
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
           if (grossProfitRaw <= 0n) continue;
           opportunities.push({
@@ -522,7 +543,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             grossProfitRaw,
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenA,
-            netProfit: gasCostInTokenA !== null ? resultA.grossProfit - gasCostInTokenA : null,
+            netProfit: gasCostInTokenA !== null ? Number(formatUnits(grossProfitRaw, pairConfig.tokenA.decimals)) - gasCostInTokenA : null,
             loanToken: pairConfig.tokenA.address,
             intermediateToken: pairConfig.tokenB.address,
             loanTokenDecimals: pairConfig.tokenA.decimals,
@@ -532,6 +553,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellKind: sellOn.kind,
             buyFactory: buyOn.factory,
             sellFactory: sellOn.factory,
+            buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
+            sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });
         }
 
@@ -550,8 +573,15 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         );
         if (resultB.profitable) {
           const loanAmountRaw = numberToRaw(resultB.loanAmount, pairConfig.tokenB.decimals);
-          const expectedIntermediateRaw = amountOutRaw(loanAmountRaw, buyOn.reserveB, buyOn.reserveA, buyOn.feeBps);
-          const expectedFinalRaw = amountOutRaw(expectedIntermediateRaw, sellOn.reserveA, sellOn.reserveB, sellOn.feeBps);
+          let quoted;
+          try {
+            quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenB.address, pairConfig.tokenA.address);
+          } catch (error) {
+            skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
+            continue;
+          }
+          const expectedIntermediateRaw = quoted.first.amountOutRaw;
+          const expectedFinalRaw = quoted.second.amountOutRaw;
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
           if (grossProfitRaw <= 0n) continue;
           opportunities.push({
@@ -571,7 +601,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             grossProfitRaw,
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenB,
-            netProfit: gasCostInTokenB !== null ? resultB.grossProfit - gasCostInTokenB : null,
+            netProfit: gasCostInTokenB !== null ? Number(formatUnits(grossProfitRaw, pairConfig.tokenB.decimals)) - gasCostInTokenB : null,
             loanToken: pairConfig.tokenB.address,
             intermediateToken: pairConfig.tokenA.address,
             loanTokenDecimals: pairConfig.tokenB.decimals,
@@ -581,6 +611,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellKind: sellOn.kind,
             buyFactory: buyOn.factory,
             sellFactory: sellOn.factory,
+            buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
+            sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });
         }
       }

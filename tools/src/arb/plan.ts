@@ -132,8 +132,8 @@ export function encodePocV2Plan(
     args: [{
       loanToken: opp.loanToken,
       intermediateToken: opp.intermediateToken,
-      firstLeg: { router: opp.buyRouter, kind: kindToEnum(opp.buyKind), aeroStable: false, aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000' },
-      secondLeg: { router: opp.sellRouter, kind: kindToEnum(opp.sellKind), aeroStable: false, aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000' },
+      firstLeg: { router: opp.buyRouter, kind: kindToEnum(opp.buyKind), aeroStable: opp.buyAeroStable ?? false, aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000' },
+      secondLeg: { router: opp.sellRouter, kind: kindToEnum(opp.sellKind), aeroStable: opp.sellAeroStable ?? false, aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000' },
       loanAmount: loanAmountRaw,
       minIntermediateAmount,
       minFinalAmount,

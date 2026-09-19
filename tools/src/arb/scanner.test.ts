@@ -40,9 +40,16 @@ test('pins all execution-critical reads to one block snapshot', async () => {
         return { hash: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', timestamp: 1_700_000_000n };
       },
       getGasPrice: async () => 1n,
-      readContract: async (request: { blockNumber?: bigint }) => {
+      readContract: async (request: { blockNumber?: bigint; functionName: string; args?: readonly unknown[] }) => {
         readContractBlocks.push(request.blockNumber!);
-        return SOLIDLY_POOL;
+        if (request.functionName === 'getPool') return SOLIDLY_POOL;
+        if (request.functionName === 'stable') return false;
+        if (request.functionName === 'fee') return 30n;
+        if (request.functionName === 'getAmountsOut') {
+          const amountIn = request.args![0] as bigint;
+          return [amountIn, amountIn * 2n];
+        }
+        throw new Error(`unexpected readContract: ${request.functionName}`);
       },
       multicall: async (request: { blockNumber?: bigint; contracts: Array<{ functionName: string; address: string }> }): Promise<any> => {
         multicallBlocks.push(request.blockNumber!);
@@ -65,7 +72,8 @@ test('pins all execution-critical reads to one block snapshot', async () => {
 
     assert.ok(multicallBlocks.length >= 4, 'factory, pair, V2 reserve, and Solidly reserve reads run');
     assert.deepEqual(multicallBlocks, multicallBlocks.map(() => SNAPSHOT_BLOCK));
-    assert.deepEqual(readContractBlocks, [SNAPSHOT_BLOCK]);
+    assert.ok(readContractBlocks.length > 1, 'pool metadata and router quotes run');
+    assert.deepEqual(readContractBlocks, readContractBlocks.map(() => SNAPSHOT_BLOCK));
     assert.equal(result.blockNumber, SNAPSHOT_BLOCK);
     assert.equal(result.blockHash, '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     assert.equal(result.blockTimestamp, 1_700_000_000n);

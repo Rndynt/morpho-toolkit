@@ -66,19 +66,15 @@ export const v2Pairs: V2PairConfig[] = BASE_PAIRS.map(([tokenA, tokenB]) => ({
   feeBps: 30,
 }));
 
-export const solidlyPairs: SolidlyPairEntry[] = BASE_PAIRS.map(([tokenA, tokenB]) => ({
-  chain: 'base',
-  tokenA,
-  tokenB,
-  pool: {
-    chain: 'base',
-    label: 'Aerodrome (volatile)',
-    router: BASE_AERODROME_ROUTER,
-    factory: BASE_AERODROME_FACTORY,
-    stable: false,
-    feeBps: 30,
-  },
-}));
+export const solidlyPairs: SolidlyPairEntry[] = BASE_PAIRS.flatMap(([tokenA, tokenB]) =>
+  [false, true].map((stable) => ({
+    chain: 'base', tokenA, tokenB,
+    pool: {
+      chain: 'base', label: `Aerodrome (${stable ? 'stable' : 'volatile'})`,
+      router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable, feeBps: 30,
+    },
+  })),
+);
 
 const RH_USDG = { symbol: 'USDG', address: '0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168', decimals: 6 } as const;
 const RH_WETH = { symbol: 'WETH', address: '0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73', decimals: 18 } as const;
