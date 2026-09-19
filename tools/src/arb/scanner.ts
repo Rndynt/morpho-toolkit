@@ -3,6 +3,7 @@ import {
   formatUnits,
   getAddress,
   http,
+  parseUnits,
   parseAbi,
   type PublicClient,
 } from 'viem';
@@ -52,10 +53,12 @@ export type ArbOpportunity = {
   estGasCostNative: number | null;
   estGasCostInLoanToken: number | null;
   netProfit: number | null;
-  // Raw fields for feeding into plan.ts's calldata encoder - the fields above are for
-  // display (labels, formatted strings); these are for actually building an
-  // executeArbitrage() call. loanAmountFormatted/grossProfitFormatted stay display-only
-  // (fixed 6dp strings) - plan.ts re-derives raw amounts itself via parseUnits.
+  // Formatted fields are display-only. Use these raw amounts for all arithmetic and
+  // calldata so the fixed six-decimal display precision never changes execution values.
+  loanAmountRaw: bigint;
+  expectedIntermediateRaw: bigint;
+  expectedFinalRaw: bigint;
+  grossProfitRaw: bigint;
   loanToken: Address;
   intermediateToken: Address;
   loanTokenDecimals: number;
@@ -66,6 +69,26 @@ export type ArbOpportunity = {
   buyFactory: Address | null;
   sellFactory: Address | null;
 };
+
+function numberToRaw(amount: number, decimals: number): bigint {
+  // The optimizer operates on normalized JavaScript numbers. Convert its full decimal
+  // representation once, rather than routing execution through the six-decimal display
+  // strings below.
+  if (!Number.isFinite(amount) || amount <= 0) return 0n;
+  return parseUnits(amount.toFixed(decimals), decimals);
+}
+
+function formatRawForDisplay(amount: bigint, decimals: number): string {
+  const [whole, fraction = ''] = formatUnits(amount, decimals).split('.');
+  return `${whole}.${fraction.padEnd(6, '0').slice(0, 6)}`;
+}
+
+function amountOutRaw(amountIn: bigint, reserveIn: bigint, reserveOut: bigint, feeBps: number): bigint {
+  const amountInWithFee = amountIn * BigInt(10_000 - feeBps);
+  return (amountInWithFee * reserveOut) / (reserveIn * BPS_DENOMINATOR + amountInWithFee);
+}
+
+const BPS_DENOMINATOR = 10_000n;
 
 export type SeedTokenPrice = {
   address: Address;
@@ -458,14 +481,23 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultA.profitable) {
+          const loanAmountRaw = numberToRaw(resultA.loanAmount, pairConfig.tokenA.decimals);
+          const expectedIntermediateRaw = amountOutRaw(loanAmountRaw, buyOn.reserveA, buyOn.reserveB, buyOn.feeBps);
+          const expectedFinalRaw = amountOutRaw(expectedIntermediateRaw, sellOn.reserveB, sellOn.reserveA, sellOn.feeBps);
+          const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
+          if (grossProfitRaw <= 0n) continue;
           opportunities.push({
             pairLabel,
             loanTokenSymbol: pairConfig.tokenA.symbol,
             intermediateTokenSymbol: pairConfig.tokenB.symbol,
             buyOn: buyOn.label,
             sellOn: sellOn.label,
-            loanAmountFormatted: resultA.loanAmount.toFixed(6),
-            grossProfitFormatted: resultA.grossProfit.toFixed(6),
+            loanAmountFormatted: formatRawForDisplay(loanAmountRaw, pairConfig.tokenA.decimals),
+            grossProfitFormatted: formatRawForDisplay(grossProfitRaw, pairConfig.tokenA.decimals),
+            loanAmountRaw,
+            expectedIntermediateRaw,
+            expectedFinalRaw,
+            grossProfitRaw,
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenA,
             netProfit: gasCostInTokenA !== null ? resultA.grossProfit - gasCostInTokenA : null,
@@ -495,14 +527,23 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultB.profitable) {
+          const loanAmountRaw = numberToRaw(resultB.loanAmount, pairConfig.tokenB.decimals);
+          const expectedIntermediateRaw = amountOutRaw(loanAmountRaw, buyOn.reserveB, buyOn.reserveA, buyOn.feeBps);
+          const expectedFinalRaw = amountOutRaw(expectedIntermediateRaw, sellOn.reserveA, sellOn.reserveB, sellOn.feeBps);
+          const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
+          if (grossProfitRaw <= 0n) continue;
           opportunities.push({
             pairLabel,
             loanTokenSymbol: pairConfig.tokenB.symbol,
             intermediateTokenSymbol: pairConfig.tokenA.symbol,
             buyOn: buyOn.label,
             sellOn: sellOn.label,
-            loanAmountFormatted: resultB.loanAmount.toFixed(6),
-            grossProfitFormatted: resultB.grossProfit.toFixed(6),
+            loanAmountFormatted: formatRawForDisplay(loanAmountRaw, pairConfig.tokenB.decimals),
+            grossProfitFormatted: formatRawForDisplay(grossProfitRaw, pairConfig.tokenB.decimals),
+            loanAmountRaw,
+            expectedIntermediateRaw,
+            expectedFinalRaw,
+            grossProfitRaw,
             estGasCostNative: gasCostEth,
             estGasCostInLoanToken: gasCostInTokenB,
             netProfit: gasCostInTokenB !== null ? resultB.grossProfit - gasCostInTokenB : null,
@@ -524,7 +565,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   // Rank by net profit (after estimated gas) when we could compute it, otherwise fall
   // back to gross profit - keeps unranked (no gas-price-reference) results visible
   // instead of dropping them, while still favoring results we're more confident in.
-  const rank = (o: ArbOpportunity): number => o.netProfit ?? Number(o.grossProfitFormatted);
+  const rank = (o: ArbOpportunity): number => o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals));
   opportunities.sort((a, b) => rank(b) - rank(a));
 
   return {

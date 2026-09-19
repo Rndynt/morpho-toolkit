@@ -91,7 +91,7 @@ if (result.spotPrices.length) {
   ));
 }
 
-const shown = result.opportunities.filter((o) => Number(o.grossProfitFormatted) >= 0.01);
+const shown = result.opportunities.filter((o) => o.grossProfitRaw >= 10n ** BigInt(Math.max(0, o.loanTokenDecimals - 2)));
 if (!shown.length) {
   ui.info('No opportunity with gross >= 0.01 after fees/impact at this block.');
 } else {
