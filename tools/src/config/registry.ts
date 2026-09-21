@@ -25,6 +25,7 @@ export type StablecoinRegistry = Record<string, Record<string, { address: Addres
 
 export const deploymentsPath = fileURLToPath(new URL('../../../evm/deployments.json', import.meta.url));
 export const stablecoinsPath = fileURLToPath(new URL('../../../evm/stablecoins.json', import.meta.url));
+export const tokenPoliciesPath = fileURLToPath(new URL('../../../evm/token-policies.json', import.meta.url));
 export const artifactPath = fileURLToPath(
   new URL('../../../evm/out/FlashLoanExecutor.sol/FlashLoanExecutor.json', import.meta.url),
 );

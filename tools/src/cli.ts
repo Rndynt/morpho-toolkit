@@ -38,6 +38,7 @@ import {
 import { arbExecutorAbi, makePlan, requoteOpportunity, verifyArbPreflight, type ArbDeployment } from './arb/execution.js';
 import { applyExecutionCosts } from './arb/plan.js';
 import { estimateExecutionCosts } from './arb/costs/estimate.js';
+import { liveExecutablePolicyFailure, loadTokenPolicies, tokenPolicyFor } from './config/token-policy.js';
 
 loadToolEnv();
 
@@ -326,6 +327,50 @@ async function confirmBroadcast(message: string, yes: boolean): Promise<void> {
   }
 }
 
+const UNSAFE_TOKEN_CONFIRMATION = 'ALLOW_DISCOVERY_ONLY';
+
+async function enforceTokenPolicies(
+  args: ParsedArgs,
+  chain: EvmChainConfig,
+  selected: ScannedAsset[],
+): Promise<void> {
+  const registry = await loadTokenPolicies();
+  const rpc = rpcUrl(chain);
+  const client = createPublicClient({ chain: viemChain(chain, rpc), transport: readTransport(chain, rpc) });
+  const checked = await Promise.all(selected.map(async (asset) => ({
+    asset,
+    reason: await liveExecutablePolicyFailure(
+      client,
+      asset.address,
+      tokenPolicyFor(registry, chain.key, chain.chainId, asset.address),
+      asset,
+    ),
+  })));
+  const failures = checked.flatMap(({ asset, reason }) => {
+    return reason ? [`${asset.symbol} (${asset.address}): ${reason}`] : [];
+  });
+  if (!failures.length) return;
+  const detail = failures.join('; ');
+  if (!hasFlag(args, 'unsafe-token-policy-override')) {
+    throw new Error(`eksekusi ditolak oleh token policy: ${detail}. Override berisiko tinggi membutuhkan --unsafe-token-policy-override dan konfirmasi eksplisit`);
+  }
+  let confirmation = flag(args, 'confirm-unsafe-token-policy');
+  if (!confirmation && process.stdin.isTTY) {
+    const readline = createInterface({ input, output });
+    try {
+      confirmation = await readline.question(centerBlock(promptText(
+        `RISIKO TINGGI: ${detail}. Ketik ${UNSAFE_TOKEN_CONFIRMATION}`,
+      )));
+    } finally {
+      readline.close();
+    }
+  }
+  if (confirmation !== UNSAFE_TOKEN_CONFIRMATION) {
+    throw new Error(`override token policy membutuhkan --confirm-unsafe-token-policy ${UNSAFE_TOKEN_CONFIRMATION}; --yes tidak berlaku`);
+  }
+  ui.warning(`Override token discovery-only dikonfirmasi: ${detail}`);
+}
+
 function privateKey(): Hex {
   const value = process.env.PRIVATE_KEY;
   if (!value || !/^0x[0-9a-fA-F]{64}$/.test(value)) throw new Error('PRIVATE_KEY belum valid di tools/.env');
@@ -459,6 +504,7 @@ async function setup(args: ParsedArgs): Promise<void> {
     ui.plan(`${action}. Tambahkan --broadcast untuk transaksi on-chain.`);
     return;
   }
+  await enforceTokenPolicies(args, result.chain, selected);
   await confirmBroadcast(`${action} di ${result.chain.name}.`, hasFlag(args, 'yes'));
 
   if (useExisting && registeredExecutor) {
@@ -565,6 +611,9 @@ async function runFlashLoan(args: ParsedArgs): Promise<void> {
     console.log(centerBlock(`${color.magenta('[PLAN]')} Tidak ada transaksi dikirim`));
     return;
   }
+  // An existing executor allowlist is not a policy decision: re-check the live
+  // fingerprint before every state-changing flashloan broadcast.
+  await enforceTokenPolicies(args, result.chain, [asset]);
   await confirmBroadcast(
     `Kirim flashloan ${formattedAmount} ${asset.symbol} di ${result.chain.name}.`,
     hasFlag(args, 'yes'),
@@ -967,12 +1016,15 @@ State-changing flags:
   --broadcast   kirim deployment atau transaksi allowlist
   --yes         lewati prompt konfirmasi (untuk automation)
   --redeploy    deploy executor baru walaupun executor registry masih aktif
+  --unsafe-token-policy-override              izinkan token non-executable (risiko tinggi)
+  --confirm-unsafe-token-policy ALLOW_DISCOVERY_ONLY  konfirmasi terpisah; --yes tidak cukup
 
 Output flags:
   --json
   --max-price-age-hours 24
 
-Default setup adalah plan-only dan tidak mengirim transaksi.
+Default setup adalah plan-only dan tidak mengirim transaksi. Allowlist hanya menerima token
+berstatus executable di token-policies.json, kecuali kedua flag override berisiko tinggi diberikan.
 arb-scan selalu read-only - tidak pernah mengirim transaksi atau butuh private key.`);
 }
 

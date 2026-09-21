@@ -106,6 +106,22 @@ antara waktu scan dan waktu eksekusi.
 
 CLI selalu mengambil `.env` dari folder `tools/`, sehingga command aman dijalankan dari working directory lain. Registry contract dan artifact dibaca dari `../evm/`.
 
+## Token policy registry
+
+`../evm/token-policies.json` adalah allow-policy per chain, bukan cache API. Token yang
+ditemukan scanner dan token yang tidak mempunyai entry selalu `discovery-only`. Promosi
+memerlukan konfigurasi eksplisit, status `executable`, dan fork-test lulus untuk transfer,
+approve, penerimaan flashloan, kedua arah swap, repayment, serta rescue. Setiap entry juga
+merekam code hash, decimals, symbol, implementation proxy, transfer behavior, rebasing,
+dan kontrol blacklist/pause.
+
+Symbol dan address dari Morpho/price API **bukan trust source**. Identitas yang dipakai
+policy adalah `(chainId, checksum address)`; validasi checksum dan chain ID, kemudian
+verifikasi runtime code hash, slot implementation proxy EIP-1967, dan metadata on-chain.
+`setup` serta setiap broadcast `flashloan` (meskipun token sudah di-allowlist) menolak token
+non-executable atau fingerprint yang berubah. Escape hatch memerlukan sekaligus `--unsafe-token-policy-override` dan
+`--confirm-unsafe-token-policy ALLOW_DISCOVERY_ONLY`; `--yes` saja tidak cukup.
+
 ## Data rahasia
 
 - RPC dan `PRIVATE_KEY` hanya disimpan di `.env`.
