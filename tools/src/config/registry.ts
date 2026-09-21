@@ -15,6 +15,12 @@ export type DeploymentRecord = {
 };
 
 export type DeploymentRegistry = Record<string, DeploymentRecord | Record<string, unknown>>;
+export type ArbitrageDeploymentRecord = {
+  chainId: number; contract: 'MorphoAtomicArbPOCv2'; version: string;
+  address: Address | ''; bytecodeHash: `0x${string}` | ''; owner: Address | ''; morpho: Address;
+  tokens: Address[]; routers: Address[]; aerodromeFactories: Address[];
+  deploymentTransaction: `0x${string}` | ''; deploymentBlock: number | null;
+};
 export type StablecoinRegistry = Record<string, Record<string, { address: Address; decimals: number }>>;
 
 export const deploymentsPath = fileURLToPath(new URL('../../../evm/deployments.json', import.meta.url));
@@ -22,6 +28,15 @@ export const stablecoinsPath = fileURLToPath(new URL('../../../evm/stablecoins.j
 export const artifactPath = fileURLToPath(
   new URL('../../../evm/out/FlashLoanExecutor.sol/FlashLoanExecutor.json', import.meta.url),
 );
+export const arbArtifactPath = fileURLToPath(
+  new URL('../../../evm/out/MorphoAtomicArbPOCv2.sol/MorphoAtomicArbPOCv2.json', import.meta.url),
+);
+
+export function arbitrageDeploymentFor(registry: DeploymentRegistry, chainKey: string): ArbitrageDeploymentRecord | undefined {
+  const root = registry._arbitrageExecutors as { [key: string]: unknown } | undefined;
+  const value = root?.[chainKey] as ArbitrageDeploymentRecord | undefined;
+  return value && value.chainId ? value : undefined;
+}
 
 export async function loadDeployments(): Promise<DeploymentRegistry> {
   return JSON.parse(await readFile(deploymentsPath, 'utf8')) as DeploymentRegistry;

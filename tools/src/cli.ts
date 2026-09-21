@@ -5,6 +5,7 @@ import {
   createPublicClient,
   createWalletClient,
   defineChain,
+  decodeFunctionData,
   fallback,
   formatUnits,
   getAddress,
@@ -14,6 +15,7 @@ import {
   type Abi,
   type Hash,
   type Hex,
+  keccak256,
 } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { evmChains, type EvmChainConfig } from './config/chains.js';
@@ -23,6 +25,8 @@ import { scanArbOpportunities, type ArbOpportunity, type ArbScanResult } from '.
 import { centerBlock, color, joinBlocks, promptText, renderBanner, renderTable, terminalLink, ui } from './ui/index.js';
 import {
   artifactPath,
+  arbArtifactPath,
+  arbitrageDeploymentFor,
   deploymentFor,
   loadDeployments,
   loadStablecoins,
@@ -31,6 +35,7 @@ import {
   type DeploymentRecord,
   type DeploymentRegistry,
 } from './config/registry.js';
+import { arbExecutorAbi, makePlan, requoteOpportunity, verifyArbPreflight, type ArbDeployment } from './arb/execution.js';
 
 loadToolEnv();
 
@@ -828,6 +833,102 @@ async function watchArbScan(args: ParsedArgs, minNetProfit: number): Promise<voi
   ui.info('Stopped.');
 }
 
+function privateRpcUrl(chain: EvmChainConfig): string {
+  const value = process.env[`${chain.key.toUpperCase()}_PRIVATE_TX_RPC_URL`] ?? process.env.PRIVATE_TX_RPC_URL;
+  if (!value) throw new Error(`private transaction transport wajib: isi ${chain.key.toUpperCase()}_PRIVATE_TX_RPC_URL atau PRIVATE_TX_RPC_URL`);
+  return value;
+}
+
+async function runArbSetup(args: ParsedArgs): Promise<void> {
+  const chain = chainFromArgs(args);
+  const registry = await loadDeployments();
+  const record = arbitrageDeploymentFor(registry, chain.key);
+  if (!record) throw new Error(`konfigurasi arbitrage executor belum tersedia untuk ${chain.key}`);
+  console.log(JSON.stringify({ mode: hasFlag(args, 'broadcast') ? 'broadcast' : 'plan', ...record }, null, 2));
+  if (!hasFlag(args, 'broadcast')) return;
+  await confirmBroadcast(`Deploy MorphoAtomicArbPOCv2 di ${chain.name}.`, hasFlag(args, 'yes'));
+  const artifact = JSON.parse(await readFile(arbArtifactPath, 'utf8')) as { abi: Abi; bytecode: { object: Hex }; deployedBytecode: { object: Hex } };
+  const rpc = rpcUrl(chain);
+  const chainConfig = viemChain(chain, rpc);
+  const account = privateKeyToAccount(privateKey());
+  const publicClient = createPublicClient({ chain: chainConfig, transport: readTransport(chain, rpc) });
+  const wallet = createWalletClient({ account, chain: chainConfig, transport: http(privateRpcUrl(chain)) });
+  if (await publicClient.getChainId() !== chain.chainId) throw new Error('chain ID mismatch before deployment');
+  const hash = await wallet.deployContract({ abi: artifact.abi, bytecode: artifact.bytecode.object, args: [record.morpho, record.tokens, record.routers, record.aerodromeFactories] });
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
+  if (receipt.status !== 'success' || !receipt.contractAddress) throw new Error(`deployment gagal: ${hash}`);
+  record.address = getAddress(receipt.contractAddress) as Address;
+  record.owner = account.address;
+  const deployedCode = await publicClient.getBytecode({ address: record.address });
+  if (!deployedCode || deployedCode === '0x') throw new Error('deployed executor tidak memiliki bytecode');
+  record.bytecodeHash = keccak256(deployedCode);
+  record.deploymentTransaction = hash;
+  record.deploymentBlock = Number(receipt.blockNumber);
+  await saveDeployments(registry);
+  ui.success(`Arbitrage executor deployed: ${record.address}`);
+}
+
+async function buildArbPlan(args: ParsedArgs) {
+  const chain = chainFromArgs(args);
+  const registry = await loadDeployments();
+  const record = arbitrageDeploymentFor(registry, chain.key);
+  if (!record?.address || !record.owner || !record.bytecodeHash) throw new Error(`arb executor ${chain.key} belum dideploy/registry belum lengkap`);
+  const rpc = rpcUrl(chain);
+  const client = createPublicClient({ chain: viemChain(chain, rpc), transport: readTransport(chain, rpc) });
+  const scan = await runArbScan(args);
+  const index = Math.floor(numberFlag(args, 'opportunity', 1)) - 1;
+  const discovered = scan.opportunities[index];
+  if (!discovered) throw new Error(`opportunity ${index + 1} tidak tersedia pada scan terbaru`);
+  const fresh = await requoteOpportunity(client, discovered);
+  const receiver = getAddress(flag(args, 'profit-receiver') ?? record.owner) as Address;
+  const costs = {
+    gasCostRaw: BigInt(flag(args, 'gas-cost-raw') ?? '0'),
+    chainFeeRaw: BigInt(flag(args, 'chain-fee-raw') ?? '0'),
+    safetyMarginRaw: BigInt(flag(args, 'safety-margin-raw') ?? '0'),
+  };
+  const plan = makePlan(fresh.opportunity, fresh.quotes, {
+    profitReceiver: receiver, slippageBps: numberFlag(args, 'slippage-bps', 50),
+    deadlineSeconds: numberFlag(args, 'deadline-seconds', 60), costs,
+  });
+  return { chain, client, record, plan, costs };
+}
+
+async function runArbPlan(args: ParsedArgs): Promise<void> {
+  const { plan } = await buildArbPlan(args);
+  console.log(JSON.stringify({ mode: 'simulation-only', ...plan }, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2));
+}
+
+async function runArbExecute(args: ParsedArgs): Promise<void> {
+  const built = await buildArbPlan(args);
+  const { chain, client, record, plan, costs } = built;
+  if (!plan.executableByPocV2) throw new Error(plan.notes.join('; '));
+  const deployment = record as unknown as ArbDeployment;
+  deployment.address = record.address as Address;
+  await verifyArbPreflight(client, chain.chainId, deployment, plan);
+  const decoded = decodeFunctionData({ abi: arbExecutorAbi, data: plan.calldata });
+  const accountAddress = getAddress(record.owner) as Address;
+  const request = { account: accountAddress, address: record.address as Address, abi: arbExecutorAbi, functionName: 'executeArbitrage' as const, args: decoded.args as any };
+  await client.simulateContract(request);
+  const gas = await client.estimateContractGas(request);
+  ui.success(`latest-state simulation passed; estimated gas ${gas}`);
+  if (!hasFlag(args, 'broadcast')) { ui.plan('simulation-only; gunakan --broadcast untuk mengirim'); return; }
+  const minNetRaw = flag(args, 'min-net-raw');
+  if (minNetRaw === undefined) throw new Error('--broadcast membutuhkan --min-net-raw eksplisit');
+  const netFloor = plan.minProfitRaw - costs.gasCostRaw - costs.chainFeeRaw - costs.safetyMarginRaw;
+  if (netFloor < BigInt(minNetRaw)) throw new Error(`net profit floor ${netFloor} di bawah minimum ${minNetRaw}`);
+  await confirmBroadcast(`Execute arbitrage di ${chain.name} via private transport.`, hasFlag(args, 'yes'));
+  const account = privateKeyToAccount(privateKey());
+  if (getAddress(account.address) !== getAddress(record.owner)) throw new Error('PRIVATE_KEY bukan owner arbitrage executor');
+  if (getAddress(plan.profitReceiver) !== getAddress(flag(args, 'profit-receiver') ?? account.address)) throw new Error('profit receiver berubah');
+  // Repeat every mutable check immediately before private submission.
+  await verifyArbPreflight(client, chain.chainId, deployment, plan);
+  await client.simulateContract({ ...request, account });
+  await client.estimateContractGas({ ...request, account });
+  const wallet = createWalletClient({ account, chain: viemChain(chain, rpcUrl(chain)), transport: http(privateRpcUrl(chain)) });
+  const hash = await wallet.writeContract({ ...request, account, gas });
+  ui.success(`private transaction submitted: ${hash}`);
+}
+
 function printHelp(): void {
   console.log(renderBanner());
   console.log(`${color.bold('Usage:')}
@@ -838,6 +939,9 @@ Usage:
   npm run cli -- scan-all [--chains ethereum,base,arbitrum] [--min-usd 100000]
   npm run cli -- arb-scan --chain base [--gas-units 400000] [--min-net 0]
   npm run cli -- arb-scan --chain base --watch [--interval 20]
+  npm run cli -- arb-setup --chain base [--broadcast --yes]
+  npm run cli -- arb-plan --chain base [--opportunity 1 --slippage-bps 50]
+  npm run cli -- arb-execute --chain base [--opportunity 1] [--broadcast --min-net-raw N]
   npm run cli -- setup --chain ethereum [--min-usd 100000] [--select all|1,2|USDC,WETH]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount 10 [--broadcast]
   npm run cli -- flashloan --chain ethereum --asset WETH --amount '$100000' [--broadcast]
@@ -887,6 +991,15 @@ async function main(): Promise<void> {
       }
       break;
     }
+    case 'arb-setup':
+      await runArbSetup(args);
+      break;
+    case 'arb-plan':
+      await runArbPlan(args);
+      break;
+    case 'arb-execute':
+      await runArbExecute(args);
+      break;
     case 'setup':
       await setup(args);
       break;

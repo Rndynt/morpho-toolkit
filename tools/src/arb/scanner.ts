@@ -74,6 +74,8 @@ export type ArbOpportunity = {
   sellKind: VenueKind;
   buyFactory: Address | null;
   sellFactory: Address | null;
+  buyPool: Address;
+  sellPool: Address;
   /** Actual Solidly pool type read as part of the router quote; null for V2. */
   buyAeroStable: boolean | null;
   sellAeroStable: boolean | null;
@@ -587,6 +589,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellKind: sellOn.kind,
             buyFactory: buyOn.factory,
             sellFactory: sellOn.factory,
+            buyPool: buyOn.pair,
+            sellPool: sellOn.pair,
             buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
             sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });
@@ -645,6 +649,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellKind: sellOn.kind,
             buyFactory: buyOn.factory,
             sellFactory: sellOn.factory,
+            buyPool: buyOn.pair,
+            sellPool: sellOn.pair,
             buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
             sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });
