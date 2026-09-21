@@ -23,15 +23,20 @@ result and latency, select the next block as hypothetical inclusion, then read t
 block to calculate realized output and all costs. `ShadowRunner` only appends mode-0600
 JSONL and deliberately has no signer, transaction, relay, or broadcast capability.
 
-Each row records candidate input, quote/block/expiry, safe-or-unsafe simulation result,
-hypothetical inclusion block, realized output, and total gas + L1 + relay costs.
+Each row records candidate input, an explicit chain/venue segment, quote/block/expiry,
+safe-or-unsafe simulation result, hypothetical inclusion block, realized output, loan
+principal, safety margin, and total gas + L1 + relay costs.
 `measureShadow()` reports false-positive rate, quote-to-inclusion success rate, p50/p95
-simulation latency, p50/p95 quote decay, and p05/p50/p95 net profit after all costs.
+simulation latency, p50/p95 quote decay, observation interval, and p05/p50/p95 net
+profit after subtracting principal, safety margin, and all costs. It computes the same
+metrics independently for every chain/venue segment.
 Keep raw JSONL as the audit artifact; do not commit it because it can reveal strategy.
 
 ## Acceptance criteria before mainnet
 
 Criteria are fixed **before** collecting the run and evaluated by `assessMainnet()`:
+the criteria's `requiredSegments` must enumerate the complete production chain/venue
+matrix, so an entirely unobserved segment also fails closed.
 
 1. At least 10,000 observations spanning 7 consecutive days.
 2. Zero unsafe simulations. Any unsafe result resets the run after remediation.

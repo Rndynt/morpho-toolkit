@@ -6,8 +6,8 @@ pragma solidity ^0.8.24;
 // through a Solidly/Aerodrome-style router instead of a Uniswap-V2-style one.
 //
 // Same LOCAL SIMULATION ONLY caveat as the v1 fork test: no real transaction is
-// broadcast, no real funds are spent, this forks Base at whatever block your RPC
-// returns and runs entirely in memory.
+// broadcast, no real funds are spent, this forks Base at the reviewed archive block
+// and runs entirely in memory.
 //
 // Every address below (Morpho, USDC, WETH, Sushi V2 router, Aerodrome PoolFactory) is
 // reused unchanged from MorphoAtomicArbPOCBaseFork.t.sol and tools/src/arb/routes.ts -
@@ -67,6 +67,8 @@ interface IAeroPool {
 }
 
 contract MorphoAtomicArbPOCv2BaseForkTest is Test {
+    // Keep synchronized with tools/src/arb/fork-fixtures.ts.
+    uint256 constant BASE_FORK_BLOCK = 36_500_000;
     // ---- Base mainnet addresses (chainId 8453) - all reused, unchanged, from the v1 ----
     // ---- fork test and tools/src/arb/routes.ts. See those for how each was verified. ----
     address constant MORPHO = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb;
@@ -93,7 +95,7 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
     MorphoAtomicArbPOCv2 poc;
 
     function setUp() public {
-        vm.createSelectFork(vm.envString("BASE_RPC_URL"));
+        vm.createSelectFork(vm.envString("BASE_RPC_URL"), BASE_FORK_BLOCK);
 
         address[] memory tokens = new address[](2);
         tokens[0] = USDC;
