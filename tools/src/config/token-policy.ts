@@ -88,6 +88,14 @@ export async function liveExecutablePolicyFailure(
   const configuredFailure = executablePolicyFailure(policy);
   if (configuredFailure || !policy) return configuredFailure;
 
+  // Keep this assertion local to the live validator too.  Callers should
+  // normally obtain the policy through tokenPolicyFor(), but validating the
+  // binding here prevents a valid fingerprint for one token from being
+  // accidentally checked against (and used to authorize) another address.
+  if (getAddress(address) !== policy.address) {
+    return `address token ${getAddress(address)} tidak cocok dengan policy ${policy.address}`;
+  }
+
   const [bytecode, implementationWord, decimals, symbol] = await Promise.all([
     client.getBytecode({ address }),
     client.getStorageAt({ address, slot: EIP1967_IMPLEMENTATION_SLOT }),
