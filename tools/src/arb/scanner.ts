@@ -162,7 +162,84 @@ export type ArbScanOptions = {
   minTvlUsd?: number;
   /** Injectable for tests; production scans create a client from rpcUrl. */
   publicClient?: PublicClient;
+  /** Maximum simultaneous router quote RPCs (defaults to 4). */
+  quoteConcurrency?: number;
+  /** Maximum two-leg evaluations per quote-driven optimization (defaults to 48). */
+  quoteOptimizerMaxIterations?: number;
 };
+
+type TwoLegRawQuote = {
+  intermediateRaw: bigint;
+  finalRaw: bigint;
+  firstPoolType: 'v2' | 'volatile' | 'stable';
+  secondPoolType: 'v2' | 'volatile' | 'stable';
+};
+
+export type QuoteOptimizationResult = TwoLegRawQuote & {
+  loanAmountRaw: bigint;
+  grossProfitRaw: bigint;
+};
+
+/**
+ * Integer-only coarse-to-fine search for routes whose invariant cannot safely be
+ * modelled locally. The callback must return real router quotes at one snapshot.
+ */
+export async function optimizeQuoteDriven(
+  maxLoanAmountRaw: bigint,
+  quote: (amountInRaw: bigint) => Promise<TwoLegRawQuote>,
+  maxIterations = 48,
+): Promise<QuoteOptimizationResult | null> {
+  if (maxLoanAmountRaw <= 0n || maxIterations <= 0) return null;
+  const samplesPerRound = 8;
+  let low = 1n;
+  let high = maxLoanAmountRaw;
+  let evaluations = 0;
+  let best: QuoteOptimizationResult | null = null;
+
+  while (low <= high && evaluations < maxIterations) {
+    const remaining = maxIterations - evaluations;
+    const count = Math.min(samplesPerRound, remaining);
+    const width = high - low;
+    const amounts = new Set<bigint>();
+    if (count === 1 || width === 0n) amounts.add(low);
+    else {
+      for (let i = 0; i < count; i++) amounts.add(low + width * BigInt(i) / BigInt(count - 1));
+    }
+    const points = [...amounts];
+    const results = await Promise.all(points.map(async (loanAmountRaw) => {
+      const quoted = await quote(loanAmountRaw);
+      return { ...quoted, loanAmountRaw, grossProfitRaw: quoted.finalRaw - loanAmountRaw };
+    }));
+    evaluations += points.length;
+    for (const result of results) {
+      if (!best || result.grossProfitRaw > best.grossProfitRaw) best = result;
+    }
+    if (width <= 1n || points.length < 2 || !best) break;
+    const index = points.indexOf(best.loanAmountRaw);
+    // If the global best came from an earlier round, center on its insertion point.
+    const center = index >= 0 ? index : points.findIndex((amount) => amount > best!.loanAmountRaw);
+    const right = center < 0 ? points.length - 1 : center;
+    low = points[Math.max(0, right - 1)]!;
+    high = points[Math.min(points.length - 1, right + 1)]!;
+    if (low === high) break;
+  }
+  return best && best.grossProfitRaw > 0n ? best : null;
+}
+
+function createConcurrencyLimiter(limit: number) {
+  const maximum = Math.max(1, Math.floor(limit));
+  let active = 0;
+  const waiting: Array<() => void> = [];
+  return async <T>(work: () => Promise<T>): Promise<T> => {
+    if (active >= maximum) await new Promise<void>((resolve) => waiting.push(resolve));
+    active++;
+    try { return await work(); }
+    finally {
+      active--;
+      waiting.shift()?.();
+    }
+  };
+}
 
 export function capLoanAmount(optimal: bigint, morphoAvailable: bigint, configuredMax: bigint): bigint {
   if (optimal <= 0n || morphoAvailable <= 0n || configuredMax <= 0n) return 0n;
@@ -348,9 +425,9 @@ async function resolveSolidlyReserves(
 
 /**
  * Reads live reserves for every configured router on a pair, then evaluates every
- * ordered (buyOn, sellOn) router combination in both loan-token directions using the
- * closed-form optimizer in ./math.ts. Read-only - never sends a transaction and never
- * requires a private key. Safe to run as often as you like.
+ * ordered (buyOn, sellOn) router combination in both loan-token directions. Constant-
+ * product pairs use the closed form in ./math.ts; stable or unknown invariants are
+ * sized from pinned router quotes. Read-only - never sends a transaction or needs a key.
  */
 export async function scanArbOpportunities(options: ArbScanOptions): Promise<ArbScanResult> {
   const gasUnitsEstimate = options.gasUnitsEstimate ?? 400_000;
@@ -359,6 +436,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const opportunities: ArbOpportunity[] = [];
   const spotPrices: SpotPrice[] = [];
   const venueTvl: VenueTvl[] = [];
+  const limitQuoteConcurrency = createConcurrencyLimiter(options.quoteConcurrency ?? 4);
+  const quoteCache = new Map<string, ReturnType<typeof quoteExactInput>>();
 
   const client = options.publicClient ?? createPublicClient({
     // No transport-level batching: Multicall3 already aggregates every read into a
@@ -571,14 +650,74 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
       kind: reserve.kind, label: reserve.label, router: reserve.router, factory: reserve.factory,
       pool: reserve.pair, feeBps: reserve.feeBps,
     });
+    const cachedQuote = (reserve: RouterReserves, tokenIn: Address, tokenOut: Address, amountInRaw: bigint) => {
+      const key = [reserve.kind, reserve.router.toLowerCase(), reserve.pair.toLowerCase(), tokenIn.toLowerCase(), tokenOut.toLowerCase(), amountInRaw, blockNumber].join(':');
+      let pending = quoteCache.get(key);
+      if (!pending) {
+        pending = limitQuoteConcurrency(() => quoteExactInput(client, {
+          venue: quoteVenue(reserve), tokenIn, tokenOut, amountInRaw, snapshotBlock: blockNumber,
+        }));
+        quoteCache.set(key, pending);
+        // A transient RPC failure should not poison the cache for another route.
+        void pending.catch(() => quoteCache.delete(key));
+      }
+      return pending;
+    };
     const quoteTwoLegs = async (loanAmountRaw: bigint, buyOn: RouterReserves, sellOn: RouterReserves, loanToken: Address, intermediateToken: Address) => {
-      const first = await quoteExactInput(client, {
-        venue: quoteVenue(buyOn), tokenIn: loanToken, tokenOut: intermediateToken, amountInRaw: loanAmountRaw, snapshotBlock: blockNumber,
-      });
-      const second = await quoteExactInput(client, {
-        venue: quoteVenue(sellOn), tokenIn: intermediateToken, tokenOut: loanToken, amountInRaw: first.amountOutRaw, snapshotBlock: blockNumber,
-      });
+      const first = await cachedQuote(buyOn, loanToken, intermediateToken, loanAmountRaw);
+      const second = await cachedQuote(sellOn, intermediateToken, loanToken, first.amountOutRaw);
       return { first, second };
+    };
+    const isConstantProduct = (venue: RouterReserves) =>
+      venue.kind === 'v2' || (venue.kind === 'aerodrome' && venue.stable === false);
+    const sizeDirection = async (
+      buyOn: RouterReserves,
+      sellOn: RouterReserves,
+      loanToken: Address,
+      intermediateToken: Address,
+      loanDecimals: number,
+      intermediateDecimals: number,
+      buyReserveIn: bigint,
+      buyReserveOut: bigint,
+      sellReserveIn: bigint,
+      sellReserveOut: bigint,
+    ) => {
+      const hardLimit = capLoanAmount(
+        buyReserveIn,
+        availableLoanAmount(loanToken),
+        configuredLimit(loanToken),
+      );
+      if (hardLimit === 0n) return null;
+
+      if (isConstantProduct(buyOn) && isConstantProduct(sellOn)) {
+        const closedForm = optimalTwoLegArbitrage(
+          { reserveIn: Number(formatUnits(buyReserveIn, loanDecimals)), reserveOut: Number(formatUnits(buyReserveOut, intermediateDecimals)), feeBps: buyOn.feeBps },
+          { reserveIn: Number(formatUnits(sellReserveIn, intermediateDecimals)), reserveOut: Number(formatUnits(sellReserveOut, loanDecimals)), feeBps: sellOn.feeBps },
+        );
+        if (!closedForm.profitable) return null;
+        const loanAmountRaw = capLoanAmount(numberToRaw(closedForm.loanAmount, loanDecimals), hardLimit, hardLimit);
+        if (loanAmountRaw === 0n) return null;
+        const quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, loanToken, intermediateToken);
+        return { loanAmountRaw, quoted };
+      }
+
+      const optimized = await optimizeQuoteDriven(hardLimit, async (loanAmountRaw) => {
+        const { first, second } = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, loanToken, intermediateToken);
+        return {
+          intermediateRaw: first.amountOutRaw,
+          finalRaw: second.amountOutRaw,
+          firstPoolType: first.poolType,
+          secondPoolType: second.poolType,
+        };
+      }, options.quoteOptimizerMaxIterations ?? 48);
+      if (!optimized) return null;
+      return {
+        loanAmountRaw: optimized.loanAmountRaw,
+        quoted: {
+          first: { amountOutRaw: optimized.intermediateRaw, poolType: optimized.firstPoolType },
+          second: { amountOutRaw: optimized.finalRaw, poolType: optimized.secondPoolType },
+        },
+      };
     };
 
     for (const buyOn of reserves) {
@@ -586,31 +725,19 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         if (buyOn.router === sellOn.router) continue;
 
         // Direction 1: borrow tokenA, buy tokenB on buyOn, sell tokenB for tokenA on sellOn.
-        const resultA = optimalTwoLegArbitrage(
-          {
-            reserveIn: Number(formatUnits(buyOn.reserveA, pairConfig.tokenA.decimals)),
-            reserveOut: Number(formatUnits(buyOn.reserveB, pairConfig.tokenB.decimals)),
-            feeBps: buyOn.feeBps,
-          },
-          {
-            reserveIn: Number(formatUnits(sellOn.reserveB, pairConfig.tokenB.decimals)),
-            reserveOut: Number(formatUnits(sellOn.reserveA, pairConfig.tokenA.decimals)),
-            feeBps: sellOn.feeBps,
-          },
-        );
-        if (resultA.profitable) {
-          const loanAmountRaw = capLoanAmount(
-            numberToRaw(resultA.loanAmount, pairConfig.tokenA.decimals),
-            availableLoanAmount(pairConfig.tokenA.address), configuredLimit(pairConfig.tokenA.address),
+        let candidateA;
+        try {
+          candidateA = await sizeDirection(
+            buyOn, sellOn, pairConfig.tokenA.address, pairConfig.tokenB.address,
+            pairConfig.tokenA.decimals, pairConfig.tokenB.decimals,
+            buyOn.reserveA, buyOn.reserveB, sellOn.reserveB, sellOn.reserveA,
           );
-          if (loanAmountRaw === 0n) continue;
-          let quoted;
-          try {
-            quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenA.address, pairConfig.tokenB.address);
-          } catch (error) {
-            skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
-            continue;
-          }
+        } catch (error) {
+          skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
+          candidateA = null;
+        }
+        if (candidateA) {
+          const { loanAmountRaw, quoted } = candidateA;
           const expectedIntermediateRaw = quoted.first.amountOutRaw;
           const expectedFinalRaw = quoted.second.amountOutRaw;
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;
@@ -650,31 +777,19 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         }
 
         // Direction 2: borrow tokenB, buy tokenA on buyOn, sell tokenA for tokenB on sellOn.
-        const resultB = optimalTwoLegArbitrage(
-          {
-            reserveIn: Number(formatUnits(buyOn.reserveB, pairConfig.tokenB.decimals)),
-            reserveOut: Number(formatUnits(buyOn.reserveA, pairConfig.tokenA.decimals)),
-            feeBps: buyOn.feeBps,
-          },
-          {
-            reserveIn: Number(formatUnits(sellOn.reserveA, pairConfig.tokenA.decimals)),
-            reserveOut: Number(formatUnits(sellOn.reserveB, pairConfig.tokenB.decimals)),
-            feeBps: sellOn.feeBps,
-          },
-        );
-        if (resultB.profitable) {
-          const loanAmountRaw = capLoanAmount(
-            numberToRaw(resultB.loanAmount, pairConfig.tokenB.decimals),
-            availableLoanAmount(pairConfig.tokenB.address), configuredLimit(pairConfig.tokenB.address),
+        let candidateB;
+        try {
+          candidateB = await sizeDirection(
+            buyOn, sellOn, pairConfig.tokenB.address, pairConfig.tokenA.address,
+            pairConfig.tokenB.decimals, pairConfig.tokenA.decimals,
+            buyOn.reserveB, buyOn.reserveA, sellOn.reserveA, sellOn.reserveB,
           );
-          if (loanAmountRaw === 0n) continue;
-          let quoted;
-          try {
-            quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenB.address, pairConfig.tokenA.address);
-          } catch (error) {
-            skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
-            continue;
-          }
+        } catch (error) {
+          skipped.push({ pairLabel, router: `${buyOn.label} -> ${sellOn.label}`, reason: `router quote failed: ${errorMessage(error)}` });
+          candidateB = null;
+        }
+        if (candidateB) {
+          const { loanAmountRaw, quoted } = candidateB;
           const expectedIntermediateRaw = quoted.first.amountOutRaw;
           const expectedFinalRaw = quoted.second.amountOutRaw;
           const grossProfitRaw = expectedFinalRaw - loanAmountRaw;

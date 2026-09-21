@@ -71,6 +71,7 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
     // ---- fork test and tools/src/arb/routes.ts. See those for how each was verified. ----
     address constant MORPHO = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb;
     address constant USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    address constant USDBC = 0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA;
     address constant WETH = 0x4200000000000000000000000000000000000006;
     address constant UNISWAP_V2_ROUTER = 0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24;
     address constant SUSHI_V2_ROUTER = 0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891;
@@ -112,6 +113,20 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
     /// in this file is trusted.
     function test_AerodromePoolExists() public {
         _aeroWethReserve("Aerodrome (volatile)");
+    }
+
+    /// Proves the stable route used by the scanner exists and is quoteable by the
+    /// real Aerodrome router. This deliberately does not reproduce its invariant
+    /// locally: the router quote is the source of truth for stable curves.
+    function test_AerodromeStablePoolQuotesThroughRouter() public view {
+        address pool = IAeroFactory(AERODROME_FACTORY).getPool(USDC, USDBC, true);
+        require(pool != address(0), "Aerodrome: no USDC/USDbC stable pool");
+
+        IAeroRouterQuote.Route[] memory routes = new IAeroRouterQuote.Route[](1);
+        routes[0] = IAeroRouterQuote.Route({from: USDC, to: USDBC, stable: true, factory: AERODROME_FACTORY});
+        uint256[] memory amounts = IAeroRouterQuote(AERODROME_ROUTER).getAmountsOut(1_000e6, routes);
+
+        assertGt(amounts[amounts.length - 1], 0, "stable router quote returned zero");
     }
 
     /// Same manufactured-imbalance technique as MorphoAtomicArbPOCBaseFork.t.sol's
