@@ -1,48 +1,60 @@
-# EVM Flash Loan Contract
+# `evm/`
 
-POC arbitrase dua router tersedia di [`poc/README.md`](poc/README.md). POC tersebut terpisah dari executor no-op yang digunakan CLI saat ini.
+Foundry layer: kontrak Solidity, fork test, deployment script, deployment registry, stablecoin seed, dan token execution policy.
 
-`src/FlashLoanExecutor.sol` adalah executor portable untuk Morpho Blue. Bytecode yang sama dapat dideploy ke semua chain EVM; constructor menerima alamat Morpho lokal dan allowlist token.
-
-## Deploy parameters
+## Folder
 
 ```text
-morpho_       = address Morpho Blue pada chain target
-initialTokens = daftar token yang boleh dipinjam (USDC, USDT, DAI, atau stablecoin lain yang diverifikasi)
+src/                  # FlashLoanExecutor dan arb executor POC
+script/               # Deploy.s.sol
+ test/                # unit/fork tests
+poc/                  # executor arbitrage POC v1/v2 dan ABI map
+foundry.toml          # konfigurasi Foundry
+foundry.lock          # dependency lock
+lib/                  # forge-std dan dependency Foundry
+deployments.json      # Morpho/executor address per chain
+stablecoins.json      # discovery seed; bukan trust source
+token-policies.json   # executable policy per chain+checksum address
 ```
 
-## Dry-run call
+## Build/test
 
-Panggil `flashLoan(USDC, 100e6)`. Contract membentuk callback data secara internal, meminjam, lalu mengembalikan tepat principal; tidak ada DEX atau arbitrary call di antara callback.
+```bash
+cd evm
+forge build
+forge test -vv
+```
 
-## Safety
+## Executor utama
 
-- owner-only initiation and rescue
-- provider and token allowlists
-- pause switch
-- exact repayment invariant
-- no arbitrary external call path
+`src/FlashLoanExecutor.sol` hanya exact-principal no-op. Ia tidak melakukan swap. Profit tambahan dapat membuat callback revert. Jangan memakainya untuk arbitrage profit.
 
-Sebelum deploy, verifikasi alamat Morpho dan token pada chain target dari [Morpho deployment registry](https://docs.morpho.org/developers/contracts/addresses/) dan lakukan fork test.
+## POC arbitrage
 
-## Deploy
+Baca `poc/README.md` dan `poc/DEX-SWAP-ABI-MAP.md`. POC v2 mendukung route terstruktur dengan guard router/factory, minOut, minProfit, deadline, dan reentrancy/state checks. Deployment production belum otomatis diaktifkan.
+
+## Deployment
+
+Jangan broadcast dari dokumentasi ini tanpa policy dan fork test.
 
 ```bash
 export MORPHO_ADDRESS=0x...
-export TOKEN_ADDRESS=0x...       # token pertama
-export TOKEN_ADDRESS_2=0x...     # opsional
-export TOKEN_ADDRESS_3=0x...     # opsional
+export TOKEN_ADDRESSES=0xTokenA,0xTokenB
 export PRIVATE_KEY=0x...
-forge script script/Deploy.s.sol:Deploy --rpc-url "$ETHEREUM_RPC_URL" --broadcast
+forge script script/Deploy.s.sol:Deploy --rpc-url "$BASE_RPC_URL" --broadcast
 ```
 
-Untuk allowlist dinamis tanpa batas tiga token, gunakan satu variabel comma-separated:
+Private key hanya di environment lokal yang aman. Jangan commit atau memasukkannya ke log.
 
-```bash
-export TOKEN_ADDRESSES=0xTokenA,0xTokenB,0xTokenC,0xTokenD
-forge script script/Deploy.s.sol:Deploy --rpc-url "$ETHEREUM_RPC_URL" --broadcast
-```
+## Policy
 
-CLI TypeScript di `../tools/` menggunakan jalur dinamis yang sama dan merupakan cara deploy yang direkomendasikan.
+Token executable wajib memiliki:
 
-Ulangi per chain dengan RPC dan address registry masing-masing. Simpan hasil executor di `deployments.json`; jangan broadcast jika provider/token masih kosong.
+- chain ID dan checksum address benar;
+- runtime code hash/fingerprint tervalidasi;
+- decimals/symbol on-chain;
+- transfer/approve/flashloan/swap/repayment/rescue fork test lulus;
+- tidak paused/blacklisted/rebasing tak teruji;
+- entry eksplisit di `token-policies.json`.
+
+Discovery API atau symbol tidak cukup untuk allowlist.

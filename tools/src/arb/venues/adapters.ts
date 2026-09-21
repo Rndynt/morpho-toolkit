@@ -194,7 +194,12 @@ export class BalancerVaultAdapter extends BaseAdapter {
     return this.checkedCall(r, calldata);
   }
   protected validateCalldataBinding(call: TypedSwapCall): void {
-    const [swap, funds, limit, deadline] = decodeFunctionData({ abi: vaultAbi, data: call.calldata }).args;
+    const [swap, funds, limit, deadline] = decodeFunctionData({ abi: vaultAbi, data: call.calldata }).args as readonly [
+      { assetIn: Address; assetOut: Address; amount: bigint },
+      { sender: Address; recipient: Address },
+      bigint,
+      bigint,
+    ];
     if (!same(swap.assetIn, call.approval.token) || !same(swap.assetOut, call.tokenDeltas[1].token)
       || swap.amount !== call.approval.amount || limit !== call.tokenDeltas[1].minimum
       || !same(funds.sender, call.recipient) || !same(funds.recipient, call.recipient) || deadline !== call.deadline) {

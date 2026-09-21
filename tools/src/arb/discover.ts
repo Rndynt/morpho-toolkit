@@ -21,9 +21,11 @@ const BASE_QUOTES: SeedToken[] = [
 ];
 
 const RH_QUOTES: SeedToken[] = [
-  { symbol: 'USDG', address: '0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168', decimals: 6 },
   { symbol: 'WETH', address: '0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73', decimals: 18 },
 ];
+
+const STABLE_LIKE = /^(USDC|USDbC|USDT|USDT0|DAI|USDS|USDe|USDG|sUSD|crvUSD|LUSD|FRAX|USR|VCHF|jEUR|EURC|sjEUR|syrupUSDG|spUSDG)$/i;
+const isStableLike = (symbol: string): boolean => STABLE_LIKE.test(symbol.replace(/[^A-Za-z0-9]/g, ''));
 
 const BASE_V2: RouterCandidate[] = [
   { label: 'Uniswap V2', router: '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'uniswap-v2' } },
@@ -61,22 +63,26 @@ export function expandPairs(
 
   const tokens = new Map<string, SeedToken>();
   for (const token of [...quotes, ...seeds]) {
+    if (isStableLike(token.symbol) && !quotes.some((quote) => getAddress(quote.address) === getAddress(token.address))) continue;
     tokens.set(getAddress(token.address).toLowerCase(), {
       ...token,
       address: getAddress(token.address) as Address,
     });
   }
 
-  for (const quote of quotes) {
-    for (const token of tokens.values()) {
-      if (getAddress(quote.address) === getAddress(token.address)) continue;
-      const dedupe = keyOf(quote.address, token.address);
+  const allTokens = [...tokens.values()];
+  for (let left = 0; left < allTokens.length; left++) {
+    for (let right = left + 1; right < allTokens.length; right++) {
+      const first = allTokens[left]!;
+      const second = allTokens[right]!;
+      if (isStableLike(first.symbol) && isStableLike(second.symbol)) continue;
+      const dedupe = keyOf(first.address, second.address);
       if (seen.has(dedupe)) continue;
       seen.add(dedupe);
       const pair: V2PairConfig = {
         chain,
-        tokenA: { symbol: quote.symbol, address: quote.address, decimals: quote.decimals },
-        tokenB: { symbol: token.symbol, address: token.address, decimals: token.decimals },
+        tokenA: { symbol: first.symbol, address: first.address, decimals: first.decimals },
+        tokenB: { symbol: second.symbol, address: second.address, decimals: second.decimals },
         routers,
       };
       v2.push(pair);

@@ -7,7 +7,7 @@ export type EvmChainConfig = {
 // RPC URLs stay in environment variables; never commit keys or private endpoints.
 export const evmChains: EvmChainConfig[] = [
   { key: 'ethereum', chainId: 1, name: 'Ethereum', nativeSymbol: 'ETH', rpcEnv: 'ETHEREUM_RPC_URL', explorer: 'https://etherscan.io', priceSlug: 'ethereum', status: 'active' },
-  { key: 'base', chainId: 8453, name: 'Base', nativeSymbol: 'ETH', rpcEnv: 'BASE_RPC_URL', explorer: 'https://basescan.org', priceSlug: 'base', readRpcFallbacks: ['https://mainnet.base.org'], status: 'active' },
+  { key: 'base', chainId: 8453, name: 'Base', nativeSymbol: 'ETH', rpcEnv: 'BASE_RPC_URL', explorer: 'https://basescan.org', priceSlug: 'base', readRpcFallbacks: ['https://mainnet.base.org', 'https://base-rpc.publicnode.com'], status: 'active' },
   { key: 'arbitrum', chainId: 42161, name: 'Arbitrum One', nativeSymbol: 'ETH', rpcEnv: 'ARBITRUM_RPC_URL', explorer: 'https://arbiscan.io', priceSlug: 'arbitrum', readRpcFallbacks: ['https://arb1.arbitrum.io/rpc'], status: 'active' },
   { key: 'optimism', chainId: 10, name: 'OP Mainnet', nativeSymbol: 'ETH', rpcEnv: 'OPTIMISM_RPC_URL', explorer: 'https://optimistic.etherscan.io', priceSlug: 'optimism', status: 'active' },
   { key: 'robinhood', chainId: 4663, name: 'Robinhood Chain', nativeSymbol: 'ETH', rpcEnv: 'ROBINHOOD_RPC_URL', explorer: 'https://robinhoodchain.blockscout.com', status: 'active' },

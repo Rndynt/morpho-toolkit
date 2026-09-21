@@ -36,9 +36,14 @@ if (!rpc) {
 }
 
 const minTvl = Number(arg('min-tvl', '1000'));
-const maxTokens = Number(arg('max-tokens', '25'));
-const minUsd = Number(arg('min-usd', '10000'));
+const maxTokens = Number(arg('max-tokens', '1000'));
+const minUsd = Number(arg('min-usd', '0'));
 const includeUnpricedDiscovery = flag('include-unpriced-discovery');
+
+// Stablecoin depeg routes are noise for this monitor. Keep major quote assets
+// (USDC/WETH) as anchors, but never use stable-like discovered tokens as arb legs.
+const stableLike = /^(USDC|USDbC|USDT|USDT0|DAI|USDS|USDe|USDG|sUSD|crvUSD|LUSD|FRAX|USR|VCHF|jEUR|EURC|sjEUR|syrupUSDG|spUSDG)$/i;
+const isStableLike = (symbol: string): boolean => stableLike.test(symbol.replace(/[^A-Za-z0-9]/g, ''));
 
 const registry = await loadDeployments();
 const record = deploymentFor(registry, chain.key);
@@ -74,7 +79,10 @@ const unpricedCandidates = morpho.assets.filter((asset) =>
   asset.exclusionReason === 'price-missing-or-stale'
   && hasValidMetadata(asset)
   && hasSnapshotInventory(asset));
-const discoveryOnly = includeUnpricedDiscovery ? unpricedCandidates : [];
+const nonStableCandidates = (assets: typeof morpho.assets) => assets.filter((asset) => !isStableLike(asset.symbol));
+const filteredExecutableCandidates = nonStableCandidates(executableCandidates);
+const filteredUnpricedCandidates = nonStableCandidates(unpricedCandidates);
+const discoveryOnly = includeUnpricedDiscovery ? filteredUnpricedCandidates : [];
 // These counters describe the scan result, not the optional selection below. In
 // particular, turning off unpriced discovery must not make those assets look like
 // malformed/discarded inventory in the summary.
@@ -93,7 +101,7 @@ ui.info(
 // does not treat usdValue (or any third-party price) as liquidity evidence.
 const byAddress = (a: (typeof morpho.assets)[number], b: (typeof morpho.assets)[number]): number =>
   a.address.toLowerCase().localeCompare(b.address.toLowerCase());
-const executableInventory = [...executableCandidates].sort(byAddress).slice(0, maxTokens);
+const executableInventory = [...filteredExecutableCandidates].sort(byAddress).slice(0, maxTokens);
 const discoverySlots = Math.max(0, maxTokens - executableInventory.length);
 const discoveryInventory = [...discoveryOnly].sort(byAddress).slice(0, discoverySlots);
 const executableAddresses = new Set(executableInventory.map((asset) => asset.address.toLowerCase()));

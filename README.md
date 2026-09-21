@@ -1,319 +1,201 @@
-<p align="center">
-  <img src="assets/evm-loan-toolkit-banner.png" alt="EVM Loan Toolkit banner" width="100%" />
-</p>
+# Morpho Toolkit
 
-# ⚡ EVM-LOAN-TOOLKIT — Morpho All-Chain
+Toolkit EVM untuk dua pekerjaan terpisah:
 
-Modul ini berisi implementasi Morpho Blue EVM: scanner likuiditas, Solidity flashloan executor, deployment registry, TypeScript CLI, dan dokumentasi operasional.
+1. `tools/`: scanner read-only, screening arbitrage, quote, plan, dan status RPC.
+2. `evm/`: kontrak Solidity, fork test, deployment registry, dan executor.
 
-> **Mainnet warning:** `setup --broadcast` dan `flashloan` mengirim transaksi sungguhan. Gunakan wallet khusus, periksa chain/token/nominal, dan jangan pernah commit private key.
+Default aman: semua scan, quote, plan, dan simulation tidak mengirim transaksi. Jangan memakai `--broadcast` sebelum review route, policy token, gas, slippage, dan private relay.
 
-## ✅ Status fitur
+## Status aktual
 
-| Komponen | Status |
-|---|---|
-| Morpho liquidity scanner | Aktif |
-| TypeScript interactive/non-interactive CLI | Aktif |
-| Deploy dan sync token allowlist | Aktif |
-| Exact-principal zero-protocol-fee flashloan | Aktif |
-| Base/Arbitrum receipt RPC fallback | Aktif |
-| DEX quote, router, dan arbitrage callback | Belum tersedia |
-| Backup provider adapter | Riset di luar toolkit CLI |
+- Liquidity scanner Morpho: tersedia.
+- Broad non-stable discovery: tersedia pada `scan-morpho.ts`; default cap 1000 token.
+- Arbitrage route lama: V2 + Aerodrome volatile/stable pada route registry.
+- Stable/stable dan stablecoin depeg noise: difilter dari broad discovery.
+- V3/V4/Curve/Balancer adapter: tipe dan guard tersedia; pool discovery production belum tersambung penuh ke scanner utama.
+- Flashloan executor utama: exact-principal no-op; bukan executor profit.
+- Arb executor POC v2: tersedia untuk plan/fork test; belum deployment production.
 
-Morpho fee flashloan adalah nol, tetapi network gas tetap dibayar. Liquidity, price, dan provider state harus discan ulang sebelum transaksi.
-
-## 🗂️ Struktur folder
+## Struktur folder
 
 ```text
-Morpho/
-├── README.md
-├── docs/
-│   ├── CONTRACTS-AND-VAULTS.md
-│   ├── DEPLOYMENT-CHECK.md
-│   ├── EVM-RPCS.md
-│   └── MORPHO-SCAN.md
-├── evm/
-│   ├── src/FlashLoanExecutor.sol
-│   ├── script/Deploy.s.sol
-│   ├── test/FlashLoanExecutor.t.sol
-│   ├── foundry.toml
-│   ├── deployments.json
-│   ├── stablecoins.json
-│   ├── out/ cache/ broadcast/  # generated Foundry files
-│   └── README.md
-└── tools/
-    ├── .env / .env.example
-    ├── package.json / package-lock.json
-    └── src/
-        ├── cli.ts
-        ├── commands/{dry-run,status}.ts
-        ├── config/{chains,env,registry}.ts
-        ├── morpho/{scanner,guards,plan}.ts
-        └── ui/index.ts
+morpho-toolkit/
+├── README.md                 # peta proyek dan quick start
+├── docs/                     # dokumentasi operasional/detail
+├── evm/                      # Solidity, Foundry, deployment/token registry
+│   ├── src/                  # FlashLoanExecutor dan kontrak arb POC
+│   ├── test/                 # unit/fork tests
+│   ├── script/               # deployment scripts
+│   ├── deployments.json      # address deployment per chain
+│   ├── stablecoins.json      # seed token discovery
+│   └── token-policies.json   # policy executable per chain+address
+├── tools/                    # CLI TypeScript read-only/plan/simulation
+│   ├── src/cli.ts            # entrypoint CLI
+│   ├── src/morpho/           # discovery dan balance Morpho
+│   ├── src/arb/              # route, quote, optimizer, scanner
+│   ├── src/config/           # chain, env, registry
+│   └── .env                  # lokal; jangan commit
+└── report/                   # log/status lokal; jangan commit secret/strategy log
 ```
 
-`deployments.json` adalah registry address/status. `stablecoins.json` hanya seed token; scanner juga menemukan loan/collateral asset dari Morpho API. Semua hasil discovery tersebut **discovery-only** secara default dan tidak otomatis dipercaya untuk eksekusi.
+## Prasyarat
 
-`evm/token-policies.json` adalah registry policy per chain. Identitas token adalah pasangan **chain ID + checksum address**. Symbol, address, decimals, maupun harga yang dikirim API hanya petunjuk discovery dan bukan sumber kepercayaan. Address harus dinormalisasi/divalidasi checksum serta dicocokkan dengan chain ID; metadata dan code hash harus diverifikasi on-chain pada chain tersebut.
+- Node.js 20+; proyek telah diverifikasi pada Node `v26.4.0`.
+- npm.
+- Foundry hanya diperlukan untuk `evm/`.
+- RPC read endpoint untuk chain yang dipantau.
+- `PRIVATE_KEY` tidak diperlukan untuk scan/plan/simulation.
 
-## 🌐 Network registry
-
-| Network | Chain ID | Status |
-|---|---:|---|
-| Ethereum | 1 | Executor live, flashloan verified |
-| Base | 8453 | Executor live, flashloan verified |
-| Arbitrum One | 42161 | Executor live, flashloan verified |
-| OP Mainnet | 10 | Executor live, flashloan verified |
-| Robinhood Chain | 4663 | Executor live, flashloan verified |
-| HyperEVM | 999 | Executor live, flashloan verified |
-| Stable | 988 | Executor live, flashloan verified |
-| Monad | 143 | Executor live, flashloan verified |
-| Tempo | 4217 | Executor live, flashloan verified |
-| Katana | 747474 | Executor live, flashloan verified |
-
-Status berubah setiap block. Jalankan `chains` dan scan ulang sebelum broadcast.
-
-## 🛠️ Instalasi dari awal
-
-### 📋 Prasyarat
-
-- Linux/macOS atau WSL2, Git.
-- Node.js current LTS (disarankan 20+) dan npm.
-- Foundry stable (`forge`, `cast`, `anvil`).
-- Wallet EVM khusus dengan native gas token chain target.
-
-Unduh Node.js dari [nodejs.org](https://nodejs.org/en/download), lalu cek:
+## Setup
 
 ```bash
-node --version
-npm --version
-```
-
-Install Foundry dari installer resminya:
-
-```bash
-curl -L https://getfoundry.sh/install | bash
-foundryup
-forge --version
-cast --version
-```
-
-### 🔐 Dependency dan environment
-
-```bash
-cd Morpho/tools
+cd /data/data/com.termux/files/home/projects/morpho-toolkit/tools
 npm ci
 cp .env.example .env
 chmod 600 .env
 ```
 
-Isi `Morpho/tools/.env`:
+Isi RPC read-only di `tools/.env`. Jangan menulis private key untuk screening:
 
 ```dotenv
-PRIVATE_KEY=0xYOUR_64_HEX_PRIVATE_KEY
-ETHEREUM_RPC_URL=https://...
-BASE_RPC_URL=https://...
-ARBITRUM_RPC_URL=https://...
-OPTIMISM_RPC_URL=https://...
-ROBINHOOD_RPC_URL=https://...
-HYPEREVM_RPC_URL=https://...
-STABLE_RPC_URL=https://...
-MONAD_RPC_URL=https://...
-TEMPO_RPC_URL=https://...
-KATANA_RPC_URL=https://...
+BASE_RPC_URL=https://mainnet.base.org
+ROBINHOOD_RPC_URL=https://robinhood.rpc.blxrbdn.com
 ```
 
-`PRIVATE_KEY` harus `0x` + 64 karakter hex. Jangan taruh key di command line, README, screenshot, atau registry. Owner key harus sama dengan `owner()` executor existing. Wallet tetap memerlukan native gas walau fee protocol nol.
-
-### 🧪 Build dan test
-
-```bash
-cd ../evm
-forge build
-forge test -vv
-
-cd ../tools
-npm run build
-npm test
-```
-
-Artifact `evm/out/FlashLoanExecutor.sol/FlashLoanExecutor.json` diperlukan saat deploy executor baru.
-
-## 💻 CLI
-
-Semua command dijalankan dari `Morpho/tools`:
-
-```bash
-npm run cli
-```
-
-Menu: `1 LIQUIDITY SCAN`, `2 EXECUTOR SETUP`, `3 RUN FLASHLOAN`, `0 EXIT`.
-
-### 🔎 Status dan scan
+Gunakan `npm run cli -- status` bila tersedia pada branch yang dipakai, atau:
 
 ```bash
 npm run cli -- chains
-npm run cli -- scan --chain ethereum --min-usd 100000
-npm run cli -- scan --chain base --min-usd 250000
-npm run cli -- scan-all --min-usd 100000
-npm run cli -- scan-all --chains ethereum,base,arbitrum --min-usd 100000
-npm run cli -- scan --chain base --token 0xTokenAddress --json
 ```
 
-Scanner memvalidasi chain ID dan bytecode Morpho, discovery market, metadata ERC-20, balance `balanceOf(Morpho)` melalui Multicall3, harga Morpho API/fallback DefiLlama, lalu threshold dan price age.
-
-### 🛡️ Setup executor dan allowlist
+## Build dan test
 
 ```bash
-npm run cli -- setup --chain ethereum --select USDC,WETH --plan
-npm run cli -- setup --chain ethereum --select USDC,WETH --broadcast
-npm run cli -- setup --chain ethereum --select USDC,WETH --broadcast --yes
+cd tools
+npm run build
+npm test
+
+cd ../evm
+forge build
+forge test -vv
 ```
 
-`--select` menerima nomor (`1,3`), simbol (`USDC,WETH`), address, atau `all`. Executor existing hanya disinkronkan; `--redeploy` memaksa deployment baru.
+`npm run build` harus lulus. Test TypeScript harus seluruhnya lulus sebelum scan panjang.
 
-Setup bersifat fail-closed: token hanya dapat masuk constructor allowlist atau `setTokenAllowed`
-setelah entry checksum-address-nya di `token-policies.json` berstatus `executable`, mempunyai
-`explicitConfiguration: true`, dan seluruh fork-test `transfer`, `approve`,
-`flashloanReceipt`, `swapOut`, `swapBack`, `repayment`, serta `rescue` bernilai
-`passed: true`. Registry juga mencatat runtime `codeHash`, decimals, symbol, implementation
-proxy (jika ada), perilaku transfer, status rebasing, serta kontrol blacklist/pause. Catat
-block fork dan bukti transaksi/catatan pengujian agar hasil dapat diaudit. Perubahan proxy
-implementation atau code hash membatalkan asumsi pengujian dan harus memicu pengujian ulang.
+## Command utama
 
-Override hanya untuk keadaan darurat dan sengaja memiliki dua langkah terpisah; `--yes`
-tidak menggantikan konfirmasi risiko:
+Semua command berikut dijalankan dari `tools/`.
+
+### Status chain
 
 ```bash
-npm run cli -- setup --chain base --select 0xChecksumAddress --broadcast --yes \
-  --unsafe-token-policy-override \
-  --confirm-unsafe-token-policy ALLOW_DISCOVERY_ONLY
+npm run cli -- chains
+npm run cli -- help
 ```
 
-Contoh entry yang baru boleh dipromosikan sesudah semua nilai diverifikasi dan test lulus:
-
-```json
-{
-  "chainId": 8453,
-  "address": "0xChecksumAddress",
-  "codeHash": "0xRuntimeBytecodeHash",
-  "decimals": 6,
-  "symbol": "TOKEN",
-  "proxyImplementation": null,
-  "transferBehavior": "standard",
-  "rebasing": false,
-  "controls": { "blacklist": false, "pause": false },
-  "status": "executable",
-  "explicitConfiguration": true,
-  "forkTests": {
-    "transfer": { "passed": true, "blockNumber": 123 },
-    "approve": { "passed": true, "blockNumber": 123 },
-    "flashloanReceipt": { "passed": true, "blockNumber": 123 },
-    "swapOut": { "passed": true, "blockNumber": 123 },
-    "swapBack": { "passed": true, "blockNumber": 123 },
-    "repayment": { "passed": true, "blockNumber": 123 },
-    "rescue": { "passed": true, "blockNumber": 123 }
-  }
-}
-```
-
-### ⚡ Flashloan
-
-Amount berupa unit token atau target USD:
+### Morpho liquidity scan
 
 ```bash
-npm run cli -- flashloan --chain base --asset WETH --amount 40
-npm run cli -- flashloan --chain ethereum --asset USDC --amount 1000000
-npm run cli -- flashloan --chain arbitrum --asset WETH --amount '$100000'
-npm run cli -- flashloan --chain base --asset USDC --amount 100000 --broadcast --yes
+npm run cli -- scan --chain base --min-usd 100000
+npm run cli -- scan --chain base --min-usd 0 --token 0xTokenAddress --json
+npm run cli -- scan-all --chains base,robinhood --min-usd 100000
 ```
 
-Satu transaksi hanya menerima satu aset. CLI scan balance terbaru dan menerapkan guard policy terhadap fingerprint on-chain terbaru sebelum **setiap** broadcast flashloan, termasuk ketika token sudah berada di allowlist executor. `--broadcast` mengirim transaksi; `--yes` melewati prompt automation biasa tetapi tidak melewati konfirmasi override policy. Amount tidak boleh melebihi saldo Morpho.
+### Broad non-stable arbitrage screening
 
-Flag utama: `--chain`, `--min-usd`, `--max-price-age-hours`, `--token`, `--select`, `--asset`, `--amount`, `--plan`, `--broadcast`, `--yes`, `--redeploy`, `--json`.
-
-## 🚀 Deployment manual Foundry
+Command ini read-only. Ia mengambil aset discovery Morpho, membuang stable-like token sebagai lawan stable, membentuk pasangan token secara luas, lalu membaca reserve/quote pada route yang terdaftar.
 
 ```bash
-cd Morpho/evm
-export MORPHO_ADDRESS=0xMorphoOnTargetChain
-export TOKEN_ADDRESSES=0xTokenA,0xTokenB,0xTokenC
-export PRIVATE_KEY=0xYOUR_64_HEX_PRIVATE_KEY
-forge script script/Deploy.s.sol:Deploy \
-  --rpc-url "https://your-target-rpc" --broadcast
+npx tsx src/arb/scan-morpho.ts \
+  --chain base \
+  --max-tokens 1000 \
+  --min-usd 0 \
+  --min-tvl 1000
 ```
 
-Verifikasi `owner()`, `morpho()`, bytecode, dan allowlist setelah deployment. Simpan hasil ke `deployments.json` tanpa private key.
+Robinhood:
 
-## 📜 Fungsi executor
-
-Contract ada di `evm/src/FlashLoanExecutor.sol`.
-
-| Fungsi | Akses | Keterangan |
-|---|---|---|
-| `flashLoan(token, assets)` | Owner | Memulai flashloan satu token |
-| `onMorphoFlashLoan(assets, data)` | Morpho | Validasi callback dan approval principal |
-| `setTokenAllowed(token, allowed)` | Owner | Kelola token allowlist |
-| `setPaused(value)` | Owner | Pause/unpause initiation |
-| `rescueToken(token, to, amount)` | Owner | Rescue token tertinggal |
-
-Callback menolak caller selain Morpho, token/amount mismatch, nested loan, token tidak di-allowlist, dan repayment yang tidak tepat. Approval dibatasi sebesar principal.
-
-## 📈 Fungsi arbitrase
-
-Executor live saat ini adalah **no-op flashloan**. Callback tidak melakukan swap dan invariant saldo akhir harus sama dengan saldo awal. Profit tambahan akan membuat executor sekarang revert; jangan memakainya sebagai arb executor.
-
-Arb harus dibuat sebagai executor/ABI versi baru, misalnya:
-
-```solidity
-function executeArbitrage(
-    address loanToken,
-    uint256 assets,
-    uint256 minProfit,
-    address profitReceiver,
-    bytes calldata routeData
-) external onlyOwner;
+```bash
+ROBINHOOD_RPC_URL=https://robinhood.rpc.blxrbdn.com \
+npx tsx src/arb/scan-morpho.ts \
+  --chain robinhood \
+  --max-tokens 1000 \
+  --min-usd 0
 ```
 
-Alur bot: quote DEX A/B → hitung output, DEX fee, gas, dan slippage → encode route → simulate → broadcast bila `netProfit >= minProfit` → swap kembali ke loan token → enforce deadline/minOut/minProfit → approve principal → kirim surplus.
+Log ke file:
 
-```text
-grossProfit = finalLoanToken - principal
-netProfit   = grossProfit - DEX fees - gas - builder/bribe cost
+```bash
+npx tsx src/arb/scan-morpho.ts --chain base --max-tokens 1000 --min-usd 0 \
+  2>&1 | tee ../report/base-scan.log
 ```
 
-Guard wajib: router/adapter dan selector allowlist, deadline, `minAmountOut`, `minProfit`, approval terbatas, reentrancy/state guard, route chain-specific, dan simulasi full transaction. Tolak fee-on-transfer/rebasing token yang belum diuji. Venue swap sengaja belum di-hardcode.
+Monitor berkala 30 menit:
 
-## 🧯 Troubleshooting
+```bash
+end=$((SECONDS+1800)); while [ $SECONDS -lt $end ]; do
+  date -Iseconds
+  npx tsx src/arb/scan-morpho.ts --chain base --max-tokens 1000 --min-usd 0
+  sleep 20
+done 2>&1 | tee ../report/base-monitor.log
+```
 
-- `Archive requests require a personal token`: Base dan Arbitrum memakai endpoint resmi sebagai read/receipt fallback. Periksa hash di explorer sebelum mengirim ulang.
-- `0 funded assets`: `balance-read-failed` berarti RPC/call gagal; `metadata-unavailable` berarti ERC-20/RPC bermasalah; `price-missing-or-stale` berarti harga tidak segar; `below-minimum-usd` berarti di bawah filter.
-- `PRIVATE_KEY bukan owner executor`: gunakan key owner atau deploy executor baru dengan `--redeploy`.
-- `nominal melebihi saldo Morpho`: scan ulang dan kurangi amount.
-- `artifact bytecode kosong`: jalankan `cd Morpho/evm && forge build`.
-- `insufficient funds for gas`: isi native token chain target.
+Interpretasi output:
 
-## ✅ Checklist mainnet
+- `OPPORTUNITIES`: kandidat quote yang lolos optimizer dan threshold.
+- `No opportunity`: pada snapshot itu tidak ada kandidat profitable dari route yang berhasil di-quote.
+- `quoted rows 0`: route/pair tidak berhasil mendapat dua venue usable; bukan bukti pasar tidak punya peluang.
+- `SKIPPED`: lihat alasan pair/venue gagal.
+- RPC timeout/error: cycle tidak valid; jangan hitung sebagai hasil negatif.
 
-- [ ] Chain ID RPC, Morpho address, bytecode, owner, dan token benar.
-- [ ] Balance terbaru dan harga segar cukup.
-- [ ] Wallet memiliki native gas.
-- [ ] Amount memakai decimals benar.
-- [ ] Simulasi berhasil dan explorer hash dicatat.
-- [ ] Untuk arb: route, deadline, minOut, gas, dan minProfit dihitung.
+### CLI arbitrage lama
 
-## 📚 Referensi
+```bash
+npm run cli -- arb-scan --chain base
+npm run cli -- arb-scan --chain base --min-net 5
+npm run cli -- arb-scan --chain base --watch --interval 20
+npm run cli -- arb-scan --chain base --gas-units 350000 --json
+```
 
-- [Morpho contract API](https://docs.morpho.org/developers/contracts/morpho/)
-- [Morpho deployment addresses](https://docs.morpho.org/developers/contracts/addresses/)
-- [Foundry installation](https://getfoundry.sh/getting-started/installation)
-- [Node.js downloads](https://nodejs.org/en/download)
-- [`evm/README.md`](evm/README.md)
-- [`tools/README.md`](tools/README.md)
+`arb-scan` memakai route registry utama. Untuk broad discovery non-stable, gunakan `src/arb/scan-morpho.ts`.
 
-## 💸 Donate
+### Plan dan simulation
 
-If this helped you, support the dev:
+```bash
+npm run cli -- arb-setup --chain base
+npm run cli -- arb-plan --chain base --opportunity 1
+npm run cli -- arb-execute --chain base --opportunity 1
+```
 
-- **EVM:** `0x9Cd42f217574aA4418C9C7a8770f2711401caFfd`
-- **SOL:** `QWXyYvMnLsSLBqWTDVmSvnPK8TYMdozozNaEMpMhepo`
+Nama `arb-execute` tanpa `--broadcast` tetap simulation-only. Jangan menambahkan `--broadcast` otomatis.
+
+## Command state-changing
+
+Berisiko nyata dan tidak diperlukan untuk screening:
+
+```bash
+npm run cli -- setup --chain base --select USDC,WETH --plan
+npm run cli -- setup --chain base --select USDC,WETH --broadcast
+npm run cli -- flashloan --chain base --asset WETH --amount 1
+```
+
+`--broadcast` mengirim transaksi. Executor `FlashLoanExecutor.sol` adalah no-op exact-principal; callback profit akan revert. Jangan gunakan sebagai arb executor.
+
+## Dokumentasi lanjutan
+
+- `docs/OPERATIONS.md`: prosedur harian, monitor, error, dan interpretasi.
+- `docs/ROUTES-AND-COVERAGE.md`: route/venue yang benar-benar dipindai dan gap coverage.
+- `docs/EVM-RPCS.md`: konfigurasi RPC dan fallback.
+- `docs/MORPHO-SCAN.md`: discovery liquidity.
+- `docs/DEPLOYMENT-CHECK.md`: token policy dan deployment.
+- `docs/FORK-AND-SHADOW-READINESS.md`: syarat sebelum live.
+- `evm/README.md`: kontrak dan Foundry.
+- `tools/README.md`: CLI TypeScript.
+
+## Larangan
+
+- Jangan commit `.env`, private key, endpoint privat, atau log strategi.
+- Jangan menganggap price API sebagai quote eksekusi.
+- Jangan menganggap `quoted rows 0` sebagai zero opportunity.
+- Jangan broadcast tanpa simulation full transaction, minProfit, minOut, deadline, gas, dan private submission endpoint.
