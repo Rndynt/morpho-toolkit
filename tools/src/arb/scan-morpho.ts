@@ -15,9 +15,13 @@ function arg(name: string, fallback?: string): string | undefined {
   return fallback;
 }
 
+function flag(name: string): boolean {
+  return process.argv.includes(`--${name}`);
+}
+
 const key = arg('chain');
 if (!key) {
-  console.error('usage: npx tsx src/arb/scan-morpho.ts --chain base|robinhood');
+  console.error('usage: npx tsx src/arb/scan-morpho.ts --chain base|robinhood [--include-unpriced-discovery]');
   process.exit(1);
 }
 const chain = evmChains.find((c) => c.key === key);
@@ -34,6 +38,7 @@ if (!rpc) {
 const minTvl = Number(arg('min-tvl', '1000'));
 const maxTokens = Number(arg('max-tokens', '25'));
 const minUsd = Number(arg('min-usd', '10000'));
+const includeUnpricedDiscovery = flag('include-unpriced-discovery');
 
 const registry = await loadDeployments();
 const record = deploymentFor(registry, chain.key);
@@ -50,18 +55,54 @@ const morpho = await scanMorphoBalances({
   stablecoins: await loadStablecoins(),
   minimumUsd: minUsd,
 });
-const seeds = morpho.assets
-  .filter((a) => a.decimals > 0 && a.symbol)
-  .sort((a, b) => (b.usdValue ?? 0) - (a.usdValue ?? 0))
-  .slice(0, maxTokens)
+const hasValidMetadata = (asset: (typeof morpho.assets)[number]): boolean =>
+  asset.symbol.trim().length > 0
+  && asset.symbol !== '?'
+  && Number.isInteger(asset.decimals)
+  && asset.decimals >= 0;
+const hasSnapshotInventory = (asset: (typeof morpho.assets)[number]): boolean =>
+  asset.balance > 0n
+  && asset.exclusionReason !== 'metadata-unavailable'
+  && !asset.exclusionReason?.startsWith('balance-read-failed:');
+
+// Keep discovery and executable inventory distinct. USD values are useful for
+// ranking discovery results, but the executable bound is always the raw on-chain
+// balance (and is refreshed by scanArbOpportunities at its quote snapshot).
+const executableCandidates = morpho.assets.filter((asset) =>
+  asset.eligible === true && hasValidMetadata(asset) && hasSnapshotInventory(asset));
+const unpricedCandidates = morpho.assets.filter((asset) =>
+  asset.exclusionReason === 'price-missing-or-stale'
+  && hasValidMetadata(asset)
+  && hasSnapshotInventory(asset));
+const discoveryOnly = includeUnpricedDiscovery ? unpricedCandidates : [];
+const discarded = morpho.assets.length - executableCandidates.length - discoveryOnly.length;
+
+ui.info(
+  `Morpho inventory: found ${morpho.assets.length}, eligible ${executableCandidates.length}, `
+  + `unpriced ${unpricedCandidates.length}, discarded ${discarded}`,
+);
+
+const ranked = [...executableCandidates, ...discoveryOnly]
+  .sort((a, b) => (b.usdValue ?? -1) - (a.usdValue ?? -1))
+  .slice(0, maxTokens);
+const executableAddresses = new Set(executableCandidates.map((asset) => asset.address.toLowerCase()));
+const executableInventory = ranked.filter((asset) => executableAddresses.has(asset.address.toLowerCase()));
+const discoveryInventory = ranked.filter((asset) => !executableAddresses.has(asset.address.toLowerCase()));
+const seeds = [...executableInventory, ...discoveryInventory]
   .map((a) => ({
     symbol: a.symbol, address: a.address, decimals: a.decimals,
-    balance: a.balance, blockNumber: morpho.blockNumber, eligible: a.eligible,
+    // Discovery-only entries are explicitly barred from execution. The arb scanner
+    // also re-reads executable balances at the immutable quote snapshot.
+    balance: a.balance, blockNumber: morpho.blockNumber,
+    eligible: executableAddresses.has(a.address.toLowerCase()),
     // Do not forward stale scanner prices into the TVL display/filter.
     priceUsd: a.exclusionReason === 'price-missing-or-stale' ? null : a.priceUsd,
     priceTimestamp: a.priceTimestamp, priceSource: a.priceSource,
   }));
-ui.info(`Using ${seeds.length} Morpho assets (>= $${minUsd} inventory, cap ${maxTokens})`);
+ui.info(
+  `Using ${executableInventory.length} executable assets and ${discoveryInventory.length} discovery-only assets `
+  + `(cap ${maxTokens}; ${Math.max(0, executableCandidates.length + discoveryOnly.length - ranked.length)} discarded by cap)`,
+);
 const staticPairs = v2Pairs.filter((p) => p.chain === chain.key);
 const extra = expandPairs(chain.key, seeds, staticPairs);
 for (const pair of extra.v2) v2Pairs.push(pair);
