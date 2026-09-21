@@ -1,61 +1,99 @@
-const FEE_DENOMINATOR = 10_000;
+const FEE_DENOMINATOR = 10_000n;
 
 export type V2PoolQuote = {
   reserveIn: bigint;
   reserveOut: bigint;
-  feeBps: number;
+  feeBps: bigint;
 };
+
+function validPool(pool: V2PoolQuote): boolean {
+  return pool.reserveIn > 0n && pool.reserveOut > 0n && pool.feeBps >= 0n && pool.feeBps < FEE_DENOMINATOR;
+}
 
 /** Standard Uniswap-V2-style constant-product quote, fee taken on the input side. */
 export function ammOutput(amountIn: bigint, pool: V2PoolQuote): bigint {
-  if (amountIn <= 0n || pool.reserveIn <= 0n || pool.reserveOut <= 0n) return 0n;
-  const amountInWithFee = amountIn * BigInt(FEE_DENOMINATOR - pool.feeBps);
+  if (amountIn <= 0n || !validPool(pool)) return 0n;
+  const amountInWithFee = amountIn * (FEE_DENOMINATOR - pool.feeBps);
   const numerator = amountInWithFee * pool.reserveOut;
-  const denominator = pool.reserveIn * BigInt(FEE_DENOMINATOR) + amountInWithFee;
+  const denominator = pool.reserveIn * FEE_DENOMINATOR + amountInWithFee;
   return numerator / denominator;
 }
 
-export type ArbLeg = {
-  reserveIn: number;
-  reserveOut: number;
-  feeBps: number;
-};
+export type ArbLeg = V2PoolQuote;
 
 export type OptimalArb = {
-  loanAmount: number;
-  grossProfit: number;
+  loanAmount: bigint;
+  grossProfit: bigint;
   profitable: boolean;
 };
 
+/** Floor of sqrt(value), without ever converting the value to a floating-point number. */
+export function integerSquareRoot(value: bigint): bigint {
+  if (value < 0n) throw new RangeError('square root of a negative integer');
+  if (value < 2n) return value;
+
+  // This power-of-two seed is above sqrt(value); Newton iteration then decreases.
+  let current = 1n << BigInt((value.toString(2).length + 1) >> 1);
+  while (true) {
+    const next = (current + value / current) >> 1n;
+    if (next >= current) return current;
+    current = next;
+  }
+}
+
+function twoLegOutput(amountIn: bigint, buyLeg: ArbLeg, sellLeg: ArbLeg): bigint {
+  return ammOutput(ammOutput(amountIn, buyLeg), sellLeg);
+}
+
 /**
- * Closed-form optimal input size for a two-leg constant-product arbitrage: borrow
- * `loanAmount` of token T, swap T -> M on buyLeg, swap M -> T on sellLeg.
+ * Integer-only closed-form sizing for two constant-product legs. All reserves, fees,
+ * inputs, and outputs are raw on-chain units. The rational optimum is calculated with
+ * an integer square root and nearby raw-unit candidates are evaluated with the exact
+ * (flooring) AMM quote.
  *
- * Derivation: let a = 1 - buyLeg.fee, b = 1 - sellLeg.fee. Composing the two constant-
- * product swaps gives finalAmount(x) = A*x / (B + C*x) where
- *   A = a*b*buyLeg.reserveOut*sellLeg.reserveOut
- *   B = buyLeg.reserveIn*sellLeg.reserveIn
- *   C = a*(sellLeg.reserveIn + b*buyLeg.reserveOut)
- * profit(x) = A*x/(B+C*x) - x. d/dx = A*B/(B+C*x)^2 - 1 = 0 => (B+C*x)^2 = A*B
- * => x* = (sqrt(A*B) - B) / C, taking the positive root.
+ * `maxLoanAmount` is an execution limit, not a display-unit value. Passing it makes a
+ * constrained optimum land at the limit when the unconstrained optimum is larger.
  */
-export function optimalTwoLegArbitrage(buyLeg: ArbLeg, sellLeg: ArbLeg): OptimalArb {
-  const a = 1 - buyLeg.feeBps / FEE_DENOMINATOR;
-  const b = 1 - sellLeg.feeBps / FEE_DENOMINATOR;
-  const A = a * b * buyLeg.reserveOut * sellLeg.reserveOut;
-  const B = buyLeg.reserveIn * sellLeg.reserveIn;
-  const C = a * (sellLeg.reserveIn + b * buyLeg.reserveOut);
-
-  if (!(A > 0) || !(B > 0) || !(C > 0)) return { loanAmount: 0, grossProfit: 0, profitable: false };
-
-  const loanAmount = (Math.sqrt(A * B) - B) / C;
-  if (!(loanAmount > 0) || !Number.isFinite(loanAmount)) {
-    return { loanAmount: 0, grossProfit: 0, profitable: false };
+export function optimalTwoLegArbitrage(
+  buyLeg: ArbLeg,
+  sellLeg: ArbLeg,
+  maxLoanAmount?: bigint,
+): OptimalArb {
+  if (!validPool(buyLeg) || !validPool(sellLeg) || maxLoanAmount === 0n) {
+    return { loanAmount: 0n, grossProfit: 0n, profitable: false };
   }
 
-  const intermediate = (a * loanAmount * buyLeg.reserveOut) / (buyLeg.reserveIn + a * loanAmount);
-  const finalAmount = (b * intermediate * sellLeg.reserveOut) / (sellLeg.reserveIn + b * intermediate);
-  const grossProfit = finalAmount - loanAmount;
+  const firstFee = FEE_DENOMINATOR - buyLeg.feeBps;
+  const secondFee = FEE_DENOMINATOR - sellLeg.feeBps;
+  // Composition is A*x/(B+C*x) before the two EVM division floors.
+  const A = firstFee * secondFee * buyLeg.reserveOut * sellLeg.reserveOut;
+  const B = FEE_DENOMINATOR * FEE_DENOMINATOR * buyLeg.reserveIn * sellLeg.reserveIn;
+  const C = FEE_DENOMINATOR * firstFee * sellLeg.reserveIn
+    + firstFee * secondFee * buyLeg.reserveOut;
+  const root = integerSquareRoot(A * B);
+  if (root <= B) return { loanAmount: 0n, grossProfit: 0n, profitable: false };
 
-  return { loanAmount, grossProfit, profitable: grossProfit > 0 };
+  let center = (root - B) / C;
+  if (maxLoanAmount !== undefined && center > maxLoanAmount) center = maxLoanAmount;
+  if (center <= 0n) return { loanAmount: 0n, grossProfit: 0n, profitable: false };
+
+  // The closed form describes the unrounded curve. Checking adjacent integers chooses
+  // correctly when either swap's EVM division moves the discrete maximum by one unit.
+  const candidates = new Set<bigint>([center]);
+  for (let delta = 1n; delta <= 2n; delta++) {
+    if (center > delta) candidates.add(center - delta);
+    if (maxLoanAmount === undefined || center + delta <= maxLoanAmount) candidates.add(center + delta);
+  }
+  if (maxLoanAmount !== undefined) candidates.add(maxLoanAmount);
+
+  let loanAmount = 0n;
+  let grossProfit = 0n;
+  for (const candidate of candidates) {
+    const profit = twoLegOutput(candidate, buyLeg, sellLeg) - candidate;
+    if (profit > grossProfit || (profit === grossProfit && profit > 0n && candidate < loanAmount)) {
+      loanAmount = candidate;
+      grossProfit = profit;
+    }
+  }
+  return { loanAmount, grossProfit, profitable: grossProfit > 0n };
 }

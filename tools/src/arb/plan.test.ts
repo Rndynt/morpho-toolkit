@@ -11,8 +11,8 @@ const sample: ArbOpportunity = {
   buyOn: 'Sushi V2', sellOn: 'Aerodrome (volatile)', buyRouter: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', sellRouter: '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43',
   buyKind: 'v2', sellKind: 'aerodrome', buyFactory: null, sellFactory: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
   buyPool: '0x0000000000000000000000000000000000000011', sellPool: '0x0000000000000000000000000000000000000012',
-  buyFee: { bps: 30, blockNumber: 12_345n, source: { kind: 'verified-fixed-model', address: '0x0000000000000000000000000000000000000011', protocol: 'sushiswap-v2' } },
-  sellFee: { bps: 4, blockNumber: 12_345n, source: { kind: 'factory-getFee', address: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da', raw: 4n, denominator: 10_000n } },
+  buyFee: { bps: 30n, blockNumber: 12_345n, source: { kind: 'verified-fixed-model', address: '0x0000000000000000000000000000000000000011', protocol: 'sushiswap-v2' } },
+  sellFee: { bps: 4n, blockNumber: 12_345n, source: { kind: 'factory-getFee', address: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da', raw: 4n, denominator: 10_000n } },
   buyAeroStable: null, sellAeroStable: false,
   loanAmountFormatted: '182.228176', grossProfitFormatted: '50.240348', loanAmountRaw: 182_228_176n, expectedIntermediateRaw: 100_000_000n, expectedFinalRaw: 240_000_000n, grossProfitRaw: 50_240_348n, estGasCostNative: 0.001, estGasCostInLoanToken: 3, netProfit: 47.24,
 };

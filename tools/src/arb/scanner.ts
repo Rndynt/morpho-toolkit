@@ -3,7 +3,6 @@ import {
   formatUnits,
   getAddress,
   http,
-  parseUnits,
   parseAbi,
   type PublicClient,
 } from 'viem';
@@ -36,7 +35,7 @@ const solidlyPoolAbi = parseAbi([
 const erc20BalanceAbi = parseAbi(['function balanceOf(address) view returns (uint256)']);
 
 export type VerifiedFee = {
-  bps: number;
+  bps: bigint;
   blockNumber: bigint;
   source:
     | { kind: 'factory-getFee'; address: Address; raw: bigint; denominator: bigint }
@@ -59,13 +58,13 @@ type RouterReserves = {
 };
 
 /** Convert an adapter's fee units into basis points without silently rounding. */
-export function normalizeFeeBps(raw: bigint, denominator: bigint): number {
+export function normalizeFeeBps(raw: bigint, denominator: bigint): bigint {
   if (raw < 0n || denominator <= 0n) throw new Error('invalid fee or denominator');
   const scaled = raw * 10_000n;
   if (scaled % denominator !== 0n) throw new Error(`fee ${raw}/${denominator} is not an exact basis-point value`);
   const bps = scaled / denominator;
   if (bps > 10_000n) throw new Error(`fee exceeds 100%: ${bps} bps`);
-  return Number(bps);
+  return bps;
 }
 
 /** Aerodrome PoolFactory fees use a 10,000-unit denominator (one unit is one bp). */
@@ -123,14 +122,6 @@ export type ArbOpportunity = {
   buyAeroStable: boolean | null;
   sellAeroStable: boolean | null;
 };
-
-function numberToRaw(amount: number, decimals: number): bigint {
-  // The optimizer operates on normalized JavaScript numbers. Convert its full decimal
-  // representation once, rather than routing execution through the six-decimal display
-  // strings below.
-  if (!Number.isFinite(amount) || amount <= 0) return 0n;
-  return parseUnits(amount.toFixed(decimals), decimals);
-}
 
 function formatRawForDisplay(amount: bigint, decimals: number): string {
   const [whole, fraction = ''] = formatUnits(amount, decimals).split('.');
@@ -758,8 +749,6 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
       sellOn: RouterReserves,
       loanToken: Address,
       intermediateToken: Address,
-      loanDecimals: number,
-      intermediateDecimals: number,
       buyReserveIn: bigint,
       buyReserveOut: bigint,
       sellReserveIn: bigint,
@@ -774,11 +763,12 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
 
       if (isConstantProduct(buyOn) && isConstantProduct(sellOn)) {
         const closedForm = optimalTwoLegArbitrage(
-          { reserveIn: Number(formatUnits(buyReserveIn, loanDecimals)), reserveOut: Number(formatUnits(buyReserveOut, intermediateDecimals)), feeBps: buyOn.fee.bps },
-          { reserveIn: Number(formatUnits(sellReserveIn, intermediateDecimals)), reserveOut: Number(formatUnits(sellReserveOut, loanDecimals)), feeBps: sellOn.fee.bps },
+          { reserveIn: buyReserveIn, reserveOut: buyReserveOut, feeBps: buyOn.fee.bps },
+          { reserveIn: sellReserveIn, reserveOut: sellReserveOut, feeBps: sellOn.fee.bps },
+          hardLimit,
         );
         if (!closedForm.profitable) return null;
-        const loanAmountRaw = capLoanAmount(numberToRaw(closedForm.loanAmount, loanDecimals), hardLimit, hardLimit);
+        const loanAmountRaw = closedForm.loanAmount;
         if (loanAmountRaw === 0n) return null;
         const quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, loanToken, intermediateToken);
         return { loanAmountRaw, quoted };
@@ -812,7 +802,6 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         try {
           candidateA = await sizeDirection(
             buyOn, sellOn, pairConfig.tokenA.address, pairConfig.tokenB.address,
-            pairConfig.tokenA.decimals, pairConfig.tokenB.decimals,
             buyOn.reserveA, buyOn.reserveB, sellOn.reserveB, sellOn.reserveA,
           );
         } catch (error) {
@@ -866,7 +855,6 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
         try {
           candidateB = await sizeDirection(
             buyOn, sellOn, pairConfig.tokenB.address, pairConfig.tokenA.address,
-            pairConfig.tokenB.decimals, pairConfig.tokenA.decimals,
             buyOn.reserveB, buyOn.reserveA, sellOn.reserveA, sellOn.reserveB,
           );
         } catch (error) {

@@ -21,7 +21,7 @@ test('Solidly adapter uses the preverified fee and reads pool type at the matchi
   } as unknown as PublicClient;
 
   const quote = await quoteExactInput(client, {
-    venue: { kind: 'aerodrome', label: 'test', router: ROUTER, factory: FACTORY, pool: POOL, fee: { bps: 4, blockNumber: 456n, source: { kind: 'factory-getFee', address: FACTORY, raw: 4n, denominator: 10_000n } } },
+    venue: { kind: 'aerodrome', label: 'test', router: ROUTER, factory: FACTORY, pool: POOL, fee: { bps: 4n, blockNumber: 456n, source: { kind: 'factory-getFee', address: FACTORY, raw: 4n, denominator: 10_000n } } },
     tokenIn: TOKEN_A, tokenOut: TOKEN_B, amountInRaw: 100n, snapshotBlock: 456n,
   });
 

@@ -18,10 +18,10 @@ const SOLIDLY_POOL = '0x0000000000000000000000000000000000000042' as const;
 const SOLIDLY_ROUTER = '0x0000000000000000000000000000000000000043' as const;
 
 test('normalizes 4, 25, 30, and 100 bps from explicit fee-unit denominators', () => {
-  assert.equal(normalizeFeeBps(4n, 10_000n), 4);
-  assert.equal(normalizeFeeBps(2_500n, 1_000_000n), 25);
-  assert.equal(normalizeFeeBps(30n, 10_000n), 30);
-  assert.equal(normalizeFeeBps(10_000n, 1_000_000n), 100);
+  assert.equal(normalizeFeeBps(4n, 10_000n), 4n);
+  assert.equal(normalizeFeeBps(2_500n, 1_000_000n), 25n);
+  assert.equal(normalizeFeeBps(30n, 10_000n), 30n);
+  assert.equal(normalizeFeeBps(10_000n, 1_000_000n), 100n);
   assert.throws(() => normalizeFeeBps(1n, 3n), /not an exact basis-point value/);
 });
 
@@ -36,8 +36,8 @@ test('reads a changed Aerodrome factory fee at each requested snapshot', async (
   } as unknown as PublicClient;
   const oldFee = await readAerodromeFee(client, SOLIDLY_FACTORY, SOLIDLY_POOL, false, 100n);
   const newFee = await readAerodromeFee(client, SOLIDLY_FACTORY, SOLIDLY_POOL, false, 200n);
-  assert.equal(oldFee.bps, 4);
-  assert.equal(newFee.bps, 30);
+  assert.equal(oldFee.bps, 4n);
+  assert.equal(newFee.bps, 30n);
   assert.deepEqual(blocks, [100n, 200n]);
   assert.equal(oldFee.source.kind, 'factory-getFee');
 });
