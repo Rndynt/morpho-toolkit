@@ -4,7 +4,7 @@ import type { ArbOpportunity } from './scanner.js';
 import type { VenueKind } from './routes.js';
 
 const pocV2Abi = parseAbi([
-  'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params) returns (uint256 profit)',
+  'function executeArbitrage((address loanToken, address intermediateToken, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params) returns (uint256 profit)',
 ]);
 
 /** The execution window is deliberately short so a quote cannot become stale. */
@@ -157,8 +157,10 @@ export function encodePocV2Plan(
   const notes: string[] = [];
   const deadline = BigInt(Math.floor(Date.now() / 1000) + deadlineSeconds);
 
-  if (opp.buyRouter.toLowerCase() === opp.sellRouter.toLowerCase()) {
-    notes.push('same router on both legs — POC v2 rejects this as InvalidRoute');
+  if (opp.buyPool.toLowerCase() === opp.sellPool.toLowerCase() && opp.buyKind === opp.sellKind
+      && (opp.buyKind !== 'aerodrome' || (opp.buyFactory?.toLowerCase() === opp.sellFactory?.toLowerCase()
+        && opp.buyAeroStable === opp.sellAeroStable))) {
+    notes.push('same venue/pool on both legs — POC v2 rejects this as InvalidRoute');
   }
   if (opp.buyKind === 'aerodrome' && !opp.buyFactory) {
     notes.push('Aerodrome buy leg missing factory');
@@ -174,8 +176,8 @@ export function encodePocV2Plan(
     args: [{
       loanToken: opp.loanToken,
       intermediateToken: opp.intermediateToken,
-      firstLeg: { router: opp.buyRouter, kind: kindToEnum(opp.buyKind), aeroStable: opp.buyAeroStable ?? false, aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000' },
-      secondLeg: { router: opp.sellRouter, kind: kindToEnum(opp.sellKind), aeroStable: opp.sellAeroStable ?? false, aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000' },
+      firstLeg: { router: opp.buyRouter, pool: opp.buyPool, kind: kindToEnum(opp.buyKind), aeroStable: opp.buyAeroStable ?? false, aeroFactory: opp.buyFactory ?? '0x0000000000000000000000000000000000000000' },
+      secondLeg: { router: opp.sellRouter, pool: opp.sellPool, kind: kindToEnum(opp.sellKind), aeroStable: opp.sellAeroStable ?? false, aeroFactory: opp.sellFactory ?? '0x0000000000000000000000000000000000000000' },
       loanAmount: loanAmountRaw,
       minIntermediateAmount,
       minFinalAmount,

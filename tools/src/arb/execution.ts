@@ -8,7 +8,7 @@ export const arbExecutorAbi = parseAbi([
   'function owner() view returns (address)', 'function morpho() view returns (address)',
   'function allowedToken(address) view returns (bool)', 'function allowedRouter(address) view returns (bool)',
   'function allowedAerodromeFactory(address) view returns (bool)',
-  'function executeArbitrage((address loanToken,address intermediateToken,(address router,uint8 kind,bool aeroStable,address aeroFactory) firstLeg,(address router,uint8 kind,bool aeroStable,address aeroFactory) secondLeg,uint256 loanAmount,uint256 minIntermediateAmount,uint256 minFinalAmount,uint256 minProfit,uint256 deadline,address profitReceiver) params) returns (uint256)',
+  'function executeArbitrage((address loanToken,address intermediateToken,(address router,address pool,uint8 kind,bool aeroStable,address aeroFactory) firstLeg,(address router,address pool,uint8 kind,bool aeroStable,address aeroFactory) secondLeg,uint256 loanAmount,uint256 minIntermediateAmount,uint256 minFinalAmount,uint256 minProfit,uint256 deadline,address profitReceiver) params) returns (uint256)',
 ]);
 const erc20Abi = parseAbi(['function balanceOf(address) view returns (uint256)', 'function allowance(address,address) view returns (uint256)']);
 
