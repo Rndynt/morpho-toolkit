@@ -8,7 +8,7 @@ pragma solidity ^0.8.24;
 // Base - not just the mock routers used in MorphoAtomicArbPOC.t.sol.
 //
 // This is a LOCAL SIMULATION ONLY. No real transaction is broadcast, no real funds are
-// spent. It forks Base at whatever block your RPC returns and runs entirely in memory.
+// spent. It forks Base at the reviewed archive block and runs entirely in memory.
 //
 // >>> VERIFY EVERY ADDRESS BELOW ON BASESCAN BEFORE TRUSTING THIS FILE <<<
 // I (Claude) cross-checked these against the repo's own deployments.json/stablecoins.json
@@ -84,6 +84,8 @@ interface IV2Pair {
 }
 
 contract MorphoAtomicArbPOCBaseForkTest is Test {
+    // Keep synchronized with tools/src/arb/fork-fixtures.ts.
+    uint256 constant BASE_FORK_BLOCK = 36_500_000;
     // ---- Base mainnet addresses (chainId 8453) ----
     // Morpho + USDC: taken directly from this repo's evm/deployments.json ("base" entry,
     // status "deployed-and-live-flashloan-verified") and evm/stablecoins.json.
@@ -110,7 +112,7 @@ contract MorphoAtomicArbPOCBaseForkTest is Test {
     MorphoAtomicArbPOC poc;
 
     function setUp() public {
-        vm.createSelectFork(vm.envString("BASE_RPC_URL"));
+        vm.createSelectFork(vm.envString("BASE_RPC_URL"), BASE_FORK_BLOCK);
 
         address[] memory tokens = new address[](2);
         tokens[0] = USDC;
