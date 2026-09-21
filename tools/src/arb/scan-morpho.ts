@@ -75,19 +75,28 @@ const unpricedCandidates = morpho.assets.filter((asset) =>
   && hasValidMetadata(asset)
   && hasSnapshotInventory(asset));
 const discoveryOnly = includeUnpricedDiscovery ? unpricedCandidates : [];
-const discarded = morpho.assets.length - executableCandidates.length - discoveryOnly.length;
+// These counters describe the scan result, not the optional selection below. In
+// particular, turning off unpriced discovery must not make those assets look like
+// malformed/discarded inventory in the summary.
+const unpricedCount = morpho.assets.filter((asset) =>
+  asset.exclusionReason === 'price-missing-or-stale').length;
+const discarded = morpho.assets.length - executableCandidates.length - unpricedCount;
 
 ui.info(
   `Morpho inventory: found ${morpho.assets.length}, eligible ${executableCandidates.length}, `
-  + `unpriced ${unpricedCandidates.length}, discarded ${discarded}`,
+  + `unpriced ${unpricedCount}, discarded ${discarded}`,
 );
 
-const ranked = [...executableCandidates, ...discoveryOnly]
-  .sort((a, b) => (b.usdValue ?? -1) - (a.usdValue ?? -1))
-  .slice(0, maxTokens);
-const executableAddresses = new Set(executableCandidates.map((asset) => asset.address.toLowerCase()));
-const executableInventory = ranked.filter((asset) => executableAddresses.has(asset.address.toLowerCase()));
-const discoveryInventory = ranked.filter((asset) => !executableAddresses.has(asset.address.toLowerCase()));
+// Apply the cap to the two inventories separately, with executable inventory taking
+// priority. This prevents an explicitly discovery-only token from displacing a
+// usable raw-balance limit. Address ordering is deterministic and, deliberately,
+// does not treat usdValue (or any third-party price) as liquidity evidence.
+const byAddress = (a: (typeof morpho.assets)[number], b: (typeof morpho.assets)[number]): number =>
+  a.address.toLowerCase().localeCompare(b.address.toLowerCase());
+const executableInventory = [...executableCandidates].sort(byAddress).slice(0, maxTokens);
+const discoverySlots = Math.max(0, maxTokens - executableInventory.length);
+const discoveryInventory = [...discoveryOnly].sort(byAddress).slice(0, discoverySlots);
+const executableAddresses = new Set(executableInventory.map((asset) => asset.address.toLowerCase()));
 const seeds = [...executableInventory, ...discoveryInventory]
   .map((a) => ({
     symbol: a.symbol, address: a.address, decimals: a.decimals,
@@ -101,7 +110,7 @@ const seeds = [...executableInventory, ...discoveryInventory]
   }));
 ui.info(
   `Using ${executableInventory.length} executable assets and ${discoveryInventory.length} discovery-only assets `
-  + `(cap ${maxTokens}; ${Math.max(0, executableCandidates.length + discoveryOnly.length - ranked.length)} discarded by cap)`,
+  + `(cap ${maxTokens}; ${Math.max(0, executableCandidates.length + discoveryOnly.length - maxTokens)} omitted by cap)`,
 );
 const staticPairs = v2Pairs.filter((p) => p.chain === chain.key);
 const extra = expandPairs(chain.key, seeds, staticPairs);
