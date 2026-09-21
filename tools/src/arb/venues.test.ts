@@ -17,7 +17,7 @@ function pool(family: VenueFamily, address: Address, token0 = A, token1 = B, dat
     : family === 'aerodrome-cl' ? String(data.tickSpacing)
     : family === 'balancer-vault' ? String(data.vaultPoolId) : '';
   return { family, venue: family, address, token0, token1, liquidity: 1_000_000n, fee: 30, data,
-    id: venuePoolId(family, address, suffix) } as Pool;
+    id: venuePoolId(family, address, token0, token1, suffix) } as Pool;
 }
 
 test('all venue adapters produce guarded typed calldata', async () => {
@@ -42,6 +42,9 @@ test('all venue adapters produce guarded typed calldata', async () => {
     assert.throws(() => entry.adapter.encodeSwap({ pool: { ...entry.pool, id: `0x${'00'.repeat(32)}` }, tokenIn: A, tokenOut: B, amountIn: 10n, minAmountOut: 9n, blockNumber: 1n, recipient: EXECUTOR, deadline }), /pool identifier/);
     await assert.rejects(entry.adapter.estimateGas({ ...call, recipient: TARGET }), /recipient/);
     await assert.rejects(entry.adapter.estimateGas({ ...call, approval: { ...call.approval, amount: 11n } }), /token delta/);
+    const replacement = entry.adapter.encodeSwap({ pool: entry.pool, tokenIn: A, tokenOut: B, amountIn: 11n, minAmountOut: 8n, blockNumber: 1n, recipient: EXECUTOR, deadline });
+    await assert.rejects(entry.adapter.estimateGas({ ...call, calldata: replacement.calldata }), /calldata metadata/);
+    assert.throws(() => entry.adapter.encodeSwap({ pool: { ...entry.pool, token0: C }, tokenIn: C, tokenOut: B, amountIn: 10n, minAmountOut: 9n, blockNumber: 1n, recipient: EXECUTOR, deadline }), /pool identifier/);
   }
 });
 
