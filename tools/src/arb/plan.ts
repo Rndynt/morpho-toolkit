@@ -24,8 +24,10 @@ export type RawLegQuotes = {
 export type ExecutionCostsRaw = {
   /** Gas cost denominated in the loan token. */
   gasCostRaw: bigint;
-  /** Chain/L2 execution fee denominated in the loan token. */
-  chainFeeRaw: bigint;
+  /** Rollup L1 data fee denominated in the loan token. */
+  l1FeeRaw: bigint;
+  /** Private relay/builder payment denominated in the loan token. */
+  relayBidRaw: bigint;
   /** Additional loan-token buffer for estimation and execution risk. */
   safetyMarginRaw: bigint;
 };
@@ -39,9 +41,29 @@ export type EncodedArbPlan = {
   deadline: bigint;
   profitReceiver: Address;
   calldata: Hex;
+  costs: ExecutionCostsRaw;
+  grossProfitRaw: bigint;
+  netProfitRaw: bigint;
   executableByPocV2: boolean;
   notes: string[];
 };
+
+export function applyExecutionCosts(
+  plan: EncodedArbPlan,
+  costs: ExecutionCostsRaw,
+  thresholds: { minNetProfitRaw?: bigint; minNetProfitBps?: number } = {},
+): EncodedArbPlan {
+  for (const [field, value] of Object.entries(costs)) requireNonNegative(value, field);
+  const total = costs.gasCostRaw + costs.l1FeeRaw + costs.relayBidRaw + costs.safetyMarginRaw;
+  const netProfitRaw = plan.grossProfitRaw - total;
+  const absolute = thresholds.minNetProfitRaw ?? 0n;
+  const bps = thresholds.minNetProfitBps ?? 0;
+  if (!Number.isInteger(bps) || bps < 0 || bps > 10_000) throw new Error('minNetProfitBps must be from 0 through 10000');
+  const relative = (plan.loanAmountRaw * BigInt(bps) + BPS_DENOMINATOR - 1n) / BPS_DENOMINATOR;
+  if (netProfitRaw < absolute) throw new Error(`net profit ${netProfitRaw} is below absolute floor ${absolute}`);
+  if (netProfitRaw < relative) throw new Error(`net profit ${netProfitRaw} is below ${bps} bps capital floor ${relative}`);
+  return { ...plan, costs, netProfitRaw };
+}
 
 function kindToEnum(kind: VenueKind): number {
   return kind === 'aerodrome' ? 1 : 0;
@@ -72,6 +94,8 @@ export function encodePocV2Plan(
     costs: ExecutionCostsRaw;
     slippageBps: number;
     deadlineSeconds?: number;
+    minNetProfitRaw?: bigint;
+    minNetProfitBps?: number;
   },
 ): EncodedArbPlan {
   const { quotes, costs } = options;
@@ -94,7 +118,8 @@ export function encodePocV2Plan(
   requirePositive(quotes.firstLegAmountOutRaw, 'first-leg quote');
   requirePositive(quotes.secondLegAmountOutRaw, 'second-leg quote');
   requireNonNegative(costs.gasCostRaw, 'gasCostRaw');
-  requireNonNegative(costs.chainFeeRaw, 'chainFeeRaw');
+  requireNonNegative(costs.l1FeeRaw, 'l1FeeRaw');
+  requireNonNegative(costs.relayBidRaw, 'relayBidRaw');
   requireNonNegative(costs.safetyMarginRaw, 'safetyMarginRaw');
   if (quotes.blockNumber !== opp.blockNumber) {
     throw new Error(`quote blockNumber ${quotes.blockNumber} does not match opportunity snapshot ${opp.blockNumber}`);
@@ -108,15 +133,23 @@ export function encodePocV2Plan(
   if (minFinalAmount <= loanAmountRaw) {
     throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
   }
-  const requiredCostsRaw = costs.gasCostRaw + costs.chainFeeRaw + costs.safetyMarginRaw;
+  const allExecutionCostsRaw = costs.gasCostRaw + costs.l1FeeRaw + costs.relayBidRaw;
   // Execution limits are derived exclusively from the two on-chain router quotes at
   // the pinned snapshot, including the same slippage protection as min-out. Scanner
   // USD prices remain discovery/TVL metadata only.
+  const grossProfitRaw = quotes.secondLegAmountOutRaw - loanAmountRaw;
+  const netProfitRaw = quotes.secondLegAmountOutRaw - loanAmountRaw - allExecutionCostsRaw - costs.safetyMarginRaw;
   const minProfitRaw = minFinalAmount - loanAmountRaw;
-  requirePositive(minProfitRaw, 'quoted gross profit');
-  if (minProfitRaw < requiredCostsRaw) {
+  requirePositive(grossProfitRaw, 'quoted gross profit');
+  if (minProfitRaw < allExecutionCostsRaw + costs.safetyMarginRaw) {
     throw new Error('quoted gross profit must include gas, chain/L2 fees, and a safety margin');
   }
+  const absoluteFloor = options.minNetProfitRaw ?? 0n;
+  const minNetProfitBps = options.minNetProfitBps ?? 0;
+  if (!Number.isInteger(minNetProfitBps) || minNetProfitBps < 0 || minNetProfitBps > 10_000) throw new Error('minNetProfitBps must be from 0 through 10000');
+  const bpsFloor = (loanAmountRaw * BigInt(minNetProfitBps) + BPS_DENOMINATOR - 1n) / BPS_DENOMINATOR;
+  if (netProfitRaw < absoluteFloor) throw new Error(`net profit ${netProfitRaw} is below absolute floor ${absoluteFloor}`);
+  if (netProfitRaw < bpsFloor) throw new Error(`net profit ${netProfitRaw} is below ${minNetProfitBps} bps capital floor ${bpsFloor}`);
   if (minFinalAmount < loanAmountRaw + minProfitRaw) {
     throw new Error('minFinalAmount must cover loanAmountRaw plus minProfitRaw');
   }
@@ -152,5 +185,6 @@ export function encodePocV2Plan(
     }],
   });
 
-  return { opportunity: opp, loanAmountRaw, minIntermediateAmount, minFinalAmount, minProfitRaw, deadline, profitReceiver: options.profitReceiver, calldata, executableByPocV2, notes };
+  return { opportunity: opp, loanAmountRaw, minIntermediateAmount, minFinalAmount, minProfitRaw, deadline,
+    profitReceiver: options.profitReceiver, calldata, costs, grossProfitRaw, netProfitRaw, executableByPocV2, notes };
 }

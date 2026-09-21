@@ -123,8 +123,18 @@ npm run cli -- arb-plan --chain base --opportunity 1  # scan + fresh router quot
 npm run cli -- arb-execute --chain base               # latest-state simulation only
 ```
 
+`arb-plan` now builds the final executor calldata first and passes that exact decoded
+call to `estimateContractGas`. Ethereum costs itemize the buffered EIP-1559 base fee,
+priority fee, and optional `--relay-bid-native`; Base/Optimism additionally query the
+official GasPriceOracle, while Arbitrum queries the ArbGasInfo precompile. Every native
+component is converted to the loan token with an executable router quote and
+`--cost-slippage-bps` (default 100), never with a display/API price. The JSON plan
+includes `feeBreakdownNative`, loan-token `costs`, `grossProfitRaw`, and `netProfitRaw`.
+Use `--safety-margin-raw`, `--min-net-raw`, and `--min-net-bps` to set the remaining
+risk buffer and both absolute and capital-relative acceptance thresholds.
+
 Broadcasting is deliberately fail-closed: pass `--broadcast`, confirm interactively
-(or pass `--yes` for automation), provide `--min-net-raw`, and configure a private
+(or pass `--yes` for automation), provide `--min-net-raw` and `--min-net-bps`, and configure a private
 submission endpoint in `BASE_PRIVATE_TX_RPC_URL` (or `PRIVATE_TX_RPC_URL`). The CLI
 rechecks the chain, runtime bytecode hash, owner, Morpho address and liquidity, every
 allowlist entry, deadline, stale allowance, and profit receiver before calling both
