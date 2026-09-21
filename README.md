@@ -228,7 +228,7 @@ npm run cli -- flashloan --chain arbitrum --asset WETH --amount '$100000'
 npm run cli -- flashloan --chain base --asset USDC --amount 100000 --broadcast --yes
 ```
 
-Satu transaksi hanya menerima satu aset. CLI scan balance terbaru, menerapkan guard policy sebelum auto-allowlist, simulasi, lalu broadcast. `--broadcast` mengirim transaksi; `--yes` melewati prompt automation biasa tetapi tidak melewati konfirmasi override policy. Amount tidak boleh melebihi saldo Morpho.
+Satu transaksi hanya menerima satu aset. CLI scan balance terbaru dan menerapkan guard policy terhadap fingerprint on-chain terbaru sebelum **setiap** broadcast flashloan, termasuk ketika token sudah berada di allowlist executor. `--broadcast` mengirim transaksi; `--yes` melewati prompt automation biasa tetapi tidak melewati konfirmasi override policy. Amount tidak boleh melebihi saldo Morpho.
 
 Flag utama: `--chain`, `--min-usd`, `--max-price-age-hours`, `--token`, `--select`, `--asset`, `--amount`, `--plan`, `--broadcast`, `--yes`, `--redeploy`, `--json`.
 

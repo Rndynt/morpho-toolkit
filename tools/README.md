@@ -117,8 +117,9 @@ dan kontrol blacklist/pause.
 
 Symbol dan address dari Morpho/price API **bukan trust source**. Identitas yang dipakai
 policy adalah `(chainId, checksum address)`; validasi checksum dan chain ID, kemudian
-verifikasi bytecode/metadata on-chain. `setup` dan auto-allowlist `flashloan` menolak token
-non-executable. Escape hatch memerlukan sekaligus `--unsafe-token-policy-override` dan
+verifikasi runtime code hash, slot implementation proxy EIP-1967, dan metadata on-chain.
+`setup` serta setiap broadcast `flashloan` (meskipun token sudah di-allowlist) menolak token
+non-executable atau fingerprint yang berubah. Escape hatch memerlukan sekaligus `--unsafe-token-policy-override` dan
 `--confirm-unsafe-token-policy ALLOW_DISCOVERY_ONLY`; `--yes` saja tidak cukup.
 
 ## Data rahasia

@@ -38,7 +38,7 @@ import {
 import { arbExecutorAbi, makePlan, requoteOpportunity, verifyArbPreflight, type ArbDeployment } from './arb/execution.js';
 import { applyExecutionCosts } from './arb/plan.js';
 import { estimateExecutionCosts } from './arb/costs/estimate.js';
-import { executablePolicyFailure, loadTokenPolicies, tokenPolicyFor } from './config/token-policy.js';
+import { liveExecutablePolicyFailure, loadTokenPolicies, tokenPolicyFor } from './config/token-policy.js';
 
 loadToolEnv();
 
@@ -335,14 +335,24 @@ async function enforceTokenPolicies(
   selected: ScannedAsset[],
 ): Promise<void> {
   const registry = await loadTokenPolicies();
-  const failures = selected.flatMap((asset) => {
-    const reason = executablePolicyFailure(tokenPolicyFor(registry, chain.key, chain.chainId, asset.address));
+  const rpc = rpcUrl(chain);
+  const client = createPublicClient({ chain: viemChain(chain, rpc), transport: readTransport(chain, rpc) });
+  const checked = await Promise.all(selected.map(async (asset) => ({
+    asset,
+    reason: await liveExecutablePolicyFailure(
+      client,
+      asset.address,
+      tokenPolicyFor(registry, chain.key, chain.chainId, asset.address),
+      asset,
+    ),
+  })));
+  const failures = checked.flatMap(({ asset, reason }) => {
     return reason ? [`${asset.symbol} (${asset.address}): ${reason}`] : [];
   });
   if (!failures.length) return;
   const detail = failures.join('; ');
   if (!hasFlag(args, 'unsafe-token-policy-override')) {
-    throw new Error(`allowlist ditolak oleh token policy: ${detail}. Override berisiko tinggi membutuhkan --unsafe-token-policy-override dan konfirmasi eksplisit`);
+    throw new Error(`eksekusi ditolak oleh token policy: ${detail}. Override berisiko tinggi membutuhkan --unsafe-token-policy-override dan konfirmasi eksplisit`);
   }
   let confirmation = flag(args, 'confirm-unsafe-token-policy');
   if (!confirmation && process.stdin.isTTY) {
@@ -601,6 +611,9 @@ async function runFlashLoan(args: ParsedArgs): Promise<void> {
     console.log(centerBlock(`${color.magenta('[PLAN]')} Tidak ada transaksi dikirim`));
     return;
   }
+  // An existing executor allowlist is not a policy decision: re-check the live
+  // fingerprint before every state-changing flashloan broadcast.
+  await enforceTokenPolicies(args, result.chain, [asset]);
   await confirmBroadcast(
     `Kirim flashloan ${formattedAmount} ${asset.symbol} di ${result.chain.name}.`,
     hasFlag(args, 'yes'),
@@ -611,7 +624,6 @@ async function runFlashLoan(args: ParsedArgs): Promise<void> {
 
   let allowlistHash: Hash | undefined;
   if (!allowed) {
-    await enforceTokenPolicies(args, result.chain, [asset]);
     const allowHash = await walletClient.writeContract({
       address: executor, abi: executorAbi, functionName: 'setTokenAllowed', args: [asset.address, true],
     });

@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { getAddress } from 'viem';
+import { getAddress, keccak256, parseAbi, type PublicClient } from 'viem';
 import { tokenPoliciesPath, type Address } from './registry.js';
 
 export const REQUIRED_FORK_TESTS = [
@@ -24,6 +24,15 @@ export type TokenPolicy = {
   forkTests: Record<ForkTestName, ForkTestResult>;
 };
 export type TokenPolicyRegistry = Record<string, { chainId: number; tokens: Record<string, TokenPolicy> }>;
+
+const erc20MetadataAbi = parseAbi([
+  'function decimals() view returns (uint8)',
+  'function symbol() view returns (string)',
+]);
+
+// bytes32(uint256(keccak256('eip1967.proxy.implementation')) - 1)
+export const EIP1967_IMPLEMENTATION_SLOT =
+  '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc' as const;
 
 export async function loadTokenPolicies(): Promise<TokenPolicyRegistry> {
   return JSON.parse(await readFile(tokenPoliciesPath, 'utf8')) as TokenPolicyRegistry;
@@ -65,4 +74,43 @@ export function executablePolicyFailure(policy: TokenPolicy | undefined): string
 export function assertExecutableToken(policy: TokenPolicy | undefined): void {
   const failure = executablePolicyFailure(policy);
   if (failure) throw new Error(`token tidak executable: ${failure}`);
+}
+
+export type ExpectedTokenMetadata = { decimals: number; symbol: string };
+
+/** Validate a policy fingerprint against the token currently deployed on the selected chain. */
+export async function liveExecutablePolicyFailure(
+  client: PublicClient,
+  address: Address,
+  policy: TokenPolicy | undefined,
+  expected: ExpectedTokenMetadata,
+): Promise<string | undefined> {
+  const configuredFailure = executablePolicyFailure(policy);
+  if (configuredFailure || !policy) return configuredFailure;
+
+  const [bytecode, implementationWord, decimals, symbol] = await Promise.all([
+    client.getBytecode({ address }),
+    client.getStorageAt({ address, slot: EIP1967_IMPLEMENTATION_SLOT }),
+    client.readContract({ address, abi: erc20MetadataAbi, functionName: 'decimals' }),
+    client.readContract({ address, abi: erc20MetadataAbi, functionName: 'symbol' }),
+  ]);
+  if (!bytecode || bytecode === '0x') return 'runtime bytecode token tidak ditemukan';
+  if (keccak256(bytecode).toLowerCase() !== policy.codeHash.toLowerCase()) {
+    return 'runtime codeHash tidak cocok dengan policy';
+  }
+
+  const implementationHex = implementationWord?.slice(-40);
+  const liveImplementation = implementationHex && !/^0{40}$/.test(implementationHex)
+    ? getAddress(`0x${implementationHex}`) as Address
+    : null;
+  if (liveImplementation !== policy.proxyImplementation) {
+    return `proxyImplementation on-chain ${liveImplementation ?? 'null'} tidak cocok dengan policy`;
+  }
+  if (Number(decimals) !== policy.decimals || expected.decimals !== policy.decimals) {
+    return `decimals on-chain/scanner tidak cocok dengan policy (${Number(decimals)}/${expected.decimals}/${policy.decimals})`;
+  }
+  if (symbol !== policy.symbol || expected.symbol !== policy.symbol) {
+    return `symbol on-chain/scanner tidak cocok dengan policy (${symbol}/${expected.symbol}/${policy.symbol})`;
+  }
+  return undefined;
 }
