@@ -10,6 +10,7 @@ const sample: ArbOpportunity = {
   loanToken: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', intermediateToken: '0x4200000000000000000000000000000000000006', loanTokenDecimals: 6,
   buyOn: 'Sushi V2', sellOn: 'Aerodrome (volatile)', buyRouter: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', sellRouter: '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43',
   buyKind: 'v2', sellKind: 'aerodrome', buyFactory: null, sellFactory: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
+  buyPool: '0x0000000000000000000000000000000000000011', sellPool: '0x0000000000000000000000000000000000000012',
   buyAeroStable: null, sellAeroStable: false,
   loanAmountFormatted: '182.228176', grossProfitFormatted: '50.240348', loanAmountRaw: 182_228_176n, expectedIntermediateRaw: 100_000_000n, expectedFinalRaw: 240_000_000n, grossProfitRaw: 50_240_348n, estGasCostNative: 0.001, estGasCostInLoanToken: 3, netProfit: 47.24,
 };

@@ -111,3 +111,22 @@ CLI selalu mengambil `.env` dari folder `tools/`, sehingga command aman dijalank
 - RPC dan `PRIVATE_KEY` hanya disimpan di `.env`.
 - `.env.example` berisi template tanpa secret.
 - Jangan memasukkan private key ke `deployments.json`, command line, log, atau dokumentasi.
+
+## Arbitrage executor v2 (safe by default)
+
+The arbitrage executor has a separate registry under `_arbitrageExecutors` in
+`../evm/deployments.json`; it is never confused with the no-op flash-loan executor.
+
+```bash
+npm run cli -- arb-setup --chain base                 # plan only
+npm run cli -- arb-plan --chain base --opportunity 1  # scan + fresh router quotes
+npm run cli -- arb-execute --chain base               # latest-state simulation only
+```
+
+Broadcasting is deliberately fail-closed: pass `--broadcast`, confirm interactively
+(or pass `--yes` for automation), provide `--min-net-raw`, and configure a private
+submission endpoint in `BASE_PRIVATE_TX_RPC_URL` (or `PRIVATE_TX_RPC_URL`). The CLI
+rechecks the chain, runtime bytecode hash, owner, Morpho address and liquidity, every
+allowlist entry, deadline, stale allowance, and profit receiver before calling both
+`simulateContract` and `estimateContractGas`; it repeats mutable checks immediately
+before private submission.

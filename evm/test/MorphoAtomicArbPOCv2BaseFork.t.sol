@@ -121,7 +121,7 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
     /// Steps: dump WETH into Sushi's shallow pool (real swap) -> buy the now-cheap WETH
     /// back via Sushi (V2 leg) -> sell it via Aerodrome (AERODROME leg) -> verify Morpho
     /// is repaid and PROFIT_RECEIVER is paid real USDC.
-    function test_CapturesImbalanceSellingThroughAerodrome() public {
+    function test_IntegrationDeployAllowlistScanRequoteExecuteRepayAndProfit() public {
         (uint256 sushiWethReserve, uint256 sushiUsdcReserve) = _v2Reserves(SUSHI_V2_ROUTER, "Sushi V2");
         _aeroWethReserve("Aerodrome (volatile)"); // re-confirm the Aerodrome leg is healthy too
 
@@ -178,11 +178,18 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
         });
 
         uint256 receiverBefore = IERC20Min(USDC).balanceOf(PROFIT_RECEIVER);
+        uint256 morphoBefore = IERC20Min(USDC).balanceOf(MORPHO);
         uint256 profit = poc.executeArbitrage(params);
 
         assertGe(profit, minProfit, "profit below the minimum we required");
         assertEq(IERC20Min(USDC).balanceOf(PROFIT_RECEIVER) - receiverBefore, profit, "profit not paid out correctly");
         assertEq(IERC20Min(USDC).balanceOf(address(poc)), 0, "loan-token dust left in contract");
+        assertEq(IERC20Min(USDC).balanceOf(MORPHO), morphoBefore, "Morpho principal was not repaid");
+        assertEq(poc.allowedToken(USDC), true, "loan token was not configured");
+        assertEq(poc.allowedToken(WETH), true, "intermediate token was not configured");
+        assertEq(poc.allowedRouter(SUSHI_V2_ROUTER), true, "buy router was not configured");
+        assertEq(poc.allowedRouter(AERODROME_ROUTER), true, "sell router was not configured");
+        assertEq(poc.allowedAerodromeFactory(AERODROME_FACTORY), true, "factory was not configured");
 
         console2.log("Captured profit via Aerodrome leg (USDC, 6dp):", profit);
     }
