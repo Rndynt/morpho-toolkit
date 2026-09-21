@@ -56,6 +56,7 @@ const seeds = morpho.assets
   .slice(0, maxTokens)
   .map((a) => ({
     symbol: a.symbol, address: a.address, decimals: a.decimals,
+    balance: a.balance, blockNumber: morpho.blockNumber, eligible: a.eligible,
     // Do not forward stale scanner prices into the TVL display/filter.
     priceUsd: a.exclusionReason === 'price-missing-or-stale' ? null : a.priceUsd,
     priceTimestamp: a.priceTimestamp, priceSource: a.priceSource,
@@ -71,6 +72,7 @@ const result = await scanArbOpportunities({
   chain,
   rpcUrl: rpc,
   seedTokens: seeds,
+  morphoAddress: morpho.morpho,
   minTvlUsd: minTvl,
   onProgress: (m) => console.log(`${color.cyan('◌')} ${color.dim(m)}`),
 });

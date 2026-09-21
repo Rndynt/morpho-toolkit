@@ -718,6 +718,8 @@ async function scanAll(args: ParsedArgs): Promise<void> {
 
 async function runArbScan(args: ParsedArgs): Promise<ArbScanResult> {
   const chain = chainFromArgs(args);
+  const registry = await loadDeployments();
+  const deployment = deploymentFor(registry, chain.key);
   const progress = hasFlag(args, 'json')
     ? undefined
     : (message: string): void => console.log(`${color.cyan('◌')} ${color.dim(message)}`);
@@ -725,6 +727,9 @@ async function runArbScan(args: ParsedArgs): Promise<ArbScanResult> {
     chain,
     rpcUrl: rpcUrl(chain),
     gasUnitsEstimate: numberFlag(args, 'gas-units', 400_000) || undefined,
+    morphoAddress: deployment?.morpho ? getAddress(deployment.morpho) as Address : undefined,
+    configuredMaxTradeSizeRaw: flag(args, 'max-trade-raw') !== undefined
+      ? BigInt(flag(args, 'max-trade-raw')!) : undefined,
     onProgress: progress,
   });
 }
@@ -809,11 +814,7 @@ async function watchArbScan(args: ParsedArgs, minNetProfit: number): Promise<voi
     const cycleStart = new Date();
     try {
       const chain = chainFromArgs(args);
-      const result = await scanArbOpportunities({
-        chain,
-        rpcUrl: rpcUrl(chain),
-        gasUnitsEstimate: numberFlag(args, 'gas-units', 400_000) || undefined,
-      });
+      const result = await runArbScan(args);
       const shown = result.opportunities.filter((o) => (o.netProfit ?? Number(formatUnits(o.grossProfitRaw, o.loanTokenDecimals))) >= minNetProfit);
       if (shown.length > 0) {
         console.log('');
