@@ -47,6 +47,7 @@ abstract class BaseAdapter implements VenueAdapter {
   }
 
   protected validateRequest(request: ExactInputRequest): void {
+    this.validatePoolShape(request.pool);
     if (request.amountIn <= 0n) throw new Error(`${this.family}: amountIn must be positive`);
     if (request.pool.venue !== this.family) throw new Error(`${this.family}: pool venue mismatch`);
     const forward = same(request.tokenIn, request.pool.token0) && same(request.tokenOut, request.pool.token1);
@@ -56,6 +57,7 @@ abstract class BaseAdapter implements VenueAdapter {
 
   protected checkedCall(request: SwapRequest, calldata: Hex): TypedSwapCall {
     this.validateRequest(request);
+    if (request.minAmountOut <= 0n) throw new Error(`${this.family}: minAmountOut must be positive`);
     if (same(request.recipient, ZERO) || !same(request.recipient, this.config.executor)) {
       throw new Error(`${this.family}: recipient must be the executor`);
     }
@@ -80,11 +82,29 @@ abstract class BaseAdapter implements VenueAdapter {
   async estimateGas(call: TypedSwapCall): Promise<bigint> {
     if (call.venue !== this.family || call.target.toLowerCase() !== this.config.target.toLowerCase()) throw new Error('call does not belong to adapter');
     if (selector(call.calldata) !== call.selector) throw new Error('typed call selector mismatch');
+    const item = this.abi.find((entry) => entry.type === 'function' && entry.name === this.functionName);
+    if (!item || item.type !== 'function' || call.selector !== toFunctionSelector(item)) throw new Error('typed call selector is not allowed');
+    if (!same(call.recipient, this.config.executor)) throw new Error('typed call recipient mismatch');
+    const now = BigInt(Math.floor(Date.now() / 1000));
+    if (call.deadline < now || call.deadline > now + MAX_DEADLINE_WINDOW) throw new Error('typed call deadline mismatch');
+    if (!same(call.approval.spender, this.config.target) || call.approval.amount <= 0n) throw new Error('typed call approval mismatch');
+    if (call.tokenDeltas[0].direction !== 'decrease' || call.tokenDeltas[1].direction !== 'increase'
+      || !same(call.tokenDeltas[0].token, call.approval.token)
+      || call.tokenDeltas[0].maximum !== call.approval.amount || call.tokenDeltas[1].minimum <= 0n) {
+      throw new Error('typed call token delta mismatch');
+    }
     return this.config.rpc.estimateGas({ account: this.config.executor, to: call.target, data: call.calldata });
   }
 
   async validatePool(pool: Pool): Promise<void> {
+    this.validatePoolShape(pool);
+  }
+
+  /** Synchronous by design so encodeSwap cannot accidentally encode an undiscovered or
+   * forged pool while callers that discover pools can still await validatePool. */
+  private validatePoolShape(pool: Pool): void {
     if (pool.venue !== this.family || same(pool.address, ZERO) || same(pool.token0, pool.token1) || pool.liquidity <= 0n) throw new Error(`${this.family}: invalid pool`);
+    if (same(pool.token0, ZERO) || same(pool.token1, ZERO)) throw new Error(`${this.family}: invalid pool token`);
     const expected = poolId(this.family, pool.address, this.identitySuffix(pool));
     if (pool.id !== expected) throw new Error(`${this.family}: invalid pool identifier`);
   }
@@ -98,20 +118,31 @@ const clAbi = parseAbi(['function exactInputSingle((address tokenIn,address toke
 export class UniswapV3Adapter extends BaseAdapter {
   readonly family = 'uniswap-v3' as const;
   protected readonly abi = clAbi; protected readonly functionName = 'exactInputSingle';
-  protected identitySuffix(pool: Pool): string { return String(pool.data.feeTier ?? pool.fee); }
+  protected identitySuffix(pool: Pool): string {
+    const fee = Number(pool.data.feeTier ?? pool.fee);
+    if (!Number.isInteger(fee) || fee <= 0 || fee > 0xffffff) throw new Error('uniswap-v3: invalid fee tier');
+    return String(fee);
+  }
   encodeSwap(r: SwapRequest): TypedSwapCall {
     const calldata = encodeFunctionData({ abi: clAbi, functionName: 'exactInputSingle', args: [{ tokenIn: r.tokenIn, tokenOut: r.tokenOut, fee: Number(r.pool.data.feeTier ?? r.pool.fee), recipient: r.recipient, deadline: r.deadline, amountIn: r.amountIn, amountOutMinimum: r.minAmountOut, sqrtPriceLimitX96: 0n }] });
     return this.checkedCall(r, calldata);
   }
 }
 
+// Slipstream/Aerodrome CL keys a pool by signed tick spacing rather than a
+// Uniswap V3 uint24 fee tier; using the Uniswap tuple here would encode a different ABI.
+const aeroClAbi = parseAbi(['function exactInputSingle((address tokenIn,address tokenOut,int24 tickSpacing,address recipient,uint256 deadline,uint256 amountIn,uint256 amountOutMinimum,uint160 sqrtPriceLimitX96) params) returns (uint256 amountOut)']);
+
 export class AerodromeConcentratedAdapter extends BaseAdapter {
   readonly family = 'aerodrome-cl' as const;
-  protected readonly abi = clAbi; protected readonly functionName = 'exactInputSingle';
-  protected identitySuffix(pool: Pool): string { return String(pool.data.tickSpacing); }
+  protected readonly abi = aeroClAbi; protected readonly functionName = 'exactInputSingle';
+  protected identitySuffix(pool: Pool): string {
+    const spacing = Number(pool.data.tickSpacing);
+    if (!Number.isInteger(spacing) || spacing <= 0 || spacing > 0x7fffff) throw new Error('aerodrome-cl: invalid tick spacing');
+    return String(spacing);
+  }
   encodeSwap(r: SwapRequest): TypedSwapCall {
-    if (!Number.isInteger(Number(r.pool.data.tickSpacing))) throw new Error('aerodrome-cl: tick spacing missing');
-    const calldata = encodeFunctionData({ abi: clAbi, functionName: 'exactInputSingle', args: [{ tokenIn: r.tokenIn, tokenOut: r.tokenOut, fee: r.pool.fee, recipient: r.recipient, deadline: r.deadline, amountIn: r.amountIn, amountOutMinimum: r.minAmountOut, sqrtPriceLimitX96: 0n }] });
+    const calldata = encodeFunctionData({ abi: aeroClAbi, functionName: 'exactInputSingle', args: [{ tokenIn: r.tokenIn, tokenOut: r.tokenOut, tickSpacing: Number(r.pool.data.tickSpacing), recipient: r.recipient, deadline: r.deadline, amountIn: r.amountIn, amountOutMinimum: r.minAmountOut, sqrtPriceLimitX96: 0n }] });
     return this.checkedCall(r, calldata);
   }
 }
