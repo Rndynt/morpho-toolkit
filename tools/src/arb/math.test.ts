@@ -1,90 +1,82 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { ammOutput, optimalTwoLegArbitrage, type ArbLeg, type V2PoolQuote } from './math.js';
+import { ammOutput, integerSquareRoot, optimalTwoLegArbitrage, type ArbLeg, type V2PoolQuote } from './math.js';
 
 test('ammOutput matches hand-computed Uniswap V2 formula', () => {
-  const pool: V2PoolQuote = { reserveIn: 1_000_000n, reserveOut: 1_000_000n, feeBps: 30 };
-  // amountInWithFee = 10_000 * 9_970 = 99,700,000
-  // numerator = 99,700,000 * 1,000,000 = 99,700,000,000,000
-  // denominator = 1,000,000*10,000 + 99,700,000 = 10,099,700,000
-  // out = floor(99,700,000,000,000 / 10,099,700,000) = 9871
+  const pool: V2PoolQuote = { reserveIn: 1_000_000n, reserveOut: 1_000_000n, feeBps: 30n };
   assert.equal(ammOutput(10_000n, pool), 9871n);
 });
 
 test('ammOutput returns 0 for degenerate inputs', () => {
-  const pool: V2PoolQuote = { reserveIn: 1_000n, reserveOut: 1_000n, feeBps: 30 };
+  const pool: V2PoolQuote = { reserveIn: 1_000n, reserveOut: 1_000n, feeBps: 30n };
   assert.equal(ammOutput(0n, pool), 0n);
-  assert.equal(ammOutput(10n, { reserveIn: 0n, reserveOut: 1_000n, feeBps: 30 }), 0n);
+  assert.equal(ammOutput(10n, { reserveIn: 0n, reserveOut: 1_000n, feeBps: 30n }), 0n);
 });
 
-test('optimalTwoLegArbitrage finds a genuine local optimum for an imbalanced pair', () => {
-  const buyLeg: ArbLeg = { reserveIn: 1_000_000, reserveOut: 2_000_000, feeBps: 30 };
-  const sellLeg: ArbLeg = { reserveIn: 500_000, reserveOut: 1_100_000, feeBps: 30 };
+test('integerSquareRoot floors arbitrary-size values', () => {
+  for (const value of [0n, 1n, 2n, 3n, 4n, 15n, 16n, 17n, (1n << 512n) - 1n]) {
+    const root = integerSquareRoot(value);
+    assert.ok(root * root <= value);
+    assert.ok((root + 1n) * (root + 1n) > value);
+  }
+});
 
-  const result = optimalTwoLegArbitrage(buyLeg, sellLeg);
-  assert.equal(result.profitable, true);
-  assert.ok(result.loanAmount > 0);
+function bruteForce(buy: ArbLeg, sell: ArbLeg, limit: bigint) {
+  let loanAmount = 0n;
+  let grossProfit = 0n;
+  for (let input = 1n; input <= limit; input++) {
+    const profit = ammOutput(ammOutput(input, buy), sell) - input;
+    if (profit > grossProfit) ({ loanAmount, grossProfit } = { loanAmount: input, grossProfit: profit });
+  }
+  return { loanAmount, grossProfit, profitable: grossProfit > 0n };
+}
 
-  const profitAt = (x: number): number => {
-    const a = 1 - buyLeg.feeBps / 10_000;
-    const b = 1 - sellLeg.feeBps / 10_000;
-    const intermediate = (a * x * buyLeg.reserveOut) / (buyLeg.reserveIn + a * x);
-    const out = (b * intermediate * sellLeg.reserveOut) / (sellLeg.reserveIn + b * intermediate);
-    return out - x;
+test('property: bigint optimizer matches brute force across generated reserves and decimal scales', () => {
+  // Deterministic property generation keeps failures reproducible while covering token
+  // decimal metadata and magnitudes which cannot be represented safely as numbers.
+  let state = 0x6d2b79f5n;
+  const random = (maximum: bigint) => {
+    state = (state * 1_664_525n + 1_013_904_223n) & 0xffff_ffffn;
+    return state % maximum;
   };
 
-  const atOptimum = profitAt(result.loanAmount);
-  // If the closed-form derivation were wrong, one of these neighbors would beat it.
-  for (const factor of [0.1, 0.5, 0.9, 1.1, 1.5, 3]) {
-    const neighbor = profitAt(result.loanAmount * factor);
-    assert.ok(atOptimum >= neighbor - 1e-9, `x*=${result.loanAmount} (profit ${atOptimum}) should beat ${factor}x (profit ${neighbor})`);
+  for (const decimals of [6, 8, 18]) {
+    const scale = 10n ** BigInt(decimals);
+    for (let property = 0; property < 80; property++) {
+      // A large common offset exercises > MAX_SAFE_INTEGER reserves. Small output
+      // reserves are also generated so EVM division/rounding influences the optimum.
+      const magnitude = property % 2 === 0 ? scale : 1n;
+      const buy: ArbLeg = {
+        reserveIn: (40n + random(160n)) * magnitude,
+        reserveOut: (40n + random(220n)) * magnitude,
+        feeBps: random(101n),
+      };
+      const sell: ArbLeg = {
+        reserveIn: (40n + random(160n)) * magnitude,
+        reserveOut: (40n + random(220n)) * magnitude,
+        feeBps: random(101n),
+      };
+      const limit = 250n;
+      const optimized = optimalTwoLegArbitrage(buy, sell, limit);
+      const brute = bruteForce(buy, sell, limit);
+      assert.equal(optimized.grossProfit, brute.grossProfit,
+        `profit mismatch for decimals=${decimals}, buy=${JSON.stringify(buy, (_, v) => typeof v === 'bigint' ? String(v) : v)}`);
+      // Several inputs can have the same maximum due to integer rounding, so compare
+      // the optimizer's transaction-relevant output rather than its tied input.
+      if (optimized.profitable) {
+        assert.equal(ammOutput(ammOutput(optimized.loanAmount, buy), sell) - optimized.loanAmount, brute.grossProfit);
+      }
+      assert.equal(optimized.profitable, brute.profitable);
+      if (magnitude === scale && decimals === 18) assert.ok(buy.reserveIn > BigInt(Number.MAX_SAFE_INTEGER));
+    }
   }
-  assert.ok(Math.abs(atOptimum - result.grossProfit) < 1e-6);
 });
 
-test('optimalTwoLegArbitrage reports no opportunity for identical pools (fees make it a loss)', () => {
-  const leg: ArbLeg = { reserveIn: 1_000_000, reserveOut: 1_000_000, feeBps: 30 };
-  const result = optimalTwoLegArbitrage(leg, leg);
-  assert.equal(result.profitable, false);
-  assert.equal(result.loanAmount, 0);
-});
-
-test('optimalTwoLegArbitrage scales sensibly with a bigger imbalance', () => {
-  const mild = optimalTwoLegArbitrage(
-    { reserveIn: 1_000_000, reserveOut: 1_010_000, feeBps: 30 },
-    { reserveIn: 1_000_000, reserveOut: 1_000_000, feeBps: 30 },
-  );
-  const strong = optimalTwoLegArbitrage(
-    { reserveIn: 1_000_000, reserveOut: 1_100_000, feeBps: 30 },
-    { reserveIn: 1_000_000, reserveOut: 1_000_000, feeBps: 30 },
-  );
-  assert.ok(strong.profitable && mild.profitable);
-  assert.ok(strong.grossProfit > mild.grossProfit, 'bigger imbalance should yield more profit');
-  assert.ok(strong.loanAmount > mild.loanAmount, 'bigger imbalance should justify a bigger loan');
-});
-
-test('matches the real Base fork-test numbers within AMM rounding', () => {
-  // Reserves as logged by the actual forge fork test run against Base mainnet, taken
-  // right after the test's 20% WETH dump into Sushi (post-dump Sync event values from
-  // the Termux run: WETH 1142301371976125313, USDC 1176484219).
-  const sushiPostDumpWeth = 1_142_301_371_976_125_313;
-  const sushiPostDumpUsdc = 1_176_484_219;
-  const uniswapWeth = 317_389_073_216_050_948_349;
-  const uniswapUsdc = 781_495_613_336;
-
-  // Buy WETH cheaply on Sushi (USDC in, WETH out) then sell on Uniswap (WETH in, USDC out) -
-  // the same direction the real fork test executed and found profitable.
-  const buyLeg: ArbLeg = { reserveIn: sushiPostDumpUsdc, reserveOut: sushiPostDumpWeth, feeBps: 30 };
-  const sellLeg: ArbLeg = { reserveIn: uniswapWeth, reserveOut: uniswapUsdc, feeBps: 30 };
-
+test('matches the real Base fork-test reserves without precision loss', () => {
+  const buyLeg: ArbLeg = { reserveIn: 1_176_484_219n, reserveOut: 1_142_301_371_976_125_313n, feeBps: 30n };
+  const sellLeg: ArbLeg = { reserveIn: 317_389_073_216_050_948_349n, reserveOut: 781_495_613_336n, feeBps: 30n };
   const result = optimalTwoLegArbitrage(buyLeg, sellLeg);
-  assert.ok(result.profitable, 'should find the same profitable direction the real fork test found');
-  // The real run used a smaller, arbitrarily-chosen loan (10% of Sushi's post-dump USDC
-  // reserve = ~117.6 USDC = 117_600_000 raw units) and still cleared ~50 USDC profit. The
-  // true unconstrained optimum should be in the same order of magnitude (raw 6-decimal
-  // USDC units here, since buyLeg.reserveIn was given in raw units), not wildly off.
-  assert.ok(
-    result.loanAmount > 20_000_000 && result.loanAmount < 5_000_000_000,
-    `optimal loan ${result.loanAmount} raw units out of expected order of magnitude ($20-$5,000)`,
-  );
+  assert.ok(result.profitable);
+  assert.ok(result.loanAmount > 20_000_000n && result.loanAmount < 5_000_000_000n);
+  assert.equal(result.grossProfit, ammOutput(ammOutput(result.loanAmount, buyLeg), sellLeg) - result.loanAmount);
 });

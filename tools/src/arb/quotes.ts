@@ -51,7 +51,7 @@ export async function quoteExactInput(
     }) as readonly bigint[];
     const amountOutRaw = amounts.at(-1);
     if (amountOutRaw === undefined || amountOutRaw <= 0n) throw new Error('V2 router returned no output amount');
-    return { amountInRaw, amountOutRaw, venue, poolType: 'v2', feeBps: BigInt(venue.fee.bps), snapshotBlock };
+    return { amountInRaw, amountOutRaw, venue, poolType: 'v2', feeBps: venue.fee.bps, snapshotBlock };
   }
 
   if (!venue.pool || !venue.factory) throw new Error('Solidly quote requires pool and factory');
@@ -64,5 +64,5 @@ export async function quoteExactInput(
   }) as readonly bigint[];
   const amountOutRaw = amounts.at(-1);
   if (amountOutRaw === undefined || amountOutRaw <= 0n) throw new Error('Solidly router returned no output amount');
-  return { amountInRaw, amountOutRaw, venue, poolType: stable ? 'stable' : 'volatile', feeBps: BigInt(venue.fee.bps), snapshotBlock };
+  return { amountInRaw, amountOutRaw, venue, poolType: stable ? 'stable' : 'volatile', feeBps: venue.fee.bps, snapshotBlock };
 }
