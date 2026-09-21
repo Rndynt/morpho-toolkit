@@ -23,13 +23,26 @@ const v2PairAbi = parseAbi([
   'function getReserves() view returns (uint112,uint112,uint32)',
   'function token0() view returns (address)',
 ]);
+const pairFeeAbi = parseAbi(['function fee() view returns (uint256)']);
 
-const solidlyFactoryAbi = parseAbi(['function getPool(address,address,bool) view returns (address)']);
+const solidlyFactoryAbi = parseAbi([
+  'function getPool(address,address,bool) view returns (address)',
+  'function getFee(address,bool) view returns (uint256)',
+]);
 const solidlyPoolAbi = parseAbi([
   'function getReserves() view returns (uint256,uint256,uint256)',
   'function token0() view returns (address)',
 ]);
 const erc20BalanceAbi = parseAbi(['function balanceOf(address) view returns (uint256)']);
+
+export type VerifiedFee = {
+  bps: number;
+  blockNumber: bigint;
+  source:
+    | { kind: 'factory-getFee'; address: Address; raw: bigint; denominator: bigint }
+    | { kind: 'pair-fee'; address: Address; raw: bigint; denominator: bigint }
+    | { kind: 'verified-fixed-model'; address: Address; protocol: string };
+};
 
 type RouterReserves = {
   label: string;
@@ -37,13 +50,40 @@ type RouterReserves = {
   pair: Address;
   reserveA: bigint;
   reserveB: bigint;
-  feeBps: number;
+  fee: VerifiedFee;
   kind: VenueKind;
   // Only set for kind === 'aerodrome' - a V2 router has no equivalent since the router
   // address alone fully determines which pool it reaches.
   factory: Address | null;
   stable: boolean | null;
 };
+
+/** Convert an adapter's fee units into basis points without silently rounding. */
+export function normalizeFeeBps(raw: bigint, denominator: bigint): number {
+  if (raw < 0n || denominator <= 0n) throw new Error('invalid fee or denominator');
+  const scaled = raw * 10_000n;
+  if (scaled % denominator !== 0n) throw new Error(`fee ${raw}/${denominator} is not an exact basis-point value`);
+  const bps = scaled / denominator;
+  if (bps > 10_000n) throw new Error(`fee exceeds 100%: ${bps} bps`);
+  return Number(bps);
+}
+
+/** Aerodrome PoolFactory fees use a 10,000-unit denominator (one unit is one bp). */
+export async function readAerodromeFee(
+  client: PublicClient,
+  factory: Address,
+  pool: Address,
+  stable: boolean,
+  blockNumber: bigint,
+): Promise<VerifiedFee> {
+  const raw = await client.readContract({
+    blockNumber, address: factory, abi: solidlyFactoryAbi, functionName: 'getFee', args: [pool, stable],
+  }) as bigint;
+  return {
+    bps: normalizeFeeBps(raw, 10_000n), blockNumber,
+    source: { kind: 'factory-getFee', address: factory, raw, denominator: 10_000n },
+  };
+}
 
 export type ArbOpportunity = {
   /** Immutable chain snapshot used for every reserve/factory read in this opportunity. */
@@ -77,6 +117,8 @@ export type ArbOpportunity = {
   sellFactory: Address | null;
   buyPool: Address;
   sellPool: Address;
+  buyFee: VerifiedFee;
+  sellFee: VerifiedFee;
   /** Actual Solidly pool type read as part of the router quote; null for V2. */
   buyAeroStable: boolean | null;
   sellAeroStable: boolean | null;
@@ -262,18 +304,24 @@ async function resolveRouterReserves(
 ): Promise<RouterReserves[]> {
   const pairLabel = `${pairConfig.tokenA.symbol}/${pairConfig.tokenB.symbol}`;
 
+  const recognizedRouters = pairConfig.routers.filter((router) => {
+    if (router.feeModel.kind !== 'unsupported') return true;
+    skipped.push({ pairLabel, router: router.label, reason: `non-executable fee model: ${router.feeModel.reason}` });
+    return false;
+  });
+
   const factoryCalls = await client.multicall({
     blockNumber,
     allowFailure: true,
     multicallAddress: MULTICALL3,
-    contracts: pairConfig.routers.map((r) => ({
+    contracts: recognizedRouters.map((r) => ({
       address: r.router,
       abi: v2RouterAbi,
       functionName: 'factory' as const,
     })),
   });
 
-  const withFactory: Array<{ router: RouterCandidate; factory: Address | null }> = pairConfig.routers.map(
+  const withFactory: Array<{ router: RouterCandidate; factory: Address | null }> = recognizedRouters.map(
     (r, i) => ({
       router: r,
       factory: factoryCalls[i]?.status === 'success' ? (factoryCalls[i]!.result as Address) : null,
@@ -338,27 +386,56 @@ async function resolveRouterReserves(
   });
 
   const results: RouterReserves[] = [];
-  usablePairs.forEach((entry, i) => {
+  for (let i = 0; i < usablePairs.length; i++) {
+    const entry = usablePairs[i]!;
     const reservesResult = reserveCalls[i * 2];
     const token0Result = reserveCalls[i * 2 + 1];
     if (reservesResult?.status !== 'success' || token0Result?.status !== 'success') {
       skipped.push({ pairLabel, router: entry.router.label, reason: 'getReserves/token0 read failed' });
-      return;
+      continue;
     }
     const [r0, r1] = reservesResult.result as readonly [bigint, bigint, number];
     const isAToken0 = getAddress(token0Result.result as Address) === getAddress(pairConfig.tokenA.address);
+    let fee: VerifiedFee;
+    if (entry.router.feeModel.kind === 'fixed-bps') {
+      try {
+        const bps = normalizeFeeBps(BigInt(entry.router.feeModel.feeBps), 10_000n);
+        fee = {
+          bps, blockNumber,
+          source: { kind: 'verified-fixed-model', address: entry.pair, protocol: entry.router.feeModel.protocol },
+        };
+      } catch (error) {
+        skipped.push({ pairLabel, router: entry.router.label, reason: `invalid fixed fee adapter: ${errorMessage(error)}` });
+        continue;
+      }
+    } else if (entry.router.feeModel.kind === 'pair-fee') {
+      try {
+        const raw = await client.readContract({
+          blockNumber, address: entry.pair, abi: pairFeeAbi, functionName: entry.router.feeModel.functionName,
+        }) as bigint;
+        fee = {
+          bps: normalizeFeeBps(raw, entry.router.feeModel.denominator), blockNumber,
+          source: { kind: 'pair-fee', address: entry.pair, raw, denominator: entry.router.feeModel.denominator },
+        };
+      } catch (error) {
+        skipped.push({ pairLabel, router: entry.router.label, reason: `fee verification failed: ${errorMessage(error)}` });
+        continue;
+      }
+    } else {
+      continue;
+    }
     results.push({
       label: entry.router.label,
       router: entry.router.router,
       pair: entry.pair,
       reserveA: isAToken0 ? r0 : r1,
       reserveB: isAToken0 ? r1 : r0,
-      feeBps: pairConfig.feeBps,
+      fee,
       kind: 'v2',
       factory: null,
       stable: null,
     });
-  });
+  }
   return results;
 }
 
@@ -388,21 +465,27 @@ async function resolveSolidlyReserves(
   }
 
   try {
-    const [reservesResult, token0Result] = await client.multicall({
+    const [reservesResult, token0Result, feeResult] = await client.multicall({
       blockNumber,
       allowFailure: true,
       multicallAddress: MULTICALL3,
       contracts: [
         { address: poolAddress, abi: solidlyPoolAbi, functionName: 'getReserves' as const },
         { address: poolAddress, abi: solidlyPoolAbi, functionName: 'token0' as const },
+        { address: entry.pool.factory, abi: solidlyFactoryAbi, functionName: 'getFee' as const, args: [poolAddress, entry.pool.stable] as const },
       ],
     });
-    if (reservesResult?.status !== 'success' || token0Result?.status !== 'success') {
-      skipped.push({ pairLabel, router: entry.pool.label, reason: 'getReserves/token0 read failed' });
+    if (reservesResult?.status !== 'success' || token0Result?.status !== 'success' || feeResult?.status !== 'success') {
+      skipped.push({ pairLabel, router: entry.pool.label, reason: 'getReserves/token0/getFee read failed; venue is non-executable' });
       return null;
     }
     const [r0, r1] = reservesResult.result as readonly [bigint, bigint, bigint];
     const isAToken0 = getAddress(token0Result.result as Address) === getAddress(entry.tokenA.address);
+    const rawFee = feeResult.result as bigint;
+    const fee: VerifiedFee = {
+      bps: normalizeFeeBps(rawFee, 10_000n), blockNumber,
+      source: { kind: 'factory-getFee', address: entry.pool.factory, raw: rawFee, denominator: 10_000n },
+    };
     return {
       label: entry.pool.label,
       // The Router contract, NOT the pool - MorphoAtomicArbPOCv2 calls
@@ -412,7 +495,7 @@ async function resolveSolidlyReserves(
       pair: poolAddress,
       reserveA: isAToken0 ? r0 : r1,
       reserveB: isAToken0 ? r1 : r0,
-      feeBps: entry.pool.feeBps,
+      fee,
       kind: 'aerodrome',
       factory: entry.pool.factory,
       stable: entry.pool.stable,
@@ -648,7 +731,7 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
 
     const quoteVenue = (reserve: RouterReserves): QuoteVenue => ({
       kind: reserve.kind, label: reserve.label, router: reserve.router, factory: reserve.factory,
-      pool: reserve.pair, feeBps: reserve.feeBps,
+      pool: reserve.pair, fee: reserve.fee,
     });
     const cachedQuote = (reserve: RouterReserves, tokenIn: Address, tokenOut: Address, amountInRaw: bigint) => {
       const key = [reserve.kind, reserve.router.toLowerCase(), reserve.pair.toLowerCase(), tokenIn.toLowerCase(), tokenOut.toLowerCase(), amountInRaw, blockNumber].join(':');
@@ -691,8 +774,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
 
       if (isConstantProduct(buyOn) && isConstantProduct(sellOn)) {
         const closedForm = optimalTwoLegArbitrage(
-          { reserveIn: Number(formatUnits(buyReserveIn, loanDecimals)), reserveOut: Number(formatUnits(buyReserveOut, intermediateDecimals)), feeBps: buyOn.feeBps },
-          { reserveIn: Number(formatUnits(sellReserveIn, intermediateDecimals)), reserveOut: Number(formatUnits(sellReserveOut, loanDecimals)), feeBps: sellOn.feeBps },
+          { reserveIn: Number(formatUnits(buyReserveIn, loanDecimals)), reserveOut: Number(formatUnits(buyReserveOut, intermediateDecimals)), feeBps: buyOn.fee.bps },
+          { reserveIn: Number(formatUnits(sellReserveIn, intermediateDecimals)), reserveOut: Number(formatUnits(sellReserveOut, loanDecimals)), feeBps: sellOn.fee.bps },
         );
         if (!closedForm.profitable) return null;
         const loanAmountRaw = capLoanAmount(numberToRaw(closedForm.loanAmount, loanDecimals), hardLimit, hardLimit);
@@ -771,6 +854,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellFactory: sellOn.factory,
             buyPool: buyOn.pair,
             sellPool: sellOn.pair,
+            buyFee: buyOn.fee,
+            sellFee: sellOn.fee,
             buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
             sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });
@@ -823,6 +908,8 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
             sellFactory: sellOn.factory,
             buyPool: buyOn.pair,
             sellPool: sellOn.pair,
+            buyFee: buyOn.fee,
+            sellFee: sellOn.fee,
             buyAeroStable: quoted.first.poolType === 'v2' ? null : quoted.first.poolType === 'stable',
             sellAeroStable: quoted.second.poolType === 'v2' ? null : quoted.second.poolType === 'stable',
           });

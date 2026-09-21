@@ -26,13 +26,13 @@ const RH_QUOTES: SeedToken[] = [
 ];
 
 const BASE_V2: RouterCandidate[] = [
-  { label: 'Uniswap V2', router: '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24' },
-  { label: 'Sushi V2', router: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891' },
+  { label: 'Uniswap V2', router: '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'uniswap-v2' } },
+  { label: 'Sushi V2', router: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'sushiswap-v2' } },
 ];
 
 const RH_V2: RouterCandidate[] = [
-  { label: 'Uniswap V2', router: '0x89e5DB8B5aA49aA85AC63f691524311AEB649eba' },
-  { label: 'Froth legacy V2', router: '0xE454aD44efe310Fc893d919C2b1C0ea06893Efb6' },
+  { label: 'Uniswap V2', router: '0x89e5DB8B5aA49aA85AC63f691524311AEB649eba', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'uniswap-v2' } },
+  { label: 'Froth legacy V2', router: '0xE454aD44efe310Fc893d919C2b1C0ea06893Efb6', feeModel: { kind: 'unsupported', reason: 'legacy router fee model has not been verified' } },
 ];
 
 function keyOf(a: Address, b: Address): string {
@@ -78,7 +78,6 @@ export function expandPairs(
         tokenA: { symbol: quote.symbol, address: quote.address, decimals: quote.decimals },
         tokenB: { symbol: token.symbol, address: token.address, decimals: token.decimals },
         routers,
-        feeBps: 30,
       };
       v2.push(pair);
       if (chain === 'base') {
@@ -87,7 +86,7 @@ export function expandPairs(
             chain, tokenA: pair.tokenA, tokenB: pair.tokenB,
             pool: {
               chain, label: `Aerodrome (${stable ? 'stable' : 'volatile'})`,
-              router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable, feeBps: 30,
+              router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable,
             },
           });
         }

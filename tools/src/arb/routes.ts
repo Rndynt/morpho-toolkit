@@ -3,6 +3,12 @@ import type { Address } from '../config/registry.js';
 export type RouterCandidate = {
   label: string;
   router: Address;
+  /** Explicit fee semantics for this venue. A fixed fee is accepted only after the
+   * router's factory and pair have both been resolved at the scan snapshot. */
+  feeModel:
+    | { kind: 'fixed-bps'; feeBps: number; protocol: 'uniswap-v2' | 'sushiswap-v2' }
+    | { kind: 'pair-fee'; functionName: 'fee'; denominator: bigint }
+    | { kind: 'unsupported'; reason: string };
 };
 
 export type V2PairConfig = {
@@ -10,7 +16,6 @@ export type V2PairConfig = {
   tokenA: { symbol: string; address: Address; decimals: number };
   tokenB: { symbol: string; address: Address; decimals: number };
   routers: RouterCandidate[];
-  feeBps: number;
 };
 
 export type SolidlyPoolConfig = {
@@ -23,10 +28,6 @@ export type SolidlyPoolConfig = {
   // calls router.swapExactTokensForTokens(...), never the pool or factory directly.
   factory: Address;
   stable: boolean;
-  // Best-effort default. Solidly-fork fees (Aerodrome included) are governance-set per
-  // pool and can change; this is only used to estimate profit for ranking, not for
-  // building a real transaction - re-read the real fee on-chain before executing.
-  feeBps: number;
 };
 
 export type SolidlyPairEntry = {
@@ -44,8 +45,8 @@ const BASE_CBBTC = { symbol: 'cbBTC', address: '0xcbB7C0000aB88B473b1f5aFd9ef808
 const BASE_AERO = { symbol: 'AERO', address: '0x940181a94A35A4569E4529A3CDfB74e38FD98631', decimals: 18 } as const;
 
 const BASE_V2_ROUTERS: RouterCandidate[] = [
-  { label: 'Uniswap V2', router: '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24' },
-  { label: 'Sushi V2', router: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891' },
+  { label: 'Uniswap V2', router: '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'uniswap-v2' } },
+  { label: 'Sushi V2', router: '0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'sushiswap-v2' } },
 ];
 export const BASE_AERODROME_FACTORY: Address = '0x420DD381b31aEf6683db6B902084cB0FFECe40Da';
 export const BASE_AERODROME_ROUTER: Address = '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43';
@@ -63,7 +64,6 @@ export const v2Pairs: V2PairConfig[] = BASE_PAIRS.map(([tokenA, tokenB]) => ({
   tokenA,
   tokenB,
   routers: BASE_V2_ROUTERS,
-  feeBps: 30,
 }));
 
 export const solidlyPairs: SolidlyPairEntry[] = BASE_PAIRS.flatMap(([tokenA, tokenB]) =>
@@ -71,7 +71,7 @@ export const solidlyPairs: SolidlyPairEntry[] = BASE_PAIRS.flatMap(([tokenA, tok
     chain: 'base', tokenA, tokenB,
     pool: {
       chain: 'base', label: `Aerodrome (${stable ? 'stable' : 'volatile'})`,
-      router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable, feeBps: 30,
+      router: BASE_AERODROME_ROUTER, factory: BASE_AERODROME_FACTORY, stable,
     },
   })),
 );
@@ -81,8 +81,8 @@ const RH_WETH = { symbol: 'WETH', address: '0x0Bd7D308f8E1639FAb988df18A8011f41E
 const RH_USDE = { symbol: 'USDe', address: '0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34', decimals: 18 } as const;
 
 const RH_V2_ROUTERS: RouterCandidate[] = [
-  { label: 'Uniswap V2', router: '0x89e5DB8B5aA49aA85AC63f691524311AEB649eba' },
-  { label: 'Froth legacy V2', router: '0xE454aD44efe310Fc893d919C2b1C0ea06893Efb6' },
+  { label: 'Uniswap V2', router: '0x89e5DB8B5aA49aA85AC63f691524311AEB649eba', feeModel: { kind: 'fixed-bps', feeBps: 30, protocol: 'uniswap-v2' } },
+  { label: 'Froth legacy V2', router: '0xE454aD44efe310Fc893d919C2b1C0ea06893Efb6', feeModel: { kind: 'unsupported', reason: 'legacy router fee model has not been verified' } },
 ];
 
 const RH_PAIRS: Array<[typeof RH_USDG | typeof RH_WETH, typeof RH_WETH | typeof RH_USDE]> = [
@@ -97,6 +97,5 @@ for (const [tokenA, tokenB] of RH_PAIRS) {
     tokenA,
     tokenB,
     routers: RH_V2_ROUTERS,
-    feeBps: 30,
   });
 }
