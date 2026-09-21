@@ -174,12 +174,14 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
             intermediateToken: WETH,
             firstLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: SUSHI_V2_ROUTER,
+                pool: SUSHI_V2_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.V2,
                 aeroStable: false,
                 aeroFactory: address(0)
             }),
             secondLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: AERODROME_ROUTER,
+                pool: AERODROME_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.AERODROME,
                 aeroStable: false,
                 aeroFactory: AERODROME_FACTORY
@@ -220,12 +222,14 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
             intermediateToken: WETH,
             firstLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: SUSHI_V2_ROUTER,
+                pool: SUSHI_V2_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.V2,
                 aeroStable: false,
                 aeroFactory: address(0)
             }),
             secondLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: AERODROME_ROUTER,
+                pool: AERODROME_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.AERODROME,
                 aeroStable: false,
                 aeroFactory: AERODROME_FACTORY
@@ -250,12 +254,14 @@ contract MorphoAtomicArbPOCv2BaseForkTest is Test {
             intermediateToken: WETH,
             firstLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: SUSHI_V2_ROUTER,
+                pool: SUSHI_V2_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.V2,
                 aeroStable: false,
                 aeroFactory: address(0)
             }),
             secondLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: AERODROME_ROUTER,
+                pool: AERODROME_ROUTER,
                 kind: MorphoAtomicArbPOCv2.RouterKind.AERODROME,
                 aeroStable: false,
                 aeroFactory: AERODROME_FACTORY

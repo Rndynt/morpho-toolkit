@@ -68,6 +68,8 @@ contract MorphoAtomicArbPOCv2 is IPOCMorphoFlashLoanCallback {
 
     struct SwapLeg {
         address router;
+        // Explicit market identity; this is never used as an external call target.
+        address pool;
         RouterKind kind;
         // Only read when kind == AERODROME. Leave false/address(0) for V2 legs.
         bool aeroStable;
@@ -265,10 +267,11 @@ contract MorphoAtomicArbPOCv2 is IPOCMorphoFlashLoanCallback {
         if (
             params.loanToken == address(0) || params.intermediateToken == address(0)
                 || params.firstLeg.router == address(0) || params.secondLeg.router == address(0)
+                || params.firstLeg.pool == address(0) || params.secondLeg.pool == address(0)
                 || params.profitReceiver == address(0)
         ) revert InvalidAddress();
         if (params.loanAmount == 0) revert InvalidAmount();
-        if (params.loanToken == params.intermediateToken || params.firstLeg.router == params.secondLeg.router) {
+        if (params.loanToken == params.intermediateToken || _sameMarket(params.firstLeg, params.secondLeg)) {
             revert InvalidRoute();
         }
         if (block.timestamp > params.deadline) revert DeadlineExpired();
@@ -280,6 +283,16 @@ contract MorphoAtomicArbPOCv2 is IPOCMorphoFlashLoanCallback {
         }
         _validateLegFactory(params.firstLeg);
         _validateLegFactory(params.secondLeg);
+    }
+
+    /// @dev One router can legitimately service many pools. Only reuse of the same
+    /// venue/pool identity is rejected.
+    function _sameMarket(SwapLeg calldata left, SwapLeg calldata right) private pure returns (bool) {
+        if (left.pool != right.pool || left.kind != right.kind) return false;
+        if (left.kind == RouterKind.AERODROME) {
+            return left.aeroFactory == right.aeroFactory && left.aeroStable == right.aeroStable;
+        }
+        return true;
     }
 
     function _validateLegFactory(SwapLeg calldata leg) private view {

@@ -215,6 +215,37 @@ contract MorphoAtomicArbPOCv2Test {
         require(!ok, "fake callback accepted");
     }
 
+    function testRejectsSameVenuePoolButNotMerelySameRouter() external {
+        (
+            POCMockToken loanToken,
+            POCMockToken intermediateToken,,
+            POCMockV2Router firstLegRouter,
+            POCMockAeroRouter secondLegRouter,
+            MorphoAtomicArbPOCv2 poc
+        ) = _deployProfitableRoute();
+        MorphoAtomicArbPOCv2.ArbitrageParams memory params =
+            _params(address(loanToken), address(intermediateToken), address(firstLegRouter), address(secondLegRouter), 1);
+        params.secondLeg.pool = params.firstLeg.pool;
+        params.secondLeg.kind = params.firstLeg.kind;
+        params.secondLeg.aeroFactory = address(0);
+        (bool ok,) = address(poc).call(abi.encodeCall(poc.executeArbitrage, (params)));
+        require(!ok, "same venue/pool accepted");
+
+        // A common router is not itself a reason to reject two explicitly distinct pools.
+        params.secondLeg.router = params.firstLeg.router;
+        params.secondLeg.pool = address(0xCAFE);
+        // Validation proceeds past InvalidRoute. Execution may still fail because this
+        // mock router does not model the second venue; the identity is nevertheless valid.
+        bytes memory reason;
+        (ok, reason) = address(poc).call(abi.encodeCall(poc.executeArbitrage, (params)));
+        require(!ok && _selector(reason) != MorphoAtomicArbPOCv2.InvalidRoute.selector, "same router rejected");
+    }
+
+    function _selector(bytes memory reason) private pure returns (bytes4 value) {
+        if (reason.length < 4) return bytes4(0);
+        assembly { value := mload(add(reason, 32)) }
+    }
+
     function _deployProfitableRoute()
         private
         returns (
@@ -261,12 +292,14 @@ contract MorphoAtomicArbPOCv2Test {
             intermediateToken: intermediateToken,
             firstLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: firstLegRouter,
+                pool: firstLegRouter,
                 kind: MorphoAtomicArbPOCv2.RouterKind.V2,
                 aeroStable: false,
                 aeroFactory: address(0)
             }),
             secondLeg: MorphoAtomicArbPOCv2.SwapLeg({
                 router: secondLegRouter,
+                pool: secondLegRouter,
                 kind: MorphoAtomicArbPOCv2.RouterKind.AERODROME,
                 aeroStable: false,
                 aeroFactory: AERO_FACTORY

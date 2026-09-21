@@ -28,7 +28,7 @@ test('encodePocV2Plan creates calldata only with slippage-protected raw quotes',
   const before = BigInt(Math.floor(Date.now() / 1000));
   const plan = encodePocV2Plan(sample, safeOptions);
   const decoded = decodeFunctionData({ abi: parseAbi([
-    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
   ]), data: plan.calldata });
   const params = decoded.args[0] as { minIntermediateAmount: bigint; minFinalAmount: bigint; minProfit: bigint; deadline: bigint };
   assert.equal(plan.executableByPocV2, true);
@@ -57,21 +57,23 @@ test('encodePocV2Plan rejects unsafe final amounts, incomplete costs, and long d
 test('encodePocV2Plan derives min-profit from the pinned on-chain quote, not scanner profit', () => {
   const plan = encodePocV2Plan({ ...sample, grossProfitRaw: 1n }, safeOptions);
   const decoded = decodeFunctionData({ abi: parseAbi([
-    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
   ]), data: plan.calldata });
   assert.equal((decoded.args[0] as { minProfit: bigint }).minProfit, 55_371_824n);
 });
 
-test('encodePocV2Plan flags same-router routes after safety validation', () => {
-  const plan = encodePocV2Plan({ ...sample, sellRouter: sample.buyRouter, sellKind: 'v2', sellFactory: null }, safeOptions);
-  assert.equal(plan.executableByPocV2, false);
-  assert.ok(plan.notes.some((note) => note.includes('same router')));
+test('encodePocV2Plan allows a shared router but rejects the same venue/pool', () => {
+  const sharedRouter = encodePocV2Plan({ ...sample, sellRouter: sample.buyRouter }, safeOptions);
+  assert.equal(sharedRouter.executableByPocV2, true);
+  const samePool = encodePocV2Plan({ ...sample, sellRouter: sample.buyRouter, sellPool: sample.buyPool, sellKind: sample.buyKind, sellFactory: sample.buyFactory, sellAeroStable: sample.buyAeroStable }, safeOptions);
+  assert.equal(samePool.executableByPocV2, false);
+  assert.ok(samePool.notes.some((note) => note.includes('same venue/pool')));
 });
 
 test('encodePocV2Plan uses the quoted Solidly pool type instead of a hard-coded route', () => {
   const plan = encodePocV2Plan({ ...sample, sellAeroStable: true }, safeOptions);
   const decoded = decodeFunctionData({ abi: parseAbi([
-    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
   ]), data: plan.calldata });
   const params = decoded.args[0] as { secondLeg: { aeroStable: boolean } };
   assert.equal(params.secondLeg.aeroStable, true);
@@ -84,7 +86,7 @@ test('encodePocV2Plan preserves raw sub-unit amounts for 6, 8, and 18 decimal to
     { decimals: 18, loanAmountRaw: 123_456_789_012_345_678n, grossProfitRaw: 7n },
   ];
   const abi = parseAbi([
-    'function executeArbitrage((address loanToken, address intermediateToken, (address router, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
+    'function executeArbitrage((address loanToken, address intermediateToken, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) firstLeg, (address router, address pool, uint8 kind, bool aeroStable, address aeroFactory) secondLeg, uint256 loanAmount, uint256 minIntermediateAmount, uint256 minFinalAmount, uint256 minProfit, uint256 deadline, address profitReceiver) params)',
   ]);
 
   for (const { decimals, loanAmountRaw, grossProfitRaw } of rawCases) {
