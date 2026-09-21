@@ -36,6 +36,8 @@ import {
   type DeploymentRegistry,
 } from './config/registry.js';
 import { arbExecutorAbi, makePlan, requoteOpportunity, verifyArbPreflight, type ArbDeployment } from './arb/execution.js';
+import { applyExecutionCosts } from './arb/plan.js';
+import { estimateExecutionCosts } from './arb/costs/estimate.js';
 
 loadToolEnv();
 
@@ -882,26 +884,40 @@ async function buildArbPlan(args: ParsedArgs) {
   if (!discovered) throw new Error(`opportunity ${index + 1} tidak tersedia pada scan terbaru`);
   const fresh = await requoteOpportunity(client, discovered);
   const receiver = getAddress(flag(args, 'profit-receiver') ?? record.owner) as Address;
-  const costs = {
-    gasCostRaw: BigInt(flag(args, 'gas-cost-raw') ?? '0'),
-    chainFeeRaw: BigInt(flag(args, 'chain-fee-raw') ?? '0'),
-    safetyMarginRaw: BigInt(flag(args, 'safety-margin-raw') ?? '0'),
-  };
-  const plan = makePlan(fresh.opportunity, fresh.quotes, {
+  const emptyCosts = { gasCostRaw: 0n, l1FeeRaw: 0n, relayBidRaw: 0n, safetyMarginRaw: 0n };
+  const unsignedPlan = makePlan(fresh.opportunity, fresh.quotes, {
     profitReceiver: receiver, slippageBps: numberFlag(args, 'slippage-bps', 50),
-    deadlineSeconds: numberFlag(args, 'deadline-seconds', 60), costs,
+    deadlineSeconds: numberFlag(args, 'deadline-seconds', 60), costs: emptyCosts,
   });
-  return { chain, client, record, plan, costs };
+  const wrappedNative = fresh.opportunity.loanTokenSymbol === 'WETH' ? fresh.opportunity.loanToken
+    : fresh.opportunity.intermediateTokenSymbol === 'WETH' ? fresh.opportunity.intermediateToken : undefined;
+  if (!wrappedNative) throw new Error('tidak ada wrapped-native route untuk executable cost quote');
+  const costVenue = fresh.opportunity.loanTokenSymbol === 'WETH' ? undefined : {
+    kind: fresh.opportunity.sellKind, label: fresh.opportunity.sellOn, router: fresh.opportunity.sellRouter,
+    factory: fresh.opportunity.sellFactory, pool: fresh.opportunity.sellPool, fee: fresh.opportunity.sellFee,
+  };
+  const estimated = await estimateExecutionCosts(client, chain.chainId, record.address as Address,
+    getAddress(record.owner) as Address, unsignedPlan, {
+      wrappedNative, loanToken: fresh.opportunity.loanToken, venue: costVenue,
+      blockNumber: fresh.quotes.blockNumber, slippageBps: numberFlag(args, 'cost-slippage-bps', 100),
+    }, { relayBidNative: BigInt(flag(args, 'relay-bid-native') ?? '0'),
+      safetyMarginRaw: BigInt(flag(args, 'safety-margin-raw') ?? '0') },
+    { abi: arbExecutorAbi, functionName: 'executeArbitrage' });
+  const plan = applyExecutionCosts(unsignedPlan, estimated.raw, {
+    minNetProfitRaw: BigInt(flag(args, 'min-net-raw') ?? '0'),
+    minNetProfitBps: numberFlag(args, 'min-net-bps', 0),
+  });
+  return { chain, client, record, plan, costs: estimated.raw, nativeCosts: estimated.native };
 }
 
 async function runArbPlan(args: ParsedArgs): Promise<void> {
-  const { plan } = await buildArbPlan(args);
-  console.log(JSON.stringify({ mode: 'simulation-only', ...plan }, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2));
+  const { plan, nativeCosts } = await buildArbPlan(args);
+  console.log(JSON.stringify({ mode: 'simulation-only', feeBreakdownNative: nativeCosts, ...plan }, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2));
 }
 
 async function runArbExecute(args: ParsedArgs): Promise<void> {
   const built = await buildArbPlan(args);
-  const { chain, client, record, plan, costs } = built;
+  const { chain, client, record, plan } = built;
   if (!plan.executableByPocV2) throw new Error(plan.notes.join('; '));
   const deployment = record as unknown as ArbDeployment;
   deployment.address = record.address as Address;
@@ -914,9 +930,9 @@ async function runArbExecute(args: ParsedArgs): Promise<void> {
   ui.success(`latest-state simulation passed; estimated gas ${gas}`);
   if (!hasFlag(args, 'broadcast')) { ui.plan('simulation-only; gunakan --broadcast untuk mengirim'); return; }
   const minNetRaw = flag(args, 'min-net-raw');
-  if (minNetRaw === undefined) throw new Error('--broadcast membutuhkan --min-net-raw eksplisit');
-  const netFloor = plan.minProfitRaw - costs.gasCostRaw - costs.chainFeeRaw - costs.safetyMarginRaw;
-  if (netFloor < BigInt(minNetRaw)) throw new Error(`net profit floor ${netFloor} di bawah minimum ${minNetRaw}`);
+  const minNetBps = flag(args, 'min-net-bps');
+  if (minNetRaw === undefined || minNetBps === undefined) throw new Error('--broadcast membutuhkan --min-net-raw dan --min-net-bps eksplisit');
+  if (plan.netProfitRaw < BigInt(minNetRaw)) throw new Error(`net profit ${plan.netProfitRaw} di bawah minimum ${minNetRaw}`);
   await confirmBroadcast(`Execute arbitrage di ${chain.name} via private transport.`, hasFlag(args, 'yes'));
   const account = privateKeyToAccount(privateKey());
   if (getAddress(account.address) !== getAddress(record.owner)) throw new Error('PRIVATE_KEY bukan owner arbitrage executor');

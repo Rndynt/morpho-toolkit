@@ -32,7 +32,7 @@ export async function requoteOpportunity(client: PublicClient, opportunity: ArbO
   };
 }
 
-export function makePlan(opportunity: ArbOpportunity, quotes: Awaited<ReturnType<typeof requoteOpportunity>>['quotes'], input: { profitReceiver: Address; slippageBps: number; deadlineSeconds: number; costs: ExecutionCostsRaw }): EncodedArbPlan {
+export function makePlan(opportunity: ArbOpportunity, quotes: Awaited<ReturnType<typeof requoteOpportunity>>['quotes'], input: { profitReceiver: Address; slippageBps: number; deadlineSeconds: number; costs: ExecutionCostsRaw; minNetProfitRaw?: bigint; minNetProfitBps?: number }): EncodedArbPlan {
   return encodePocV2Plan(opportunity, { quotes, ...input });
 }
 

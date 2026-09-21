@@ -20,7 +20,7 @@ const sample: ArbOpportunity = {
 const safeOptions = {
   profitReceiver: '0x000000000000000000000000000000000000dEaD' as const,
   quotes: { firstLegAmountOutRaw: 100_000_000n, secondLegAmountOutRaw: 240_000_000n, blockNumber: 12_345n },
-  costs: { gasCostRaw: 3_000_000n, chainFeeRaw: 500_000n, safetyMarginRaw: 500_000n },
+  costs: { gasCostRaw: 3_000_000n, l1FeeRaw: 500_000n, relayBidRaw: 0n, safetyMarginRaw: 500_000n },
   slippageBps: 100,
 };
 
@@ -103,7 +103,7 @@ test('encodePocV2Plan preserves raw sub-unit amounts for 6, 8, and 18 decimal to
     }, {
       profitReceiver: safeOptions.profitReceiver,
       quotes: { firstLegAmountOutRaw: expectedIntermediateRaw, secondLegAmountOutRaw: expectedFinalRaw, blockNumber: 12_345n },
-      costs: { gasCostRaw: 0n, chainFeeRaw: 0n, safetyMarginRaw: 0n },
+      costs: { gasCostRaw: 0n, l1FeeRaw: 0n, relayBidRaw: 0n, safetyMarginRaw: 0n },
       slippageBps: 0,
     });
     const decoded = decodeFunctionData({ abi, data: plan.calldata });
