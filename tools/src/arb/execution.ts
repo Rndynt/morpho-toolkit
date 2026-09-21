@@ -22,7 +22,7 @@ export async function requoteOpportunity(client: PublicClient, opportunity: ArbO
     router: leg === 'buy' ? opportunity.buyRouter : opportunity.sellRouter,
     factory: leg === 'buy' ? opportunity.buyFactory : opportunity.sellFactory,
     pool: leg === 'buy' ? opportunity.buyPool : opportunity.sellPool,
-    feeBps: 30,
+    fee: leg === 'buy' ? opportunity.buyFee : opportunity.sellFee,
   });
   const first = await quoteExactInput(client, { venue: venue('buy'), tokenIn: opportunity.loanToken, tokenOut: opportunity.intermediateToken, amountInRaw: opportunity.loanAmountRaw, snapshotBlock: blockNumber });
   const second = await quoteExactInput(client, { venue: venue('sell'), tokenIn: opportunity.intermediateToken, tokenOut: opportunity.loanToken, amountInRaw: first.amountOutRaw, snapshotBlock: blockNumber });

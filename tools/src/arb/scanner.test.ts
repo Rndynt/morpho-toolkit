@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { PublicClient } from 'viem';
 import { solidlyPairs, v2Pairs } from './routes.js';
-import { optimizeQuoteDriven, scanArbOpportunities } from './scanner.js';
+import { normalizeFeeBps, optimizeQuoteDriven, readAerodromeFee, scanArbOpportunities } from './scanner.js';
 
 const SNAPSHOT_BLOCK = 12_345n;
 const TOKEN_A = '0x0000000000000000000000000000000000000001' as const;
@@ -16,6 +16,31 @@ const PAIR_TWO = '0x0000000000000000000000000000000000000032' as const;
 const SOLIDLY_FACTORY = '0x0000000000000000000000000000000000000041' as const;
 const SOLIDLY_POOL = '0x0000000000000000000000000000000000000042' as const;
 const SOLIDLY_ROUTER = '0x0000000000000000000000000000000000000043' as const;
+
+test('normalizes 4, 25, 30, and 100 bps from explicit fee-unit denominators', () => {
+  assert.equal(normalizeFeeBps(4n, 10_000n), 4);
+  assert.equal(normalizeFeeBps(2_500n, 1_000_000n), 25);
+  assert.equal(normalizeFeeBps(30n, 10_000n), 30);
+  assert.equal(normalizeFeeBps(10_000n, 1_000_000n), 100);
+  assert.throws(() => normalizeFeeBps(1n, 3n), /not an exact basis-point value/);
+});
+
+test('reads a changed Aerodrome factory fee at each requested snapshot', async () => {
+  const blocks: bigint[] = [];
+  const client = {
+    readContract: async ({ blockNumber, functionName }: { blockNumber: bigint; functionName: string }) => {
+      assert.equal(functionName, 'getFee');
+      blocks.push(blockNumber);
+      return blockNumber === 100n ? 4n : 30n;
+    },
+  } as unknown as PublicClient;
+  const oldFee = await readAerodromeFee(client, SOLIDLY_FACTORY, SOLIDLY_POOL, false, 100n);
+  const newFee = await readAerodromeFee(client, SOLIDLY_FACTORY, SOLIDLY_POOL, false, 200n);
+  assert.equal(oldFee.bps, 4);
+  assert.equal(newFee.bps, 30);
+  assert.deepEqual(blocks, [100n, 200n]);
+  assert.equal(oldFee.source.kind, 'factory-getFee');
+});
 
 test('quote-driven optimizer follows a stable curve instead of a constant-product estimate', async () => {
   const quotedAmounts: bigint[] = [];
@@ -50,11 +75,15 @@ test('pins all execution-critical reads to one block snapshot', async () => {
   try {
     v2Pairs.splice(0, v2Pairs.length, {
       chain: 'snapshot-test', tokenA: { symbol: 'A', address: TOKEN_A, decimals: 0 }, tokenB: { symbol: 'B', address: TOKEN_B, decimals: 0 },
-      routers: [{ label: 'one', router: ROUTER_ONE }, { label: 'two', router: ROUTER_TWO }], feeBps: 30,
+      routers: [
+        { label: 'one', router: ROUTER_ONE, feeModel: { kind: 'fixed-bps', feeBps: 25, protocol: 'uniswap-v2' } },
+        { label: 'two', router: ROUTER_TWO, feeModel: { kind: 'fixed-bps', feeBps: 100, protocol: 'sushiswap-v2' } },
+        { label: 'unknown', router: '0x0000000000000000000000000000000000000013', feeModel: { kind: 'unsupported', reason: 'unknown invariant' } },
+      ],
     });
     solidlyPairs.splice(0, solidlyPairs.length, {
       chain: 'snapshot-test', tokenA: { symbol: 'A', address: TOKEN_A, decimals: 0 }, tokenB: { symbol: 'B', address: TOKEN_B, decimals: 0 },
-      pool: { chain: 'snapshot-test', label: 'solidly stable', router: SOLIDLY_ROUTER, factory: SOLIDLY_FACTORY, stable: true, feeBps: 30 },
+      pool: { chain: 'snapshot-test', label: 'solidly stable', router: SOLIDLY_ROUTER, factory: SOLIDLY_FACTORY, stable: true },
     });
 
     const client = {
@@ -69,7 +98,6 @@ test('pins all execution-critical reads to one block snapshot', async () => {
         readContractBlocks.push(request.blockNumber!);
         if (request.functionName === 'getPool') return SOLIDLY_POOL;
         if (request.functionName === 'stable') return true;
-        if (request.functionName === 'fee') return 30n;
         if (request.functionName === 'getAmountsOut') {
           routerQuoteCalls++;
           const amountIn = request.args![0] as bigint;
@@ -83,9 +111,10 @@ test('pins all execution-critical reads to one block snapshot', async () => {
         if (functionName === 'factory') return [{ status: 'success', result: FACTORY_ONE }, { status: 'success', result: FACTORY_TWO }];
         if (functionName === 'getPair') return [{ status: 'success', result: PAIR_ONE }, { status: 'success', result: PAIR_TWO }];
         if (functionName === 'getReserves') {
-          return request.contracts.flatMap<any>((contract) => contract.functionName === 'getReserves'
-            ? [{ status: 'success', result: contract.address === PAIR_ONE ? [1_000n, 1_000n, 0] : [2_000n, 1_000n, 0] }]
-            : [{ status: 'success', result: TOKEN_A }]);
+          return request.contracts.map<any>((contract) => contract.functionName === 'getReserves'
+            ? { status: 'success', result: contract.address === PAIR_ONE ? [1_000n, 1_000n, 0] : contract.address === PAIR_TWO ? [2_000n, 1_000n, 0] : [1_000n, 1_000n] }
+            : contract.functionName === 'getFee' ? { status: 'success', result: 4n }
+            : { status: 'success', result: TOKEN_A });
         }
         throw new Error(`unexpected multicall: ${functionName}`);
       },
@@ -107,6 +136,7 @@ test('pins all execution-critical reads to one block snapshot', async () => {
     assert.ok(result.venueTvl.every((venue) => venue.status === 'unpriced'));
     assert.ok(result.venueTvl.every((venue) => venue.executableCandidate === false));
     assert.ok(result.opportunities.length > 0, 'mocked reserve imbalance yields an opportunity');
+    assert.ok(result.skipped.some((venue) => venue.router === 'unknown' && venue.reason.includes('non-executable')));
     assert.ok(routerQuoteCalls > 2, 'stable leg is sized from multiple router quotes, not one closed-form result');
     for (const opportunity of result.opportunities) {
       assert.equal(opportunity.blockNumber, SNAPSHOT_BLOCK);
