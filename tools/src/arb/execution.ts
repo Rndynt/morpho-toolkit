@@ -42,20 +42,21 @@ export type ArbDeployment = { address: Address; version: string; bytecodeHash: H
 export async function verifyArbPreflight(client: PublicClient, expectedChainId: number, deployment: ArbDeployment, plan: EncodedArbPlan): Promise<void> {
   const chainId = await client.getChainId();
   if (chainId !== expectedChainId) throw new Error(`RPC chainId ${chainId}, expected ${expectedChainId}`);
-  const code = await client.getBytecode({ address: deployment.address });
+  const blockNumber = await client.getBlockNumber();
+  const code = await client.getBytecode({ address: deployment.address, blockNumber });
   if (!code || code === '0x' || keccak256(code) !== deployment.bytecodeHash) throw new Error('executor bytecode hash mismatch');
   const [owner, morpho, morphoBalance, staleAllowance] = await Promise.all([
-    client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: 'owner' }),
-    client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: 'morpho' }),
-    client.readContract({ address: plan.opportunity.loanToken, abi: erc20Abi, functionName: 'balanceOf', args: [deployment.morpho] }),
-    client.readContract({ address: plan.opportunity.loanToken, abi: erc20Abi, functionName: 'allowance', args: [deployment.address, deployment.morpho] }),
+    client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: 'owner', blockNumber }),
+    client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: 'morpho', blockNumber }),
+    client.readContract({ address: plan.opportunity.loanToken, abi: erc20Abi, functionName: 'balanceOf', args: [deployment.morpho], blockNumber }),
+    client.readContract({ address: plan.opportunity.loanToken, abi: erc20Abi, functionName: 'allowance', args: [deployment.address, deployment.morpho], blockNumber }),
   ]);
   if (getAddress(owner) !== getAddress(deployment.owner)) throw new Error('executor owner mismatch');
   if (getAddress(morpho) !== getAddress(deployment.morpho)) throw new Error('executor Morpho mismatch');
   if (morphoBalance < plan.loanAmountRaw) throw new Error('insufficient Morpho balance');
   if (staleAllowance !== 0n) throw new Error('unexpected stale Morpho allowance');
   if (plan.profitReceiver === '0x0000000000000000000000000000000000000000') throw new Error('invalid profit receiver');
-  const latest = await client.getBlock();
+  const latest = await client.getBlock({ blockNumber });
   if (plan.deadline <= latest.timestamp) throw new Error('plan deadline expired');
   const checks = [
     ...deployment.tokens.map((address) => ({ address, functionName: 'allowedToken' as const })),
@@ -63,7 +64,7 @@ export async function verifyArbPreflight(client: PublicClient, expectedChainId: 
     ...deployment.aerodromeFactories.map((address) => ({ address, functionName: 'allowedAerodromeFactory' as const })),
   ];
   for (const check of checks) {
-    const allowed = await client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: check.functionName, args: [check.address] });
+    const allowed = await client.readContract({ address: deployment.address, abi: arbExecutorAbi, functionName: check.functionName, args: [check.address], blockNumber });
     if (!allowed) throw new Error(`${check.functionName} missing ${check.address}`);
   }
 }

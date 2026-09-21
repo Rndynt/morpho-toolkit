@@ -29,6 +29,7 @@ const solidlyPoolAbi = parseAbi([
   'function getReserves() view returns (uint256,uint256,uint256)',
   'function token0() view returns (address)',
 ]);
+const erc20BalanceAbi = parseAbi(['function balanceOf(address) view returns (uint256)']);
 
 type RouterReserves = {
   label: string;
@@ -99,7 +100,14 @@ export type SeedTokenPrice = {
   priceUsd?: number | null;
   priceTimestamp?: number | null;
   priceSource?: 'morpho-api' | 'defillama' | null;
+  /** Inventory metadata from discovery. The balance is informational only: the arb
+   * scanner refreshes it at its own reserve snapshot before sizing a trade. */
+  balance?: bigint;
+  blockNumber?: bigint;
+  eligible?: boolean;
 };
+
+export type MorphoInventory = Required<Pick<SeedTokenPrice, 'address' | 'balance' | 'blockNumber' | 'eligible'>>;
 
 export type VenueTvl = {
   pairLabel: string;
@@ -147,10 +155,21 @@ export type ArbScanOptions = {
   // External scanner prices may only estimate/display TVL and apply the inventory-style
   // TVL filter. They MUST NOT be used for min-out, min-profit, or executable calldata.
   seedTokens?: SeedTokenPrice[];
+  /** Required to enforce Morpho liquidity. balanceOf reads are pinned to the DEX snapshot. */
+  morphoAddress?: Address;
+  /** Raw token units. May be one global limit or limits keyed by token address. */
+  configuredMaxTradeSizeRaw?: bigint | Record<string, bigint>;
   minTvlUsd?: number;
   /** Injectable for tests; production scans create a client from rpcUrl. */
   publicClient?: PublicClient;
 };
+
+export function capLoanAmount(optimal: bigint, morphoAvailable: bigint, configuredMax: bigint): bigint {
+  if (optimal <= 0n || morphoAvailable <= 0n || configuredMax <= 0n) return 0n;
+  return optimal < morphoAvailable
+    ? (optimal < configuredMax ? optimal : configuredMax)
+    : (morphoAvailable < configuredMax ? morphoAvailable : configuredMax);
+}
 
 function errorMessage(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
@@ -364,6 +383,36 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
   const gasPriceWei = await client.getGasPrice();
   const gasCostEth = Number(formatUnits(gasPriceWei * BigInt(gasUnitsEstimate), 18));
 
+  // Never reuse the discovery scan's balance: reserves and available flash-loan
+  // inventory must describe exactly the same block.
+  const morphoBalanceByAddress = new Map<string, bigint>();
+  if (options.morphoAddress) {
+    const addresses = [...new Set([
+      ...(options.seedTokens ?? []).filter((t) => t.eligible !== false).map((t) => t.address.toLowerCase()),
+      ...v2Pairs.filter((pair) => pair.chain === options.chain.key)
+        .flatMap((pair) => [pair.tokenA.address.toLowerCase(), pair.tokenB.address.toLowerCase()]),
+    ])];
+    for (const address of addresses) {
+      const balance = await client.readContract({
+        address: getAddress(address) as Address, abi: erc20BalanceAbi, functionName: 'balanceOf',
+        args: [options.morphoAddress], blockNumber,
+      }) as bigint;
+      morphoBalanceByAddress.set(address, balance);
+    }
+  }
+
+  const availableLoanAmount = (address: Address): bigint => {
+    if (!options.morphoAddress) return (1n << 256n) - 1n;
+    const seed = (options.seedTokens ?? []).find((token) => token.address.toLowerCase() === address.toLowerCase());
+    if (seed?.eligible === false) return 0n;
+    return morphoBalanceByAddress.get(address.toLowerCase()) ?? 0n;
+  };
+  const configuredLimit = (address: Address): bigint => {
+    const limit = options.configuredMaxTradeSizeRaw;
+    if (typeof limit === 'bigint') return limit;
+    return limit?.[address.toLowerCase()] ?? (1n << 256n) - 1n;
+  };
+
   const pairsForChain = v2Pairs.filter((p) => p.chain === options.chain.key);
   if (pairsForChain.length === 0) {
     warnings.push(`no configured v2Pairs for chain "${options.chain.key}" - add one in tools/src/arb/routes.ts`);
@@ -550,7 +599,11 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultA.profitable) {
-          const loanAmountRaw = numberToRaw(resultA.loanAmount, pairConfig.tokenA.decimals);
+          const loanAmountRaw = capLoanAmount(
+            numberToRaw(resultA.loanAmount, pairConfig.tokenA.decimals),
+            availableLoanAmount(pairConfig.tokenA.address), configuredLimit(pairConfig.tokenA.address),
+          );
+          if (loanAmountRaw === 0n) continue;
           let quoted;
           try {
             quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenA.address, pairConfig.tokenB.address);
@@ -610,7 +663,11 @@ export async function scanArbOpportunities(options: ArbScanOptions): Promise<Arb
           },
         );
         if (resultB.profitable) {
-          const loanAmountRaw = numberToRaw(resultB.loanAmount, pairConfig.tokenB.decimals);
+          const loanAmountRaw = capLoanAmount(
+            numberToRaw(resultB.loanAmount, pairConfig.tokenB.decimals),
+            availableLoanAmount(pairConfig.tokenB.address), configuredLimit(pairConfig.tokenB.address),
+          );
+          if (loanAmountRaw === 0n) continue;
           let quoted;
           try {
             quoted = await quoteTwoLegs(loanAmountRaw, buyOn, sellOn, pairConfig.tokenB.address, pairConfig.tokenA.address);
