@@ -48,6 +48,9 @@ test('fingerprint executable dibandingkan dengan state token live dan metadata s
   const livePolicy = { ...policy, codeHash: keccak256(runtime) };
   assert.equal(await liveExecutablePolicyFailure(liveClient(), address, livePolicy, policy), undefined);
   assert.match(await liveExecutablePolicyFailure(
+    liveClient(), '0xdAC17F958D2ee523a2206206994597C13D831ec7' as const, livePolicy, policy,
+  ) ?? '', /address token/);
+  assert.match(await liveExecutablePolicyFailure(
     liveClient({ runtime: '0x6001' }), address, livePolicy, policy,
   ) ?? '', /codeHash/);
   assert.match(await liveExecutablePolicyFailure(
@@ -55,6 +58,9 @@ test('fingerprint executable dibandingkan dengan state token live dan metadata s
   ) ?? '', /decimals/);
   assert.match(await liveExecutablePolicyFailure(
     liveClient(), address, livePolicy, { decimals: 6, symbol: 'USDC.e' },
+  ) ?? '', /symbol/);
+  assert.match(await liveExecutablePolicyFailure(
+    liveClient({ symbol: 'USDC.e' }), address, livePolicy, policy,
   ) ?? '', /symbol/);
 });
 
@@ -64,4 +70,15 @@ test('upgrade proxy membatalkan fingerprint policy', async () => {
   assert.match(await liveExecutablePolicyFailure(
     liveClient({ implementation: `0x${'0'.repeat(24)}${implementation}` }), address, livePolicy, policy,
   ) ?? '', /proxyImplementation/);
+});
+
+test('proxy implementation live yang sama dengan policy diterima', async () => {
+  const implementation = '0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa' as const;
+  const livePolicy = { ...policy, codeHash: keccak256(runtime), proxyImplementation: implementation };
+  assert.equal(await liveExecutablePolicyFailure(
+    liveClient({ implementation: `0x${'0'.repeat(24)}${implementation.slice(2)}` }),
+    address,
+    livePolicy,
+    policy,
+  ), undefined);
 });
