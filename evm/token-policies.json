@@ -1,0 +1,12 @@
+{
+  "ethereum": { "chainId": 1, "tokens": {} },
+  "base": { "chainId": 8453, "tokens": {} },
+  "arbitrum": { "chainId": 42161, "tokens": {} },
+  "optimism": { "chainId": 10, "tokens": {} },
+  "robinhood": { "chainId": 4663, "tokens": {} },
+  "hyperevm": { "chainId": 999, "tokens": {} },
+  "stable": { "chainId": 988, "tokens": {} },
+  "monad": { "chainId": 143, "tokens": {} },
+  "tempo": { "chainId": 4217, "tokens": {} },
+  "katana": { "chainId": 747474, "tokens": {} }
+}

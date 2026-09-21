@@ -52,7 +52,9 @@ Morpho/
         └── ui/index.ts
 ```
 
-`deployments.json` adalah registry address/status. `stablecoins.json` hanya seed token; scanner juga menemukan loan/collateral asset dari Morpho API.
+`deployments.json` adalah registry address/status. `stablecoins.json` hanya seed token; scanner juga menemukan loan/collateral asset dari Morpho API. Semua hasil discovery tersebut **discovery-only** secara default dan tidak otomatis dipercaya untuk eksekusi.
+
+`evm/token-policies.json` adalah registry policy per chain. Identitas token adalah pasangan **chain ID + checksum address**. Symbol, address, decimals, maupun harga yang dikirim API hanya petunjuk discovery dan bukan sumber kepercayaan. Address harus dinormalisasi/divalidasi checksum serta dicocokkan dengan chain ID; metadata dan code hash harus diverifikasi on-chain pada chain tersebut.
 
 ## 🌐 Network registry
 
@@ -170,6 +172,51 @@ npm run cli -- setup --chain ethereum --select USDC,WETH --broadcast --yes
 
 `--select` menerima nomor (`1,3`), simbol (`USDC,WETH`), address, atau `all`. Executor existing hanya disinkronkan; `--redeploy` memaksa deployment baru.
 
+Setup bersifat fail-closed: token hanya dapat masuk constructor allowlist atau `setTokenAllowed`
+setelah entry checksum-address-nya di `token-policies.json` berstatus `executable`, mempunyai
+`explicitConfiguration: true`, dan seluruh fork-test `transfer`, `approve`,
+`flashloanReceipt`, `swapOut`, `swapBack`, `repayment`, serta `rescue` bernilai
+`passed: true`. Registry juga mencatat runtime `codeHash`, decimals, symbol, implementation
+proxy (jika ada), perilaku transfer, status rebasing, serta kontrol blacklist/pause. Catat
+block fork dan bukti transaksi/catatan pengujian agar hasil dapat diaudit. Perubahan proxy
+implementation atau code hash membatalkan asumsi pengujian dan harus memicu pengujian ulang.
+
+Override hanya untuk keadaan darurat dan sengaja memiliki dua langkah terpisah; `--yes`
+tidak menggantikan konfirmasi risiko:
+
+```bash
+npm run cli -- setup --chain base --select 0xChecksumAddress --broadcast --yes \
+  --unsafe-token-policy-override \
+  --confirm-unsafe-token-policy ALLOW_DISCOVERY_ONLY
+```
+
+Contoh entry yang baru boleh dipromosikan sesudah semua nilai diverifikasi dan test lulus:
+
+```json
+{
+  "chainId": 8453,
+  "address": "0xChecksumAddress",
+  "codeHash": "0xRuntimeBytecodeHash",
+  "decimals": 6,
+  "symbol": "TOKEN",
+  "proxyImplementation": null,
+  "transferBehavior": "standard",
+  "rebasing": false,
+  "controls": { "blacklist": false, "pause": false },
+  "status": "executable",
+  "explicitConfiguration": true,
+  "forkTests": {
+    "transfer": { "passed": true, "blockNumber": 123 },
+    "approve": { "passed": true, "blockNumber": 123 },
+    "flashloanReceipt": { "passed": true, "blockNumber": 123 },
+    "swapOut": { "passed": true, "blockNumber": 123 },
+    "swapBack": { "passed": true, "blockNumber": 123 },
+    "repayment": { "passed": true, "blockNumber": 123 },
+    "rescue": { "passed": true, "blockNumber": 123 }
+  }
+}
+```
+
 ### ⚡ Flashloan
 
 Amount berupa unit token atau target USD:
@@ -181,7 +228,7 @@ npm run cli -- flashloan --chain arbitrum --asset WETH --amount '$100000'
 npm run cli -- flashloan --chain base --asset USDC --amount 100000 --broadcast --yes
 ```
 
-Satu transaksi hanya menerima satu aset. CLI scan balance terbaru, auto-allowlist bila perlu, simulasi, lalu broadcast. `--broadcast` mengirim transaksi; `--yes` melewati prompt automation. Amount tidak boleh melebihi saldo Morpho.
+Satu transaksi hanya menerima satu aset. CLI scan balance terbaru, menerapkan guard policy sebelum auto-allowlist, simulasi, lalu broadcast. `--broadcast` mengirim transaksi; `--yes` melewati prompt automation biasa tetapi tidak melewati konfirmasi override policy. Amount tidak boleh melebihi saldo Morpho.
 
 Flag utama: `--chain`, `--min-usd`, `--max-price-age-hours`, `--token`, `--select`, `--asset`, `--amount`, `--plan`, `--broadcast`, `--yes`, `--redeploy`, `--json`.
 
