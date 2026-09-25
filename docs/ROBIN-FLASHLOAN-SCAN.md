@@ -37,6 +37,7 @@ Flag scanner:
 4. Cache pool di `report/robin-pools.json`; validasi hash block cache. Perubahan universe token memicu indexing ulang. Cache bukan harga.
 5. Cek likuiditas V4; hooked pool tidak dieksekusi. Quote dua arah pada block sama: curve buy + V4 sell, V4 buy + curve sell. Output leg pertama menjadi input leg kedua; revert/zero output dicatat, tidak dianggap harga nol.
 6. Morpho WETH hanya membatasi pinjaman. Simpan semua token, status, pool aktif, ukuran, quote, kegagalan; JSON checkpoint setelah tiap token. Terminal mencetak seluruh kandidat gross positif, tanpa ambang USD/bps.
+   - Setelah sweep kasar (ladder logaritmik/eksplisit) menemukan kandidat terbaik per token, scanner otomatis menjalankan **refinement ternary-search terbatas** (`refineOptimalSize`, `tools/src/arb/optimize.ts`) di antara dua ukuran tetangganya pada ladder. Menambah baris `refined:true` ke `routes` hanya kalau hasilnya gross lebih tinggi dari kandidat kasar. Ini bukan pencarian menyeluruh — asumsinya bracket lokal itu unimodal (naik lalu turun); default 12 iterasi (~24 quote call tambahan per token), bisa melewatkan puncak di luar bracket dua-tetangga tersebut.
 7. `verify-robin-fork.mts` menjalankan `MorphoRobinArbFork.t.sol` pada snapshot laporan. `MorphoRobinArb.sol` meminjam WETH, unwrap, dua swap, rewrap, repay, lalu membayar selisih. Callback terikat lender/data aktif, owner-only, min-out/min-profit, rollback jika rugi. POC route immutable; belum deployed.
 
 ## Bukti live

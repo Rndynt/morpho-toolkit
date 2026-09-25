@@ -18,6 +18,7 @@ Snapshot `72012627`: 775 token factory, 77 pool ditemukan, 4 token punya 5 pool 
 - Base RPC fallback `mainnet.base.org` dan `base-rpc.publicnode.com`.
 - Robinhood scanner baru: RPC publik TLS/SNI fallback, override `--read-rpc`; scanner legacy memakai konfigurasi sebelumnya.
 - RobinFun/V4 quote dua arah; POC Morpho flashloan dan fork verifier read-only.
+- Refinement ternary-search terbatas atas sweep kasar Robinhood (`tools/src/arb/optimize.ts`), otomatis jalan per token setelah sweep; baris hasil ditandai `refined:true` di report.
 - Read-only scanner, plan, simulation.
 - TypeScript build dan 58 test lulus; 20 unit test Solidity lulus; RDOG/$PET lolos fork nyata pada snapshot laporan.
 

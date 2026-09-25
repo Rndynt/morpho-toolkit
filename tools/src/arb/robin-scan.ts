@@ -3,6 +3,7 @@ import {readFile, writeFile, rename, mkdir} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {createPublicClient, custom, http, parseAbi, parseAbiParameters, encodeAbiParameters, keccak256, getAddress, zeroAddress, toHex, type Address, type Hex, type Abi} from 'viem';
 import {loanSizes, readBatches} from './dex-scan.js';
+import {refineOptimalSize} from './optimize.js';
 
 // Discovery/route reference: FlipZ3ro/RobinArb d747030. No signer or funded-wallet execution imported.
 export const ROBIN = {
@@ -68,7 +69,7 @@ const abi=parseAbi([
  'function quoteExactInputSingle(((address currency0,address currency1,uint24 fee,int24 tickSpacing,address hooks) poolKey,bool zeroForOne,uint128 exactAmount,bytes hookData) params) returns(uint256 amountOut,uint256 gasEstimate)',
 ]);
 type Call={address:Address;abi:Abi;functionName:string;args?:readonly unknown[]};
-type Row={token:Address;symbol?:string;curve:Address;pool:Hex;direction:'curve-v4'|'v4-curve';amountInRaw:bigint;status:string;intermediateRaw?:bigint;returnedRaw?:bigint;grossProfitRaw?:bigint;netAfterGasEstimateRaw?:bigint;gasEstimateRaw?:bigint;positiveGross?:boolean;positiveNetEstimate?:boolean;error?:string};
+type Row={token:Address;symbol?:string;curve:Address;pool:Hex;direction:'curve-v4'|'v4-curve';amountInRaw:bigint;status:string;intermediateRaw?:bigint;returnedRaw?:bigint;grossProfitRaw?:bigint;netAfterGasEstimateRaw?:bigint;gasEstimateRaw?:bigint;positiveGross?:boolean;positiveNetEstimate?:boolean;error?:string;refined?:boolean};
 export async function scanRobin(options:{morpho:Address;reportPath:string;cachePath?:string;rpcUrl?:string;fromBlock?:bigint;maxSeconds?:number;tokenLimit?:number;amounts?:bigint[];onProgress?:(s:string)=>void}) {
  const started=Date.now(),deadline=started+(options.maxSeconds??300)*1000;
  if(!Number.isFinite(deadline)||deadline<=started)throw new Error('invalid time budget');
@@ -76,10 +77,10 @@ export async function scanRobin(options:{morpho:Address;reportPath:string;cacheP
  if(options.amounts?.some(n=>n<=0n||n>=1n<<128n))throw new Error('invalid loan size');
  const cachePath=options.cachePath??'../report/robin-pools.json';
  const failures:Array<{stage:string;target:string;error:string}>=[];
- const report={chain:'robinhood',chainId:4663,readOnly:true,startedAt:new Date().toISOString(),status:'running',blockNumber:0n,blockHash:'' as string,discovery:{source:'V4 Initialize events; RobinFun curves V1-V5',fromBlock:options.fromBlock??0n,throughBlock:0n,pools:0},loan:{token:ROBIN.weth,morpho:options.morpho,balanceRaw:0n},pools:[] as RobinPool[],tokens:[] as Array<{address:Address;symbol?:string;curve?:Address;status:string;poolCount?:number;validQuotes?:number}>,routes:[] as Row[],failures,counts:{} as Record<string,number>,limitations:['Read-only quotes, not executed profit. No USD or bps profit floor.','Native ETH routes require Morpho WETH unwrap/rewrap and compatible executor.','Gas estimate 700000 units; full transaction/L1 fees must be measured in fork before calling this net profit.','Hooked V4 pools excluded because arbitrary hook behavior is not validated.','Curve-V4 routes only; other DEX route families not included in this report.']};
+ const report={chain:'robinhood',chainId:4663,readOnly:true,startedAt:new Date().toISOString(),status:'running',blockNumber:0n,blockHash:'' as string,discovery:{source:'V4 Initialize events; RobinFun curves V1-V5',fromBlock:options.fromBlock??0n,throughBlock:0n,pools:0},loan:{token:ROBIN.weth,morpho:options.morpho,balanceRaw:0n},pools:[] as RobinPool[],tokens:[] as Array<{address:Address;symbol?:string;curve?:Address;status:string;poolCount?:number;validQuotes?:number}>,routes:[] as Row[],failures,counts:{} as Record<string,number>,limitations:['Read-only quotes, not executed profit. No USD or bps profit floor.','Native ETH routes require Morpho WETH unwrap/rewrap and compatible executor.','Gas estimate 700000 units; full transaction/L1 fees must be measured in fork before calling this net profit.','Hooked V4 pools excluded because arbitrary hook behavior is not validated.','Curve-V4 routes only; other DEX route families not included in this report.','Rows with refined:true come from a bounded ternary-search refinement between the two sweep sizes bracketing each token\'s best coarse candidate, not an exhaustive scan; they assume that local bracket is unimodal and can miss a better size outside it.']};
  const json=(v:unknown)=>JSON.stringify(v,(_,x)=>typeof x==='bigint'?x.toString():x,2);
  const atomic=async(path:string,value:unknown)=>{await mkdir(dirname(path),{recursive:true});await writeFile(path+'.tmp',json(value));await rename(path+'.tmp',path);};
- const save=async()=>{report.counts={discoveredPools:report.discovery.pools,tokens:report.tokens.length,activeTokens:report.tokens.filter(t=>!!t.curve).length,liquidPools:report.pools.filter(p=>(p.liquidityRaw??0n)>0n).length,attemptedRoutes:report.routes.length,validQuotes:report.routes.filter(r=>r.status==='quoted').length,failedRoutes:report.routes.filter(r=>r.status==='failed').length,positiveGrossEstimates:report.routes.filter(r=>r.positiveGross).length,positiveNetEstimates:report.routes.filter(r=>r.positiveNetEstimate).length,failures:failures.length};await atomic(options.reportPath,report);};
+ const save=async()=>{report.counts={discoveredPools:report.discovery.pools,tokens:report.tokens.length,activeTokens:report.tokens.filter(t=>!!t.curve).length,liquidPools:report.pools.filter(p=>(p.liquidityRaw??0n)>0n).length,attemptedRoutes:report.routes.length,validQuotes:report.routes.filter(r=>r.status==='quoted').length,failedRoutes:report.routes.filter(r=>r.status==='failed').length,positiveGrossEstimates:report.routes.filter(r=>r.positiveGross).length,positiveNetEstimates:report.routes.filter(r=>r.positiveNetEstimate).length,refinedRoutes:report.routes.filter(r=>r.refined).length,failures:failures.length};await atomic(options.reportPath,report);};
  const expired=()=>Date.now()>deadline;
  await save();
  try {
@@ -149,6 +150,40 @@ export async function scanRobin(options:{morpho:Address;reportPath:string;cacheP
    token.validQuotes=rows.filter(r=>r.status==='quoted').length;token.status=token.validQuotes?'quoted':'no-valid-quote';await save();
    const best=rows.filter(r=>r.status==='quoted').sort((a,b)=>a.grossProfitRaw!>b.grossProfitRaw!?-1:1)[0];
    options.onProgress?.(`${token.symbol??token.address}: ${token.validQuotes}/${rows.length} quotes; best gross wei ${best?.grossProfitRaw??'unknown'}`);
+   // The coarse sweep only samples a fixed logarithmic/explicit size ladder, so the
+   // true per-token/pool/direction peak usually sits between two adjacent sizes rather
+   // than on one. Refine within that bracket instead of re-scanning every size finer.
+   if(best && !expired()){
+     const pool=pools.find(p=>p.id===best.pool);
+     const index=sizes.findIndex(n=>n===best.amountInRaw);
+     if(pool && index>=0){
+       const lo=index>0?sizes[index-1]!:1n, hi=index<sizes.length-1?sizes[index+1]!:report.loan.balanceRaw;
+       const reverse=best.direction==='v4-curve';
+       const evaluate=async(amount:bigint):Promise<bigint>=>{
+         try{
+           if(reverse){
+             const first=await read<readonly [bigint,bigint]>(ROBIN.quoter,'quoteExactInputSingle',[{poolKey:pool.key,zeroForOne:true,exactAmount:amount,hookData:'0x'}]);
+             const mid=first[0];if(mid<=0n||mid>=(1n<<128n))return -amount;
+             const back=await read<bigint>(token.curve!,'quoteSell',[token.address,mid]);
+             return back>0n?back-amount:-amount;
+           }
+           const mid=await read<bigint>(token.curve!,'quoteBuy',[token.address,amount]);
+           if(mid<=0n||mid>=(1n<<128n))return -amount;
+           const second=await read<readonly [bigint,bigint]>(ROBIN.quoter,'quoteExactInputSingle',[{poolKey:pool.key,zeroForOne:false,exactAmount:mid,hookData:'0x'}]);
+           return second[0]>0n?second[0]-amount:-amount;
+         }catch(e){failures.push({stage:'refine-quote',target:`${token.address}:${amount}`,error:safeError(e)});return -amount;}
+       };
+       try{
+         const refined=await refineOptimalSize(evaluate,lo,hi,{maxIterations:12,seed:[{amount:best.amountInRaw,profit:best.grossProfitRaw!}]});
+         if(refined.amount!==best.amountInRaw && refined.profit>best.grossProfitRaw!){
+           const returned=refined.amount+refined.profit;
+           report.routes.push({token:token.address,symbol:token.symbol,curve:token.curve!,pool:pool.id,direction:best.direction,amountInRaw:refined.amount,status:'quoted',returnedRaw:returned,gasEstimateRaw:gasCost,refined:true,...profit(refined.amount,returned,gasCost)});
+           options.onProgress?.(`${token.symbol??token.address}: refined ${best.amountInRaw}->${refined.amount} wei, gross ${best.grossProfitRaw}->${refined.profit} wei`);
+         }
+       }catch(e){failures.push({stage:'refine',target:`${token.address}`,error:safeError(e)});}
+       await save();
+     }
+   }
  }
  if((await client.getBlock({blockNumber:head.number})).hash!==head.hash)throw new Error('snapshot reorg');
  report.status=failures.length||report.routes.some(r=>r.status==='failed')||ready.length>limit?'partial':'complete';
