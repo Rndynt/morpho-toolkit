@@ -2,8 +2,8 @@
   "schema": 2,
   "chainId": 4663,
   "tokenSet": "0xc30c9bf2980afdcfa69763668cfd618ba4909ee806cc08fe1c4d9e47e5b7359a",
-  "throughBlock": "72026375",
-  "throughHash": "0xdc7d33d840b67f71d9d35a695102fa57747ac86c27fcaa06f6d154a797cac090",
+  "throughBlock": "72027843",
+  "throughHash": "0xa6257cf9cc9d0bb09df12d7748b24b25fce73ff719659ccf660a7e7d383059ca",
   "pools": [
     {
       "id": "0xbef159a4001705a93b4189a013d192aff5e21070b18aa1b39e1ff767357dc76a",

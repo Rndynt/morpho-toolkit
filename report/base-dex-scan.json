@@ -1,0 +1,4743 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-25T06:54:04.254Z",
+  "status": "partial",
+  "blockNumber": "51764949",
+  "blockHash": "0x6eccf1c8d440042f8c6704cba3bf9dcd516cfd0d0169162e6dacab31078b2f97",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29501",
+    "requestedPoolLimit": 80,
+    "tokenLimit": 30,
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      29461,
+      29462,
+      29463,
+      29464,
+      29465,
+      29466,
+      29467,
+      29468,
+      29469,
+      29470,
+      29471,
+      29472,
+      29473,
+      29474,
+      29475,
+      29476,
+      29477,
+      29478,
+      29479,
+      29480,
+      29481,
+      29482,
+      29483,
+      29484,
+      29485,
+      29486,
+      29487,
+      29488,
+      29489,
+      29490,
+      29491,
+      29492,
+      29493,
+      29494,
+      29495,
+      29496,
+      29497,
+      29498,
+      29499,
+      29500
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 1,
+        "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 2,
+        "address": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+        "token0": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 3,
+        "address": "0x2B7704f1cb9324cD8586B33C6c540CbD64E58237",
+        "token0": "0x2dAD3a13ef0C6366220f989157009e501e7938F8",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 4,
+        "address": "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528",
+        "token0": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 5,
+        "address": "0xA819Af1CC8AbE618eA8abaDeb464960F7451CEAB",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF"
+      },
+      {
+        "index": 6,
+        "address": "0x6e23f90E25f432c9dF9eF9276472DDa3951e4465",
+        "token0": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A",
+        "token1": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069"
+      },
+      {
+        "index": 7,
+        "address": "0x218F511431194B2C756D67a137DE536beA74E498",
+        "token0": "0xa334884bF6b0A066d553D19e507315E839409e62",
+        "token1": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069"
+      },
+      {
+        "index": 8,
+        "address": "0xf6Aec4F97623E691a9426a69BaF5501509fCa05D",
+        "token0": "0xbf1aeA8670D2528E08334083616dD9C5F3B087aE",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 9,
+        "address": "0x8b432C54d6e8E1B8D1802753514AB53044Af1861",
+        "token0": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+        "token1": "0xbf1aeA8670D2528E08334083616dD9C5F3B087aE"
+      },
+      {
+        "index": 10,
+        "address": "0xb680190fB16f417647e69D6A84719aE9c7E5E20a",
+        "token0": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+        "token1": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df"
+      },
+      {
+        "index": 11,
+        "address": "0x2d25E0514f23c6367687dE89Bd5167dc754D4934",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xF544251D25f3d243A36B07e7E7962a678f952691"
+      },
+      {
+        "index": 12,
+        "address": "0x982A169edFC1cf8Fd38dBeE76735547b23875BD1",
+        "token0": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 13,
+        "address": "0x535d457FFC1c4459300Bb1dd775f37808F808282",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D"
+      },
+      {
+        "index": 14,
+        "address": "0x75D18ee68bB93BE5cB2dcCFa0d8151E25CBC8Eb8",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC"
+      },
+      {
+        "index": 15,
+        "address": "0x1b05e4e814b3431a48b8164c41eaC834d9cE2Da6",
+        "token0": "0x65a2508C429a6078a7BC2f7dF81aB575BD9D9275",
+        "token1": "0xB79DD08EA68A908A97220C76d19A6aA9cBDE4376"
+      },
+      {
+        "index": 16,
+        "address": "0x4a3636608d7Bc5776CB19Eb72cAa36EbB9Ea683B",
+        "token0": "0xB79DD08EA68A908A97220C76d19A6aA9cBDE4376",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 17,
+        "address": "0x9e4CB8b916289864321661CE02cf66aa5BA63C94",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44"
+      },
+      {
+        "index": 18,
+        "address": "0x6EAB8c1B93f5799daDf2C687a30230a540DbD636",
+        "token0": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 19,
+        "address": "0x2223F9FE624F69Da4D8256A7bCc9104FBA7F8f75",
+        "token0": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 20,
+        "address": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"
+      },
+      {
+        "index": 21,
+        "address": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E"
+      },
+      {
+        "index": 22,
+        "address": "0xe5fEaC3f554398795298cF90E3801edC522ED974",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492"
+      },
+      {
+        "index": 23,
+        "address": "0x0F3742018aCE31F38ba25235E7aFC96dAf82A4De",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3"
+      },
+      {
+        "index": 24,
+        "address": "0xB4885Bc63399BF5518b994c1d0C153334Ee579D0",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 25,
+        "address": "0x032c7BFa435Bc98f0e9490d7928799e5913143AF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x45622e5bCe7524D911210A25F4F83b6C8766b735"
+      },
+      {
+        "index": 26,
+        "address": "0x89dE19c640B03649206e9998481Ee9E8E23EBCAf",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663"
+      },
+      {
+        "index": 27,
+        "address": "0x9287C921f5d920cEeE0d07d7c58d476E46aCC640",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"
+      },
+      {
+        "index": 28,
+        "address": "0x6dbbD2c5EC6A59F54FB0e5f750A245137Ff0492c",
+        "token0": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 29,
+        "address": "0xF4cA6481d13859293b78431fe80b47D0977962a8",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe"
+      },
+      {
+        "index": 30,
+        "address": "0xe3968f5a5107338d89a53E352e13bf5424e33f84",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1"
+      },
+      {
+        "index": 31,
+        "address": "0x44Ecc644449fC3a9858d2007CaA8CFAa4C561f91",
+        "token0": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 32,
+        "address": "0xE58a1997398d6269c1EDe02e49fDC4E39A4d3A6e",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x9065C9F6337fb742709A85402BAD53C78236db36"
+      },
+      {
+        "index": 33,
+        "address": "0x4C29E4dD4A966B27EfC846109B1393677B7E215c",
+        "token0": "0x5c185329BC7720AebD804357043121D26036D1B3",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 34,
+        "address": "0x917baB0544BEB0e681D02CC159f50446A7A38633",
+        "token0": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 35,
+        "address": "0x3fF36517cac7333360E1692A0B2F003e4A42Dd59",
+        "token0": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c",
+        "token1": "0xe3Eb37cE83fac09570482A9A86A193b94849e558"
+      },
+      {
+        "index": 36,
+        "address": "0xc40C51247C7D42F7Ddd73D1a04a290d061232acC",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xe3Eb37cE83fac09570482A9A86A193b94849e558"
+      },
+      {
+        "index": 37,
+        "address": "0x103601D82EF65667A1CeFDEA072F599E00A53457",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d"
+      },
+      {
+        "index": 38,
+        "address": "0x80218EeA7490d4a7C48b7A98A2D6373246eB25b1",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c"
+      },
+      {
+        "index": 39,
+        "address": "0x3Fc28BFac25fC8e93B5b2fc15EfBBD5a8aA44eFe",
+        "token0": "0x9483ab65847A447e36d21af1CaB8C87e9712ff93",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 29461,
+        "address": "0x07aFa8Be43a53ED48fAB233D6695B5a78Ff1E8FE",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E"
+      },
+      {
+        "index": 29462,
+        "address": "0x04C78523290b562D46f79B0F421d0Ee82bc9E30f",
+        "token0": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29463,
+        "address": "0x01f64f9901C23a4255f26c6c77127a2d614415Fc",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1"
+      },
+      {
+        "index": 29464,
+        "address": "0xf3A258fB439984cc0431aB42973177d25b8ddA4e",
+        "token0": "0x0260bf88039AFd2071d3ab52363Cf8Cc51329f84",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29465,
+        "address": "0xd4B70275fa0a1F7084CA1C443472d9c802Dd99D4",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6836C1679EAc85F18b03925b6ffD34e57f096B71"
+      },
+      {
+        "index": 29466,
+        "address": "0x5CaE3f55401A4938affC408a4586086455018A20",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x470f540c794cA8B4cAbdbbC7aF74E4FD4a87e970"
+      },
+      {
+        "index": 29467,
+        "address": "0x5a58Dc35fF332d52630523EE667dA8A443Cf859d",
+        "token0": "0x363A0dcaE37ef65F772619A535afa535112025a6",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29468,
+        "address": "0xE44C548b917053ac6aD712423E68F592EDa214ce",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x7AE52Aac37619B197A86E098479D6211629bf688"
+      },
+      {
+        "index": 29469,
+        "address": "0x3fA84FA365Ca106cDd721a0D179a65cA40147FAa",
+        "token0": "0x38b117fa809a9A44BB6460560c89d71F349aE37B",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29470,
+        "address": "0x6042333bC1aD972D193c5E13d0d93B9B323a83dC",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xC92061385EfA5e7Ab769f5cD15A1d05Ce9DD8113"
+      },
+      {
+        "index": 29471,
+        "address": "0x3eC2c9dd3d31C123b0EC6521Ae8A9bf0CF177b71",
+        "token0": "0x3Fc4A8fcBF739812dE259BC67942202D59A28c66",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29472,
+        "address": "0x2b3FBF5398f12b82b0d4ebf5b5B4eF916465e896",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x4A7137770A7c5e42Aa9187b742F0CB9b6CeCAaD8"
+      },
+      {
+        "index": 29473,
+        "address": "0xc11f305Ab893d37F7f9FbB7cD66b90BB4C8D10E4",
+        "token0": "0x2d4bCC58fd1B101ae71c4B15C02178e1fBe777dF",
+        "token1": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"
+      },
+      {
+        "index": 29474,
+        "address": "0x93b7FEaF18A95eE73a6C7e336406315497650E66",
+        "token0": "0x0EAF40356B03363F81c7fA676454D5e2f6193d80",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29475,
+        "address": "0xdEE5100b820244922B0841b4403e82e8c41Ba015",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x696345B4ac7aD1B46FF4BF1ed1e456034A38e910"
+      },
+      {
+        "index": 29476,
+        "address": "0xBf01e2594c6168EF487b03058A64E3DC89ef1A63",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x963a30a5AC5C865eDdf78d1D6C0AbA6F842581DC"
+      },
+      {
+        "index": 29477,
+        "address": "0xf2683Dd642B2183e20e0e8d165d92EF45058Aa76",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x69B090129B845b3390A7612Ae359C9783c8CB807"
+      },
+      {
+        "index": 29478,
+        "address": "0x8cDb7EBbDcA65519bFb7c04E965A8EFeB59e1991",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6b57D9ae8f594ACa484097ddb822AF56b94BB9B7"
+      },
+      {
+        "index": 29479,
+        "address": "0x615Cc2ecEDD114DAf5Fc306bE7866D7A77b140E6",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xFFFAA940110d71A9445b878dE175281ae0b6ab80"
+      },
+      {
+        "index": 29480,
+        "address": "0xd6913be7020E6caf830d398e3A81678ed67221D1",
+        "token0": "0x11Bf732B4ddb43aF49C314d8e0cEFAa46867F382",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29481,
+        "address": "0xB2e0141667A02ee47A87B1DD0185591a4B607449",
+        "token0": "0x323b4cc29135EA6028D9C1E46f488Cc0Ad1F958a",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29482,
+        "address": "0x40cB9e81C40F9aAa3baEF5F2313df4389af01cF9",
+        "token0": "0x0f1fDa619c11870faC6A2bbf03B3C0D501506710",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29483,
+        "address": "0x4c749F0DdA2E24E3fd5B93bf2E73D9747765286d",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x72F35D373a95F9B7B5817C16c44c7627EC046dFE"
+      },
+      {
+        "index": 29484,
+        "address": "0xB0A6784Efbb3d21E194380A04DC1852AaEb59aE7",
+        "token0": "0x0087327aF69bc1ea2e3fA006b442b8B539128616",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29485,
+        "address": "0x2e70029E38E211016239BD2e7B34FE4bF4c64E16",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x61c5E71d7535e1CeB481C6e610028440B59dF47F"
+      },
+      {
+        "index": 29486,
+        "address": "0x096aB8Cae62C582e428786e9d074728dd9382c94",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xd0C5D47b18Ff38b823d2c6178E615053CAC859cB"
+      },
+      {
+        "index": 29487,
+        "address": "0x822Ba60a0E446f3a4c0aC6bAB603Ab77229Bc41B",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x5e9Aa90110EC95ea660de96Ae5326394Ab630509"
+      },
+      {
+        "index": 29488,
+        "address": "0x97ce4326A8DDd9e07348801fe9f2514344f1C85e",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xe8eDf2478282eF835c5A4ED516e6bbf3d1BB913D"
+      },
+      {
+        "index": 29489,
+        "address": "0x0E587Ef89087A7C2E9143C0b1F7bAd73862c059d",
+        "token0": "0x01fc4E202B2A384835Ea4C560638e444BB860cb2",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29490,
+        "address": "0x8D675f294328151c6D7a2583FAaD01a7548bb465",
+        "token0": "0x08BFe10c7E5d82FA7Bb1F5b19278748368BB3626",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      {
+        "index": 29491,
+        "address": "0xbbbe3841d6ADc896E108Ed854CC93aa29bC5a850",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xc62C2D2d81203D92553D23BeA6B603D975a0BC4c"
+      },
+      {
+        "index": 29492,
+        "address": "0xe629fC6B165cEDB3912Fd7EE6689BFFa3D37aEDA",
+        "token0": "0x2A0eB9357C7232f2aDa5193463925FF8da1aafd0",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29493,
+        "address": "0x631961EeDb46FCEf761642D2113Bb0077d5C531e",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x8D5ED6E371b75B680EB4E9739B203761902f302E"
+      },
+      {
+        "index": 29494,
+        "address": "0xbb88424631628e9961C7911829BF457Cf45d90D0",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6966624EDe83379a1C02EcC4ebFBAA46e12390f7"
+      },
+      {
+        "index": 29495,
+        "address": "0x03B817508562697046579d95E2C799bCa0DC73D2",
+        "token0": "0x01Ab214e3B575053085500a5D4F94233C4780629",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29496,
+        "address": "0x0F6709A0aCf51e6294C54A076555422c4152eFb1",
+        "token0": "0x08a6619F855B16bB4D119D50a537Bcf853E33A0b",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 29497,
+        "address": "0x08aE5C5499E082B8bf3dc2a3EdcFCAAB69eb8057",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x5739e918a5F369563a055a96E049D31f430FBF64"
+      },
+      {
+        "index": 29498,
+        "address": "0xC9B1ae06e6C40C5b95e1e888F5d27a3C2dee61C1",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x530D54472E758dA3c723173113cBFc9b56b8D6b3"
+      },
+      {
+        "index": 29499,
+        "address": "0xA809087b5463a42C601dca25af81cb72086552E9",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xB7F5f6512fd0891Af6501c48f972E254fa22Aef6"
+      },
+      {
+        "index": 29500,
+        "address": "0x93dFA31A4597AF08C4830F8BcD94682C10fE7905",
+        "token0": "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
+        "token1": "0xCe2B4eF859a2B57407B8CD5eE5E4209A510DddF3"
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "status": "quoted",
+      "symbol": "tBTC",
+      "decimals": 18,
+      "poolCount": 7,
+      "attempts": 84,
+      "validQuotes": 45
+    },
+    {
+      "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "status": "excluded-stable",
+      "symbol": "USDbC",
+      "decimals": 6
+    },
+    {
+      "address": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "status": "no-valid-quote",
+      "symbol": "T",
+      "decimals": 18,
+      "poolCount": 4,
+      "attempts": 24,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x2dAD3a13ef0C6366220f989157009e501e7938F8",
+      "status": "insufficient-pools",
+      "symbol": "EXTRA",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+      "status": "excluded-stable",
+      "symbol": "DOLA",
+      "decimals": 18
+    },
+    {
+      "address": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF",
+      "status": "insufficient-pools",
+      "symbol": "UNIDX",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A",
+      "status": "insufficient-pools",
+      "symbol": "OATH",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069",
+      "status": "insufficient-pools",
+      "symbol": "stERN",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xa334884bF6b0A066d553D19e507315E839409e62",
+      "status": "insufficient-pools",
+      "symbol": "ERN",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xbf1aeA8670D2528E08334083616dD9C5F3B087aE",
+      "status": "excluded-stable",
+      "symbol": "MAI",
+      "decimals": 18
+    },
+    {
+      "address": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df",
+      "status": "insufficient-pools",
+      "symbol": "STG",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xF544251D25f3d243A36B07e7E7962a678f952691",
+      "status": "insufficient-pools",
+      "symbol": "TAROT",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D",
+      "status": "excluded-stable",
+      "symbol": "MIM",
+      "decimals": 18
+    },
+    {
+      "address": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC",
+      "status": "insufficient-pools",
+      "symbol": "HOP",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x65a2508C429a6078a7BC2f7dF81aB575BD9D9275",
+      "status": "excluded-stable",
+      "symbol": "DAI+",
+      "decimals": 18
+    },
+    {
+      "address": "0xB79DD08EA68A908A97220C76d19A6aA9cBDE4376",
+      "status": "excluded-stable",
+      "symbol": "USD+",
+      "decimals": 6
+    },
+    {
+      "address": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44",
+      "status": "insufficient-pools",
+      "symbol": "DEUS",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+      "status": "excluded-stable",
+      "symbol": "DAI",
+      "decimals": 18
+    },
+    {
+      "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "status": "quoted",
+      "symbol": "AERO",
+      "decimals": 18,
+      "poolCount": 3,
+      "attempts": 12,
+      "validQuotes": 1
+    },
+    {
+      "address": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "status": "quoted",
+      "symbol": "DOG",
+      "decimals": 18,
+      "poolCount": 3,
+      "attempts": 12,
+      "validQuotes": 2
+    },
+    {
+      "address": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492",
+      "status": "insufficient-pools",
+      "symbol": "OGRE",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3",
+      "status": "insufficient-pools",
+      "symbol": "BaseDOGE",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x45622e5bCe7524D911210A25F4F83b6C8766b735",
+      "status": "insufficient-pools",
+      "symbol": "Balls",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663",
+      "status": "insufficient-pools",
+      "symbol": "BASED",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0",
+      "status": "insufficient-pools",
+      "symbol": "YFX",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe",
+      "status": "insufficient-pools",
+      "symbol": "Gekko",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1",
+      "status": "insufficient-pools",
+      "symbol": "HAIRY",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+      "status": "insufficient-pools",
+      "symbol": "cbETH",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x9065C9F6337fb742709A85402BAD53C78236db36",
+      "status": "insufficient-pools",
+      "symbol": "BASED Token",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x5c185329BC7720AebD804357043121D26036D1B3",
+      "status": "insufficient-pools",
+      "symbol": "BAI",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c",
+      "status": "insufficient-pools",
+      "symbol": "EVAWAT",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xe3Eb37cE83fac09570482A9A86A193b94849e558",
+      "status": "insufficient-pools",
+      "symbol": "SERAPH",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d",
+      "status": "insufficient-pools",
+      "symbol": "AAA",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c",
+      "status": "insufficient-pools",
+      "symbol": "TOSHI",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x9483ab65847A447e36d21af1CaB8C87e9712ff93",
+      "status": "excluded-stable",
+      "symbol": "wUSDR",
+      "decimals": 9
+    },
+    {
+      "address": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E",
+      "status": "insufficient-pools",
+      "symbol": "CATALYST",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7",
+      "status": "insufficient-pools",
+      "symbol": "TRUCKTRUMP",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1",
+      "status": "insufficient-pools",
+      "symbol": "MASSIMO",
+      "decimals": 18,
+      "poolCount": 0,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x0260bf88039AFd2071d3ab52363Cf8Cc51329f84",
+      "status": "excluded-token-cap",
+      "symbol": "KEVIN",
+      "decimals": 18
+    },
+    {
+      "address": "0x6836C1679EAc85F18b03925b6ffD34e57f096B71",
+      "status": "excluded-token-cap",
+      "symbol": "TRADER",
+      "decimals": 18
+    },
+    {
+      "address": "0x470f540c794cA8B4cAbdbbC7aF74E4FD4a87e970",
+      "status": "excluded-token-cap",
+      "symbol": "MINION",
+      "decimals": 18
+    },
+    {
+      "address": "0x363A0dcaE37ef65F772619A535afa535112025a6",
+      "status": "excluded-token-cap",
+      "symbol": "GEEK",
+      "decimals": 18
+    },
+    {
+      "address": "0x7AE52Aac37619B197A86E098479D6211629bf688",
+      "status": "excluded-token-cap",
+      "symbol": "MEMARA",
+      "decimals": 18
+    },
+    {
+      "address": "0x38b117fa809a9A44BB6460560c89d71F349aE37B",
+      "status": "excluded-token-cap",
+      "symbol": "HASSABIS",
+      "decimals": 18
+    },
+    {
+      "address": "0xC92061385EfA5e7Ab769f5cD15A1d05Ce9DD8113",
+      "status": "excluded-token-cap",
+      "symbol": "AEROXFUN",
+      "decimals": 18
+    },
+    {
+      "address": "0x3Fc4A8fcBF739812dE259BC67942202D59A28c66",
+      "status": "excluded-token-cap",
+      "symbol": "GROKAI",
+      "decimals": 18
+    },
+    {
+      "address": "0x4A7137770A7c5e42Aa9187b742F0CB9b6CeCAaD8",
+      "status": "excluded-token-cap",
+      "symbol": "AIB",
+      "decimals": 18
+    },
+    {
+      "address": "0x2d4bCC58fd1B101ae71c4B15C02178e1fBe777dF",
+      "status": "excluded-token-cap",
+      "symbol": "MILF",
+      "decimals": 18
+    },
+    {
+      "address": "0x0EAF40356B03363F81c7fA676454D5e2f6193d80",
+      "status": "excluded-token-cap",
+      "symbol": "GAMEX",
+      "decimals": 18
+    },
+    {
+      "address": "0x696345B4ac7aD1B46FF4BF1ed1e456034A38e910",
+      "status": "excluded-token-cap",
+      "symbol": "BOTANICA",
+      "decimals": 18
+    },
+    {
+      "address": "0x963a30a5AC5C865eDdf78d1D6C0AbA6F842581DC",
+      "status": "excluded-token-cap",
+      "symbol": "BOTANICAAI",
+      "decimals": 18
+    },
+    {
+      "address": "0x69B090129B845b3390A7612Ae359C9783c8CB807",
+      "status": "excluded-token-cap",
+      "symbol": "AI",
+      "decimals": 18
+    },
+    {
+      "address": "0x6b57D9ae8f594ACa484097ddb822AF56b94BB9B7",
+      "status": "excluded-token-cap",
+      "symbol": "ASTRA",
+      "decimals": 18
+    },
+    {
+      "address": "0xFFFAA940110d71A9445b878dE175281ae0b6ab80",
+      "status": "excluded-token-cap",
+      "symbol": "CATALYST",
+      "decimals": 18
+    },
+    {
+      "address": "0x11Bf732B4ddb43aF49C314d8e0cEFAa46867F382",
+      "status": "excluded-token-cap",
+      "symbol": "XAIS",
+      "decimals": 18
+    },
+    {
+      "address": "0x323b4cc29135EA6028D9C1E46f488Cc0Ad1F958a",
+      "status": "excluded-token-cap",
+      "symbol": "ILB",
+      "decimals": 18
+    },
+    {
+      "address": "0x0f1fDa619c11870faC6A2bbf03B3C0D501506710",
+      "status": "excluded-token-cap",
+      "symbol": "HULK",
+      "decimals": 18
+    },
+    {
+      "address": "0x72F35D373a95F9B7B5817C16c44c7627EC046dFE",
+      "status": "excluded-token-cap",
+      "symbol": "LOVEBASE",
+      "decimals": 18
+    },
+    {
+      "address": "0x0087327aF69bc1ea2e3fA006b442b8B539128616",
+      "status": "excluded-token-cap",
+      "symbol": "CLARK",
+      "decimals": 18
+    },
+    {
+      "address": "0x61c5E71d7535e1CeB481C6e610028440B59dF47F",
+      "status": "excluded-token-cap",
+      "symbol": "LESTER",
+      "decimals": 18
+    },
+    {
+      "address": "0xd0C5D47b18Ff38b823d2c6178E615053CAC859cB",
+      "status": "excluded-token-cap",
+      "symbol": "AEROREWARDS",
+      "decimals": 18
+    },
+    {
+      "address": "0x5e9Aa90110EC95ea660de96Ae5326394Ab630509",
+      "status": "excluded-token-cap",
+      "symbol": "DEER",
+      "decimals": 18
+    },
+    {
+      "address": "0xe8eDf2478282eF835c5A4ED516e6bbf3d1BB913D",
+      "status": "excluded-token-cap",
+      "symbol": "MBGA",
+      "decimals": 18
+    },
+    {
+      "address": "0x01fc4E202B2A384835Ea4C560638e444BB860cb2",
+      "status": "excluded-token-cap",
+      "symbol": "MCGA",
+      "decimals": 18
+    },
+    {
+      "address": "0x08BFe10c7E5d82FA7Bb1F5b19278748368BB3626",
+      "status": "excluded-token-cap",
+      "symbol": "NESHA",
+      "decimals": 18
+    },
+    {
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "status": "excluded-stable",
+      "symbol": "USDC",
+      "decimals": 6
+    },
+    {
+      "address": "0xc62C2D2d81203D92553D23BeA6B603D975a0BC4c",
+      "status": "excluded-token-cap",
+      "symbol": "ALASIN",
+      "decimals": 18
+    },
+    {
+      "address": "0x2A0eB9357C7232f2aDa5193463925FF8da1aafd0",
+      "status": "excluded-token-cap",
+      "symbol": "BEGJEV",
+      "decimals": 18
+    },
+    {
+      "address": "0x8D5ED6E371b75B680EB4E9739B203761902f302E",
+      "status": "excluded-token-cap",
+      "symbol": "BEGJEV",
+      "decimals": 18
+    },
+    {
+      "address": "0x6966624EDe83379a1C02EcC4ebFBAA46e12390f7",
+      "status": "excluded-token-cap",
+      "symbol": "BBB",
+      "decimals": 18
+    },
+    {
+      "address": "0x01Ab214e3B575053085500a5D4F94233C4780629",
+      "status": "excluded-token-cap",
+      "symbol": "NVIDIA",
+      "decimals": 18
+    },
+    {
+      "address": "0x08a6619F855B16bB4D119D50a537Bcf853E33A0b",
+      "status": "excluded-token-cap",
+      "symbol": "VVV",
+      "decimals": 18
+    },
+    {
+      "address": "0x5739e918a5F369563a055a96E049D31f430FBF64",
+      "status": "excluded-token-cap",
+      "symbol": "BITGETCLASSIC",
+      "decimals": 18
+    },
+    {
+      "address": "0x530D54472E758dA3c723173113cBFc9b56b8D6b3",
+      "status": "excluded-token-cap",
+      "symbol": "BAIM",
+      "decimals": 18
+    },
+    {
+      "address": "0xB7F5f6512fd0891Af6501c48f972E254fa22Aef6",
+      "status": "excluded-token-cap",
+      "symbol": "AIMC",
+      "decimals": 18
+    },
+    {
+      "address": "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
+      "status": "excluded-token-cap",
+      "symbol": "ETHFI",
+      "decimals": 18
+    },
+    {
+      "address": "0xCe2B4eF859a2B57407B8CD5eE5E4209A510DddF3",
+      "status": "excluded-token-cap",
+      "symbol": "BDW",
+      "decimals": 18
+    }
+  ],
+  "pools": [
+    {
+      "venue": "Uniswap V2",
+      "kind": "v2",
+      "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+      "router": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "key": 30,
+      "address": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome stable",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": true,
+      "address": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 500,
+      "address": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 3000,
+      "address": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 10000,
+      "address": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome Slipstream",
+      "kind": "slipstream",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "router": "0x254cF9E1E6e233aa1AC962CB9B05b2cfeAaE15b0",
+      "key": 200,
+      "address": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 500,
+      "address": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 3000,
+      "address": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 10000,
+      "address": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29"
+    },
+    {
+      "venue": "Aerodrome Slipstream",
+      "kind": "slipstream",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "router": "0x254cF9E1E6e233aa1AC962CB9B05b2cfeAaE15b0",
+      "key": 200,
+      "address": "0x5A1401c002f67ca00557E7179D34C3FE6d753b28",
+      "token": "0x2dAD3a13ef0C6366220f989157009e501e7938F8"
+    },
+    {
+      "venue": "Uniswap V2",
+      "kind": "v2",
+      "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+      "router": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "key": 30,
+      "address": "0x30959B96F3f99dDA4cc6A44B875d1259Dc41F48B",
+      "token": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df"
+    },
+    {
+      "venue": "Uniswap V2",
+      "kind": "v2",
+      "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+      "router": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "key": 30,
+      "address": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"
+    },
+    {
+      "venue": "Sushi V2",
+      "kind": "v2",
+      "factory": "0x71524B4f93c58fcbF659783284E38825f0622859",
+      "router": "0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891",
+      "key": 30,
+      "address": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"
+    },
+    {
+      "venue": "Uniswap V2",
+      "kind": "v2",
+      "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+      "router": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "key": 30,
+      "address": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E"
+    },
+    {
+      "venue": "Sushi V2",
+      "kind": "v2",
+      "factory": "0x71524B4f93c58fcbF659783284E38825f0622859",
+      "router": "0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891",
+      "key": 30,
+      "address": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0xC41430A2090f0640e93322C6347c6740B4bDf9Cd",
+      "token": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0"
+    }
+  ],
+  "routes": [
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "754913335747",
+      "returnedRaw": "23615003439840",
+      "grossProfitRaw": "-976384996560160",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979984996560160"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "771523299243",
+      "returnedRaw": "24134591325080",
+      "grossProfitRaw": "-9975865408674920",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979465408674920"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"getAmountsOut\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"getAmountsOut\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "754913335747",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "771523299243",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-9994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "754913335747",
+      "returnedRaw": "23618701860433",
+      "grossProfitRaw": "-976381298139567",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979981298139567"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "771523299243",
+      "returnedRaw": "24138230854732",
+      "grossProfitRaw": "-9975861769145268",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979461769145268"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "754913335747",
+      "returnedRaw": "23623846373324",
+      "grossProfitRaw": "-976376153626676",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979976153626676"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "771523299243",
+      "returnedRaw": "24143629507507",
+      "grossProfitRaw": "-9975856370492493",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979456370492493"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31774226453343",
+      "returnedRaw": "23851279485344",
+      "grossProfitRaw": "-976148720514656",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979748720514656"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317585305706491",
+      "returnedRaw": "24374052000409",
+      "grossProfitRaw": "-9975625947999591",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979225947999591"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Aerodrome volatile",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Aerodrome volatile",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31774226453343",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317585305706491",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-9994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31774226453343",
+      "returnedRaw": "983384578412189",
+      "grossProfitRaw": "-16615421587811",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-20215421587811"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317585305706491",
+      "returnedRaw": "8980694175048746",
+      "grossProfitRaw": "-1019305824951254",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1022905824951254"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Aerodrome volatile",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31774226453343",
+      "returnedRaw": "994324686943745",
+      "grossProfitRaw": "-5675313056255",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9275313056255"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Aerodrome volatile",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317585305706491",
+      "returnedRaw": "9938276760503182",
+      "grossProfitRaw": "-61723239496818",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-65323239496818"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "343511975",
+      "returnedRaw": "10814836363",
+      "grossProfitRaw": "-9999989185163637",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003589185163637"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Aerodrome stable",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Aerodrome stable",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "343511975",
+      "returnedRaw": "10745666629",
+      "grossProfitRaw": "-9999989254333371",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003589254333371"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "343511975",
+      "returnedRaw": "8844441723",
+      "grossProfitRaw": "-9999991155558277",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003591155558277"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "343511975",
+      "returnedRaw": "10750187378",
+      "grossProfitRaw": "-9999989249812622",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003589249812622"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Aerodrome stable",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero first-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Aerodrome stable",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "343511975",
+      "returnedRaw": "10749676637",
+      "grossProfitRaw": "-9999989250323363",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003589250323363"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7702955",
+      "grossProfitRaw": "-999999992297045",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1003599992297045"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7702955",
+      "grossProfitRaw": "-9999999992297045",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003599992297045"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7650325",
+      "grossProfitRaw": "-999999992349675",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1003599992349675"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7650325",
+      "grossProfitRaw": "-9999999992349675",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003599992349675"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"getAmountsOut\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"getAmountsOut\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7653513",
+      "grossProfitRaw": "-999999992346487",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1003599992346487"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7653513",
+      "grossProfitRaw": "-9999999992346487",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003599992346487"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7653148",
+      "grossProfitRaw": "-999999992346852",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1003599992346852"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "244561",
+      "returnedRaw": "7653148",
+      "grossProfitRaw": "-9999999992346852",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10003599992346852"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31410701310412",
+      "returnedRaw": "23844702678526",
+      "grossProfitRaw": "-976155297321474",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979755297321474"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "285502969760708",
+      "returnedRaw": "24367379921436",
+      "grossProfitRaw": "-9975632620078564",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979232620078564"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31410701310412",
+      "returnedRaw": "982529523567651",
+      "grossProfitRaw": "-17470476432349",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-21070476432349"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "285502969760708",
+      "returnedRaw": "8926650178093859",
+      "grossProfitRaw": "-1073349821906141",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1076949821906141"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31410701310412",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "285502969760708",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-9994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31410701310412",
+      "returnedRaw": "982948743887331",
+      "grossProfitRaw": "-17051256112669",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-20651256112669"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "285502969760708",
+      "returnedRaw": "8934322047395095",
+      "grossProfitRaw": "-1065677952604905",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1069277952604905"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome Slipstream",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31764096986332",
+      "returnedRaw": "23851098215811",
+      "grossProfitRaw": "-976148901784189",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-979748901784189"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317639099586888",
+      "returnedRaw": "24374062058692",
+      "grossProfitRaw": "-9975625937941308",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9979225937941308"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31764096986332",
+      "returnedRaw": "993583166676208",
+      "grossProfitRaw": "-6416833323792",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-10016833323792"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317639099586888",
+      "returnedRaw": "9930881651231947",
+      "grossProfitRaw": "-69118348768053",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-72718348768053"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: zero second-leg output"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31764096986332",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x97a25cc2793F0ffa90e1667cf7b3C1F130737189",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317639099586888",
+      "returnedRaw": "5187421890431",
+      "grossProfitRaw": "-9994812578109569",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9998412578109569"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31764096986332",
+      "returnedRaw": "983074543406142",
+      "grossProfitRaw": "-16925456593858",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-20525456593858"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "317639099586888",
+      "returnedRaw": "8982071629233941",
+      "grossProfitRaw": "-1017928370766059",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-1021528370766059"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0xA33f162da19C7273BA1205BFD9D4340dA2446E3a",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome Slipstream",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "second": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0x4101Ccc8fCDf54723788c9150AB8c4dEb83788ec",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "symbol": "T",
+      "first": "0x185849e9783D01d1AF63F23274d8d64f7a7FeA43",
+      "second": "0x07C8A9e4db76DCEcf4C6029b38CdE74B395DE8D4",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "second": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "buy": "Uniswap V2",
+      "sell": "Sushi V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "second": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "buy": "Uniswap V2",
+      "sell": "Sushi V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "second": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "second": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "second": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "buy": "Sushi V2",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "second": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "buy": "Sushi V2",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "second": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "buy": "Sushi V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "second": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "buy": "Sushi V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "second": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "second": "0x081eC5d6b68A28C9e3a73eC97E351161dBB5e8ef",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "second": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "buy": "Aerodrome volatile",
+      "sell": "Sushi V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "symbol": "AERO",
+      "first": "0x7f670f78B17dEC44d5Ef68a48740b6f8849cc2e6",
+      "second": "0xCA99c89b041C5DA128Ae2C98a326135e0ee08f14",
+      "buy": "Aerodrome volatile",
+      "sell": "Sushi V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "37064259088604653808",
+      "returnedRaw": "77769749594389",
+      "grossProfitRaw": "-9922230250405611",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9925830250405611"
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "second": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "buy": "Uniswap V2",
+      "sell": "Sushi V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "second": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "buy": "Uniswap V2",
+      "sell": "Sushi V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "second": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "second": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "second": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "buy": "Sushi V2",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "second": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "buy": "Sushi V2",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "second": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "buy": "Sushi V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "second": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "buy": "Sushi V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "second": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "second": "0x8f82e476B092e9ae23BF7978dD2aeB5810D466F9",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "10000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "second": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "buy": "Aerodrome volatile",
+      "sell": "Sushi V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "152500073814380578882958",
+      "returnedRaw": "122424487360515",
+      "grossProfitRaw": "-877575512639485",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-881175512639485"
+    },
+    {
+      "token": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E",
+      "symbol": "DOG",
+      "first": "0xF89042057D079debe2a65A1a899E48E0E825105F",
+      "second": "0x479110Bf5f3912084Db011f54Fde1967daBa878a",
+      "buy": "Aerodrome volatile",
+      "sell": "Sushi V2",
+      "amountInRaw": "10000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "1460150199133697262848853",
+      "returnedRaw": "136561700839164",
+      "grossProfitRaw": "-9863438299160836",
+      "gasCostEstimateRaw": "3600000000000",
+      "netBeforeL1FeeRaw": "-9867038299160836"
+    }
+  ],
+  "failures": [
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2dAD3a13ef0C6366220f989157009e501e7938F8:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa334884bF6b0A066d553D19e507315E839409e62:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xE3B53AF74a4BF62Ae5511055290838050bf764Df:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xF544251D25f3d243A36B07e7E7962a678f952691:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xc5102fE9359FD9a28f877a67E36B0F050d81a3CC:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9E53e88dCff56d3062510A745952DEC4cEFDff9E:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xAB8a1c03b8E4e1D21c8Ddd6eDf9e07f26E843492:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xa8B58B9311988a0a6bA99C323e05C30FcDCA17e3:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x45622e5bCe7524D911210A25F4F83b6C8766b735:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xBa5E6fa2f33f3955f0cef50c63dCC84861eAb663:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8901cB2e82CC95c01e42206F8d1F417FE53e7Af0:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xA6C6502C020D58651a8a1DC044ba7514AC41bCCe:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9bb168e7fF1C0f2FBdD844B4348c755DC7500fE1:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9065C9F6337fb742709A85402BAD53C78236db36:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5c185329BC7720AebD804357043121D26036D1B3:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcAD58C7ff0410df842835Eb55ba21649bd267D9c:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xe3Eb37cE83fac09570482A9A86A193b94849e558:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x5D1A42E32d84560fF46f4F06302fE4C69d28135d:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x8544FE9D190fD7EC52860abBf45088E81Ee24a8c:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xcF1f26985D4dC38Cb3bd7ea6bb29554B54e7739E:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x3DcDDbcEE91D9714B8B81ED2720e2DD7A479BbE7:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Uniswap V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Sushi V2:30",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome volatile:false",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome stable:true",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Uniswap V3:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Uniswap V3:500",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Uniswap V3:3000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Uniswap V3:10000",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome Slipstream:1",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome Slipstream:10",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome Slipstream:50",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome Slipstream:100",
+      "reason": "Error: scan time budget exhausted"
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x9D7BEF0cC51E8D61145E531133D4d443299198a1:Aerodrome Slipstream:200",
+      "reason": "Error: scan time budget exhausted"
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79730764018829936656430"
+  },
+  "counts": {
+    "tokens": 77,
+    "discoveredPools": 80,
+    "pools": 20,
+    "attemptedRoutes": 132,
+    "validQuotes": 48,
+    "failedRoutes": 84,
+    "positiveGrossEstimates": 0,
+    "failures": 325
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

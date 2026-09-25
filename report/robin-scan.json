@@ -2,14 +2,14 @@
   "chain": "robinhood",
   "chainId": 4663,
   "readOnly": true,
-  "startedAt": "2026-09-25T06:50:59.634Z",
-  "status": "partial",
-  "blockNumber": "72026375",
-  "blockHash": "0xdc7d33d840b67f71d9d35a695102fa57747ac86c27fcaa06f6d154a797cac090",
+  "startedAt": "2026-09-25T06:53:28.442Z",
+  "status": "complete",
+  "blockNumber": "72027843",
+  "blockHash": "0xa6257cf9cc9d0bb09df12d7748b24b25fce73ff719659ccf660a7e7d383059ca",
   "discovery": {
     "source": "V4 Initialize events; RobinFun curves V1-V5",
     "fromBlock": "0",
-    "throughBlock": "72026375",
+    "throughBlock": "72027843",
     "pools": 77
   },
   "loan": {
@@ -97,6 +97,84 @@
       "status": "zero-liquidity"
     },
     {
+      "id": "0x8d71d5f0993a7132f9af4d7578b757daebfb924b89ba544d9abf6a3a8e3de546",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x45C2A2462E4Ffc37E9698b46361f0f6444544663",
+        "fee": 10000,
+        "tickSpacing": 200,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "4852418",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0x0535a5a6095fdb5293563f435a635cab5fcf0511e732158086fdc9721feb6362",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x45C2A2462E4Ffc37E9698b46361f0f6444544663",
+        "fee": 250000,
+        "tickSpacing": 5000,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "4859333",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0x3c0c454af4afbd7619fd7a67059fb1b65188442b91d70f8bedf0c986d837b326",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x45C2A2462E4Ffc37E9698b46361f0f6444544663",
+        "fee": 100000,
+        "tickSpacing": 2000,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "5445409",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0x853c85d7ad6eeb407010dd1b1d11f1a19cf37cc3a30b4806d95b64281c628509",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x69c954adB46d3b357bAf46e2b573d9BB74454663",
+        "fee": 10000,
+        "tickSpacing": 200,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "5448942",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0x11b7b21113b59f56af99c61327f6683dc8b055fc1335a0093619a13654c5ea04",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0xD17878e22548f538C8c9407D0F41Ce988B624663",
+        "fee": 10000,
+        "tickSpacing": 200,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "5593693",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0xa1ea3caca9b4c11d66da7a14e82a97edc780602a10c53fac6fccef542c8334f7",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x69c954adB46d3b357bAf46e2b573d9BB74454663",
+        "fee": 250000,
+        "tickSpacing": 5000,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "6380861",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
       "id": "0x3062a958c09d626d706fd6c9d60653e8ba2c914613806b2fdab226774c755261",
       "key": {
         "currency0": "0x0000000000000000000000000000000000000000",
@@ -119,6 +197,19 @@
         "hooks": "0x0000000000000000000000000000000000000000"
       },
       "blockNumber": "10363534",
+      "liquidityRaw": "0",
+      "status": "zero-liquidity"
+    },
+    {
+      "id": "0x4d5546549fc1599e74373b90d229c008e6eddc89f96b5e5028b9a770f9179afd",
+      "key": {
+        "currency0": "0x0000000000000000000000000000000000000000",
+        "currency1": "0x5C33beB8f889B2B5f000eF577eE57b75C1e84663",
+        "fee": 10000,
+        "tickSpacing": 200,
+        "hooks": "0x0000000000000000000000000000000000000000"
+      },
+      "blockNumber": "5544865",
       "liquidityRaw": "0",
       "status": "zero-liquidity"
     },
@@ -1189,323 +1280,483 @@
     },
     {
       "address": "0x45AdFB55A759Ab3c011000674cF1b08B55b44663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4c664C7243F876277bE02114f72e8883997e4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xc734417ffD0E065D5353c65Ab64F85895c504663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x19E2C6Df02FD2f27737824951dC73Af3C5194663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xa6982D82e7C7034b40d7C7818847fcA995Df4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4173a7d5D16bCa6030Ad94a41C65cB38Dd384663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x90D72CcecCC335c93f63512F21ACC7A75E734663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4e2c81aF36aD6FC616Ac5F362Aa9B9CB97854663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xf0Ff171f7e4150F48826a5d01AeCf74aE9314663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xcc85CA0D103DF7344726c9E825A87A48822C4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xd399F6F82eaa7fd547C0ed901230e9d725934663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x520d7669C8937D054DB785D0b6b6b81D9Bff4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x69c954adB46d3b357bAf46e2b573d9BB74454663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x27DD58cd42536b13b2d85aDf3C2f9173b6C44663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x358197116Ae772e8dB0D743ea0388bfb75C94663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x956241396D7401Bf74b879D89AD022df145C4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x433ff87CED4eA197306457d7510B18dAb8a34663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x5161212cE069A1F7833b623E5eBe0674BB194663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x45C2A2462E4Ffc37E9698b46361f0f6444544663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xF7ae8f01574fcf5efe2b501AA8ea69fF333D4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xC1AbB2660A9140774e44d069185BdD7A05E64663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x7545523A04B916bae2DD1c69d2f907e84dA94663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x006D20C41A14aa1CE45C0d54E6844828B0664663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xd7F28e31c7fDF32Fc9Cab0B9Bc093b66a4ea4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xB6888988D407d9174d2f1def8AF1361b10A04663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x6C66abA34Ffa3471745eF64f8d87E73d6D8a4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xDFEbB221bF6809d7868Eb712d35221AC31d54663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xdED5810a17A550A894A1de895eC0DFe083904663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x5088CbE8F983a17DeA1c7b862AF1dC2F2DF34663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xa1db04a3863574c055c410BC28F61AE431144663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x04D58892B380307f89DB0a564f689b399EeD4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xC06309Dd459AFc38959440F52dE365587Cf54663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xFBc71cac9d7401BE5f7Da20e553F6F5496414663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x0497c91071af7374e3F7f6BFE5C769542FDd4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xb58F0C2e3009Aa65feDED1945d26ED0dcea34663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xe63Fd3D4E722A6FCcf8f336f02cf7D1cc3Ae4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xC455C25b41221BB431baea51f058439dadfB4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xD17878e22548f538C8c9407D0F41Ce988B624663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xB913f177fC312c24B11A1786F974fb9f4b3a4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x862A0d66e730c0D1f37D16a54B4663dA77834663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x683E43c203ae57F279B114D88ac96f8BC32A4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x1B38e76C91a9c4ecC9cA367181660F54820b4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x9497744C8130a976d378C9f21Bbc1F064d1B4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xc479703fD86515EE98731115D0EDB22e95124663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xe2FCd39A8b9Cbfa2F9dc6ed2D0C1B1164DCA4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x896ff9AA30708EBfB7FB75428A988C79aa9C4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x914BF7D34745d7F8E26ea043bA5ecB68e8C14663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xaDD53FFafA21b8458aBfA3187772Faa4b0C84663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x0c653A9892dA9DC85C9cbbE09ce5bb81295A4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x2445BBDCe35fdc1f34740f658c4156df7c464663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4F2211E7f82eE09358c60BD33CCE829D76F64663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xAaD5A7d86d419A009c5D8491ec6815C6cbFa4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x31C419CCa446012eDa8a91F1CF78Ebb66Ea54663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x7aB0076e05E647e2eF9a5b6a0Bc35e110AfE4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xC3D8828c8eEe656D8AEDf7E8e16Bb25A66e54663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x172c9445b87ec92Ed5c63eF483913130c1884663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x828C62C1dDabF79786181335D26acBe994a44663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4E87b36BC23a644F23035653B4eE5490A50b4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xAb3e14e1dB0B6dd824583BC44FF6261b4f294663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4e454132466aD1010A83AB30dea496e570AD4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xbf7B2Afda3b1E9EB1e255c7bC859311156774663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xF23E50183FDc3c024843d5d9aC73ec608dCb4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x57BE790caE1fFa4c92d33458bee14A3DB0c74663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x1146AeD92de2300e520258b37e850b2E74D64663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x1d11e18309651Ea2998284DC7c4fC76b3d284663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x390ABF06f00EFCAB259192b06F54289dC3834663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xc258F133aE21F904Dda50488e9B27eD27a054663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x0Bbc2Fe3AcC531EeD1DB654264367d36D5cB4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x4F03BF029242fe147C807Ebe1D39e513387c4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x1D932EF645E6B134780bb2b8973dA71c30134663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xF9513dF16b4d39636630de932C9f16EF91094663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x7222CdAb0a2f54f6ffE293dAe4d67089CC6f4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x5C33beB8f889B2B5f000eF577eE57b75C1e84663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xBfF9C4ea35E8A012559b69Bccf99167A7F824663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x338A6F8f34Edd58708FAB1768658E324DFaa4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x04433A54bdaB663f6443dDB0f07F6B8Cd3B24663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xe2B004fba2e98F7Bf35EDf53Cb146c12bb144663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0xe3E1f0688afCf9Cd38000685C26DA41c7EA64663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x9c2481C1Fc64B79f1AB6AD37723c6BB8cc9D4663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x768c54a5d1d567E14C304D9Ca83AA124d6484663",
-      "status": "curve-read-failed"
+      "status": "no-usable-v4-pool",
+      "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+      "poolCount": 0
     },
     {
       "address": "0x3E588a77b691770F5235d1A10c4eFef5Cc134663",
@@ -5211,11 +5462,11 @@
       "status": "quoted",
       "intermediateRaw": "473875650111647166553",
       "grossProfitRaw": "-985804817586",
-      "netAfterGasEstimateRaw": "-28564404817586",
+      "netAfterGasEstimateRaw": "-28337604817586",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "14195182414",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5227,11 +5478,11 @@
       "status": "quoted",
       "intermediateRaw": "745268452668604784473",
       "grossProfitRaw": "541410113112",
-      "netAfterGasEstimateRaw": "-27037189886888",
+      "netAfterGasEstimateRaw": "-26810389886888",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "1541410113112",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5243,11 +5494,11 @@
       "status": "quoted",
       "intermediateRaw": "1421625602211126835482",
       "grossProfitRaw": "-2957457388408",
-      "netAfterGasEstimateRaw": "-30536057388408",
+      "netAfterGasEstimateRaw": "-30309257388408",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "42542611592",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5259,11 +5510,11 @@
       "status": "quoted",
       "intermediateRaw": "2212381604525828034325",
       "grossProfitRaw": "1575777172727",
-      "netAfterGasEstimateRaw": "-26002822827273",
+      "netAfterGasEstimateRaw": "-25776022827273",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "4575777172727",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5275,11 +5526,11 @@
       "status": "quoted",
       "intermediateRaw": "4738736279324610314635",
       "grossProfitRaw": "-9858689945961",
-      "netAfterGasEstimateRaw": "-37437289945961",
+      "netAfterGasEstimateRaw": "-37210489945961",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "141310054039",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5291,11 +5542,11 @@
       "status": "quoted",
       "intermediateRaw": "7113756145317734188213",
       "grossProfitRaw": "4713014825394",
-      "netAfterGasEstimateRaw": "-22865585174606",
+      "netAfterGasEstimateRaw": "-22638785174606",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "14713014825394",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5307,11 +5558,11 @@
       "status": "quoted",
       "intermediateRaw": "14216074027876913483310",
       "grossProfitRaw": "-29580286597347",
-      "netAfterGasEstimateRaw": "-57158886597347",
+      "netAfterGasEstimateRaw": "-56932086597347",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "419713402653",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5323,11 +5574,11 @@
       "status": "quoted",
       "intermediateRaw": "19382461570661174608093",
       "grossProfitRaw": "10087253196020",
-      "netAfterGasEstimateRaw": "-17491346803980",
+      "netAfterGasEstimateRaw": "-17264546803980",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "40087253196020",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5339,11 +5590,11 @@
       "status": "quoted",
       "intermediateRaw": "47385340708903472478755",
       "grossProfitRaw": "-98648022906612",
-      "netAfterGasEstimateRaw": "-126226622906612",
+      "netAfterGasEstimateRaw": "-125999822906612",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "1351977093388",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5355,11 +5606,11 @@
       "status": "quoted",
       "intermediateRaw": "48899405243072285343057",
       "grossProfitRaw": "1131888799473",
-      "netAfterGasEstimateRaw": "-26446711200527",
+      "netAfterGasEstimateRaw": "-26219911200527",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "101131888799473",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5371,11 +5622,11 @@
       "status": "quoted",
       "intermediateRaw": "142142543417778184731540",
       "grossProfitRaw": "-296299744262201",
-      "netAfterGasEstimateRaw": "-323878344262201",
+      "netAfterGasEstimateRaw": "-323651544262201",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "3700255737799",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5387,11 +5638,11 @@
       "status": "quoted",
       "intermediateRaw": "86563758634779318797549",
       "grossProfitRaw": "-120978875301632",
-      "netAfterGasEstimateRaw": "-148557475301632",
+      "netAfterGasEstimateRaw": "-148330675301632",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "179021124698368",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5403,11 +5654,11 @@
       "status": "quoted",
       "intermediateRaw": "473651293527864088181526",
       "grossProfitRaw": "-990562433829469",
-      "netAfterGasEstimateRaw": "-1018141033829469",
+      "netAfterGasEstimateRaw": "-1017914233829469",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "9437566170531",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5419,11 +5670,11 @@
       "status": "quoted",
       "intermediateRaw": "118513042808953658655444",
       "grossProfitRaw": "-754912905901487",
-      "netAfterGasEstimateRaw": "-782491505901487",
+      "netAfterGasEstimateRaw": "-782264705901487",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "245087094098513",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5435,11 +5686,11 @@
       "status": "quoted",
       "intermediateRaw": "1419608306961520887796430",
       "grossProfitRaw": "-2983056284046774",
-      "netAfterGasEstimateRaw": "-3010634884046774",
+      "netAfterGasEstimateRaw": "-3010408084046774",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "16943715953226",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5451,11 +5702,11 @@
       "status": "quoted",
       "intermediateRaw": "132483793313011635988754",
       "grossProfitRaw": "-2726024973149216",
-      "netAfterGasEstimateRaw": "-2753603573149216",
+      "netAfterGasEstimateRaw": "-2753376773149216",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "273975026850784",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5467,11 +5718,11 @@
       "status": "quoted",
       "intermediateRaw": "4716396005058957227496810",
       "grossProfitRaw": "-9976520157741758",
-      "netAfterGasEstimateRaw": "-10004098757741758",
+      "netAfterGasEstimateRaw": "-10003871957741758",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "23479842258242",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5483,11 +5734,11 @@
       "status": "quoted",
       "intermediateRaw": "138185215653723115827594",
       "grossProfitRaw": "-9714236124464840",
-      "netAfterGasEstimateRaw": "-9741814724464840",
+      "netAfterGasEstimateRaw": "-9741587924464840",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "285763875535160",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5499,11 +5750,11 @@
       "status": "quoted",
       "intermediateRaw": "14016893378526750674332487",
       "grossProfitRaw": "-29973611757321172",
-      "netAfterGasEstimateRaw": "-30001190357321172",
+      "netAfterGasEstimateRaw": "-30000963557321172",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "26388242678828",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5515,11 +5766,11 @@
       "status": "quoted",
       "intermediateRaw": "139905447724151611331043",
       "grossProfitRaw": "-29710679221679026",
-      "netAfterGasEstimateRaw": "-29738257821679026",
+      "netAfterGasEstimateRaw": "-29738031021679026",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "289320778320974",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5531,11 +5782,11 @@
       "status": "quoted",
       "intermediateRaw": "45242422682265951670507599",
       "grossProfitRaw": "-99972415881232666",
-      "netAfterGasEstimateRaw": "-99999994481232666",
+      "netAfterGasEstimateRaw": "-99999767681232666",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27584118767334",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5547,11 +5798,11 @@
       "status": "quoted",
       "intermediateRaw": "140517691685960640910965",
       "grossProfitRaw": "-99709413295290858",
-      "netAfterGasEstimateRaw": "-99736991895290858",
+      "netAfterGasEstimateRaw": "-99736765095290858",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "290586704709142",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5563,11 +5814,11 @@
       "status": "quoted",
       "intermediateRaw": "124459114298493564782748208",
       "grossProfitRaw": "-299972054032700670",
-      "netAfterGasEstimateRaw": "-299999632632700670",
+      "netAfterGasEstimateRaw": "-299999405832700670",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27945967299330",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5579,11 +5830,11 @@
       "status": "quoted",
       "intermediateRaw": "140693603981226337786057",
       "grossProfitRaw": "-299709049564727751",
-      "netAfterGasEstimateRaw": "-299736628164727751",
+      "netAfterGasEstimateRaw": "-299736401364727751",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "290950435272249",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5595,11 +5846,11 @@
       "status": "quoted",
       "intermediateRaw": "321457251218374984435825665",
       "grossProfitRaw": "-999971925132539611",
-      "netAfterGasEstimateRaw": "-999999503732539611",
+      "netAfterGasEstimateRaw": "-999999276932539611",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28074867460389",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5611,11 +5862,11 @@
       "status": "quoted",
       "intermediateRaw": "140755277385240310539730",
       "grossProfitRaw": "-999708922043813963",
-      "netAfterGasEstimateRaw": "-999736500643813963",
+      "netAfterGasEstimateRaw": "-999736273843813963",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "291077956186037",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5627,11 +5878,11 @@
       "status": "quoted",
       "intermediateRaw": "586856052000356992351495504",
       "grossProfitRaw": "-2999971888085228144",
-      "netAfterGasEstimateRaw": "-2999999466685228144",
+      "netAfterGasEstimateRaw": "-2999999239885228144",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28111914771856",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5643,11 +5894,11 @@
       "status": "quoted",
       "intermediateRaw": "140772908290172380868211",
       "grossProfitRaw": "-2999708885588733116",
-      "netAfterGasEstimateRaw": "-2999736464188733116",
+      "netAfterGasEstimateRaw": "-2999736237388733116",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "291114411266884",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5659,11 +5910,11 @@
       "status": "quoted",
       "intermediateRaw": "825353526844835332234903208",
       "grossProfitRaw": "-9999971875095559228",
-      "netAfterGasEstimateRaw": "-9999999453695559228",
+      "netAfterGasEstimateRaw": "-9999999226895559228",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28124904440772",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5675,11 +5926,11 @@
       "status": "quoted",
       "intermediateRaw": "140779080150429649500518",
       "grossProfitRaw": "-9999708872827297435",
-      "netAfterGasEstimateRaw": "-9999736451427297435",
+      "netAfterGasEstimateRaw": "-9999736224627297435",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "291127172702565",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5691,11 +5942,11 @@
       "status": "quoted",
       "intermediateRaw": "895064692839371655337341552",
       "grossProfitRaw": "-18088710155435316897",
-      "netAfterGasEstimateRaw": "-18088737734035316897",
+      "netAfterGasEstimateRaw": "-18088737507235316897",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28127395206566",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
@@ -5707,11 +5958,11 @@
       "status": "quoted",
       "intermediateRaw": "140780263013564350374402",
       "grossProfitRaw": "-18088447153212037767",
-      "netAfterGasEstimateRaw": "-18088474731812037767",
+      "netAfterGasEstimateRaw": "-18088474505012037767",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "291129618485696",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5723,11 +5974,11 @@
       "status": "quoted",
       "intermediateRaw": "465927621958681334250",
       "grossProfitRaw": "-986043003332",
-      "netAfterGasEstimateRaw": "-28564643003332",
+      "netAfterGasEstimateRaw": "-28337843003332",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "13956996668",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5739,11 +5990,11 @@
       "status": "quoted",
       "intermediateRaw": "745144954031452683289",
       "grossProfitRaw": "567444495238",
-      "netAfterGasEstimateRaw": "-27011155504762",
+      "netAfterGasEstimateRaw": "-26784355504762",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "1567444495238",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5755,11 +6006,11 @@
       "status": "quoted",
       "intermediateRaw": "1397781565170126846113",
       "grossProfitRaw": "-2958171814468",
-      "netAfterGasEstimateRaw": "-30536771814468",
+      "netAfterGasEstimateRaw": "-30309971814468",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "41828185532",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5771,11 +6022,11 @@
       "status": "quoted",
       "intermediateRaw": "2211293639041212428698",
       "grossProfitRaw": "1651544573246",
-      "netAfterGasEstimateRaw": "-25927055426754",
+      "netAfterGasEstimateRaw": "-25700255426754",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "4651544573246",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5787,11 +6038,11 @@
       "status": "quoted",
       "intermediateRaw": "4659256709054943508901",
       "grossProfitRaw": "-9861069811250",
-      "netAfterGasEstimateRaw": "-37439669811250",
+      "netAfterGasEstimateRaw": "-37212869811250",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "138930188750",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5803,11 +6054,11 @@
       "status": "quoted",
       "intermediateRaw": "7102519928857164322146",
       "grossProfitRaw": "4940361642036",
-      "netAfterGasEstimateRaw": "-22638238357964",
+      "netAfterGasEstimateRaw": "-22411438357964",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "14940361642036",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5819,11 +6070,11 @@
       "status": "quoted",
       "intermediateRaw": "13977640058688991409011",
       "grossProfitRaw": "-29587412256635",
-      "netAfterGasEstimateRaw": "-57166012256635",
+      "netAfterGasEstimateRaw": "-56939212256635",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "412587743365",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5835,11 +6086,11 @@
       "status": "quoted",
       "intermediateRaw": "19299273976309702613835",
       "grossProfitRaw": "10596101626575",
-      "netAfterGasEstimateRaw": "-16982498373425",
+      "netAfterGasEstimateRaw": "-16755698373425",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "40596101626575",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5851,11 +6102,11 @@
       "status": "quoted",
       "intermediateRaw": "46590616126945800325687",
       "grossProfitRaw": "-98671591337931",
-      "netAfterGasEstimateRaw": "-126250191337931",
+      "netAfterGasEstimateRaw": "-126023391337931",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "1328408662069",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5867,11 +6118,11 @@
       "status": "quoted",
       "intermediateRaw": "48373365516738657443548",
       "grossProfitRaw": "1750617810968",
-      "netAfterGasEstimateRaw": "-25827982189032",
+      "netAfterGasEstimateRaw": "-25601182189032",
       "positiveGross": true,
       "positiveNetEstimate": false,
       "returnedRaw": "101750617810968",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5883,11 +6134,11 @@
       "status": "quoted",
       "intermediateRaw": "139758843711505453074528",
       "grossProfitRaw": "-296368484356071",
-      "netAfterGasEstimateRaw": "-323947084356071",
+      "netAfterGasEstimateRaw": "-323720284356071",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "3631515643929",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5899,11 +6150,11 @@
       "status": "quoted",
       "intermediateRaw": "84928825905310627944813",
       "grossProfitRaw": "-121363575052148",
-      "netAfterGasEstimateRaw": "-148942175052148",
+      "netAfterGasEstimateRaw": "-148715375052148",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "178636424947852",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5915,11 +6166,11 @@
       "status": "quoted",
       "intermediateRaw": "465711154732848844897489",
       "grossProfitRaw": "-990764041996139",
-      "netAfterGasEstimateRaw": "-1018342641996139",
+      "netAfterGasEstimateRaw": "-1018115841996139",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "9235958003861",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5931,11 +6182,11 @@
       "status": "quoted",
       "intermediateRaw": "115469754801146666761851",
       "grossProfitRaw": "-757132222764497",
-      "netAfterGasEstimateRaw": "-784710822764497",
+      "netAfterGasEstimateRaw": "-784484022764497",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "242867777235503",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5947,11 +6198,11 @@
       "status": "quoted",
       "intermediateRaw": "1395835172323660660468514",
       "grossProfitRaw": "-2983479578632987",
-      "netAfterGasEstimateRaw": "-3011058178632987",
+      "netAfterGasEstimateRaw": "-3010831378632987",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "16520421367013",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5963,11 +6214,11 @@
       "status": "quoted",
       "intermediateRaw": "128692183943130587516573",
       "grossProfitRaw": "-2729325033401058",
-      "netAfterGasEstimateRaw": "-2756903633401058",
+      "netAfterGasEstimateRaw": "-2756676833401058",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "270674966598942",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5979,11 +6230,11 @@
       "status": "quoted",
       "intermediateRaw": "4637700302126282715889885",
       "grossProfitRaw": "-9977180244498656",
-      "netAfterGasEstimateRaw": "-10004758844498656",
+      "netAfterGasEstimateRaw": "-10004532044498656",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "22819755501344",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -5995,11 +6246,11 @@
       "status": "quoted",
       "intermediateRaw": "134065315623804706929797",
       "grossProfitRaw": "-9718025376251696",
-      "netAfterGasEstimateRaw": "-9745603976251696",
+      "netAfterGasEstimateRaw": "-9745377176251696",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "281974623748304",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6011,11 +6262,11 @@
       "status": "quoted",
       "intermediateRaw": "13785414672964472654548841",
       "grossProfitRaw": "-29974390196124256",
-      "netAfterGasEstimateRaw": "-30001968796124256",
+      "netAfterGasEstimateRaw": "-30001741996124256",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "25609803875744",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6027,11 +6278,11 @@
       "status": "quoted",
       "intermediateRaw": "135683900916092707174293",
       "grossProfitRaw": "-29714621526824881",
-      "netAfterGasEstimateRaw": "-29742200126824881",
+      "netAfterGasEstimateRaw": "-29741973326824881",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "285378473175119",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6043,11 +6294,11 @@
       "status": "quoted",
       "intermediateRaw": "44521315925573548889630432",
       "grossProfitRaw": "-99973245292313186",
-      "netAfterGasEstimateRaw": "-100000823892313186",
+      "netAfterGasEstimateRaw": "-100000597092313186",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "26754707686814",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6059,11 +6310,11 @@
       "status": "quoted",
       "intermediateRaw": "136259678241777131149793",
       "grossProfitRaw": "-99713410682369971",
-      "netAfterGasEstimateRaw": "-99740989282369971",
+      "netAfterGasEstimateRaw": "-99740762482369971",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "286589317630029",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6075,11 +6326,11 @@
       "status": "quoted",
       "intermediateRaw": "122657492199543698042931711",
       "grossProfitRaw": "-299972899131491457",
-      "netAfterGasEstimateRaw": "-300000477731491457",
+      "netAfterGasEstimateRaw": "-300000250931491457",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27100868508543",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6091,11 +6342,11 @@
       "status": "quoted",
       "intermediateRaw": "136425084685696215985614",
       "grossProfitRaw": "-299713062837259936",
-      "netAfterGasEstimateRaw": "-299740641437259936",
+      "netAfterGasEstimateRaw": "-299740414637259936",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "286937162740064",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6107,11 +6358,11 @@
       "status": "quoted",
       "intermediateRaw": "317979673272770949876541759",
       "grossProfitRaw": "-999972775849373720",
-      "netAfterGasEstimateRaw": "-1000000354449373720",
+      "netAfterGasEstimateRaw": "-1000000127649373720",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27224150626280",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6123,11 +6374,11 @@
       "status": "quoted",
       "intermediateRaw": "136483071853665626189152",
       "grossProfitRaw": "-999712940891900094",
-      "netAfterGasEstimateRaw": "-999740519491900094",
+      "netAfterGasEstimateRaw": "-999740292691900094",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "287059108099906",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6139,11 +6390,11 @@
       "status": "quoted",
       "intermediateRaw": "583424316900660118962789375",
       "grossProfitRaw": "-2999972740419630990",
-      "netAfterGasEstimateRaw": "-3000000319019630990",
+      "netAfterGasEstimateRaw": "-3000000092219630990",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27259580369010",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6155,11 +6406,11 @@
       "status": "quoted",
       "intermediateRaw": "136499648671156957800452",
       "grossProfitRaw": "-2999712906031328449",
-      "netAfterGasEstimateRaw": "-2999740484631328449",
+      "netAfterGasEstimateRaw": "-2999740257831328449",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "287093968671551",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6171,11 +6422,11 @@
       "status": "quoted",
       "intermediateRaw": "824249065200892051364525125",
       "grossProfitRaw": "-9999972727997424807",
-      "netAfterGasEstimateRaw": "-10000000306597424807",
+      "netAfterGasEstimateRaw": "-10000000079797424807",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27272002575193",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6187,11 +6438,11 @@
       "status": "quoted",
       "intermediateRaw": "136505451508636537864608",
       "grossProfitRaw": "-9999712893828127967",
-      "netAfterGasEstimateRaw": "-9999740472428127967",
+      "netAfterGasEstimateRaw": "-9999740245628127967",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "287106171872033",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6203,11 +6454,11 @@
       "status": "quoted",
       "intermediateRaw": "895053649895820742480765447",
       "grossProfitRaw": "-18088711008446011387",
-      "netAfterGasEstimateRaw": "-18088738587046011387",
+      "netAfterGasEstimateRaw": "-18088738360246011387",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "27274384512076",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
@@ -6219,11 +6470,11 @@
       "status": "quoted",
       "intermediateRaw": "136506563645230579987908",
       "grossProfitRaw": "-18088451174319860146",
-      "netAfterGasEstimateRaw": "-18088478752919860146",
+      "netAfterGasEstimateRaw": "-18088478526119860146",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "287108510663317",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6235,11 +6486,11 @@
       "status": "quoted",
       "intermediateRaw": "454513846025352949669",
       "grossProfitRaw": "-978027603832",
-      "netAfterGasEstimateRaw": "-28556627603832",
+      "netAfterGasEstimateRaw": "-28329827603832",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "21972396168",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6251,11 +6502,11 @@
       "status": "quoted",
       "intermediateRaw": "461788567565132253193",
       "grossProfitRaw": "-4213931602",
-      "netAfterGasEstimateRaw": "-27582813931602",
+      "netAfterGasEstimateRaw": "-27356013931602",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "995786068398",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6267,11 +6518,11 @@
       "status": "quoted",
       "intermediateRaw": "1363540284870927497405",
       "grossProfitRaw": "-2934181539018",
-      "netAfterGasEstimateRaw": "-30512781539018",
+      "netAfterGasEstimateRaw": "-30285981539018",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "65818460982",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6283,11 +6534,11 @@
       "status": "quoted",
       "intermediateRaw": "1371416198946366820019",
       "grossProfitRaw": "-42724777429",
-      "netAfterGasEstimateRaw": "-27621324777429",
+      "netAfterGasEstimateRaw": "-27394524777429",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "2957275222571",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6299,11 +6550,11 @@
       "status": "quoted",
       "intermediateRaw": "4545119662232199624729",
       "grossProfitRaw": "-9781749228494",
-      "netAfterGasEstimateRaw": "-37360349228494",
+      "netAfterGasEstimateRaw": "-37133549228494",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "218250771506",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6315,11 +6566,11 @@
       "status": "quoted",
       "intermediateRaw": "4415766242395348402840",
       "grossProfitRaw": "-478021250784",
-      "netAfterGasEstimateRaw": "-28056621250784",
+      "netAfterGasEstimateRaw": "-27829821250784",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "9521978749216",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6331,11 +6582,11 @@
       "status": "quoted",
       "intermediateRaw": "13635233668211143896833",
       "grossProfitRaw": "-29354859888257",
-      "netAfterGasEstimateRaw": "-56933459888257",
+      "netAfterGasEstimateRaw": "-56706659888257",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "645140111743",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6347,11 +6598,11 @@
       "status": "quoted",
       "intermediateRaw": "12073027127099659841181",
       "grossProfitRaw": "-3966416826644",
-      "netAfterGasEstimateRaw": "-31545016826644",
+      "netAfterGasEstimateRaw": "-31318216826644",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "26033583173356",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6363,11 +6614,11 @@
       "status": "quoted",
       "intermediateRaw": "45449316905501035890445",
       "grossProfitRaw": "-97954628924384",
-      "netAfterGasEstimateRaw": "-125533228924384",
+      "netAfterGasEstimateRaw": "-125306428924384",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "2045371075616",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6379,11 +6630,11 @@
       "status": "quoted",
       "intermediateRaw": "30714351465206617648393",
       "grossProfitRaw": "-33770582557412",
-      "netAfterGasEstimateRaw": "-61349182557412",
+      "netAfterGasEstimateRaw": "-61122382557412",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66229417442588",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6395,11 +6646,11 @@
       "status": "quoted",
       "intermediateRaw": "136335420940814379672067",
       "grossProfitRaw": "-294615706818979",
-      "netAfterGasEstimateRaw": "-322194306818979",
+      "netAfterGasEstimateRaw": "-321967506818979",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "5384293181021",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6411,11 +6662,11 @@
       "status": "quoted",
       "intermediateRaw": "54960545515937237225533",
       "grossProfitRaw": "-181491370948011",
-      "netAfterGasEstimateRaw": "-209069970948011",
+      "netAfterGasEstimateRaw": "-208843170948011",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "118508629051989",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6427,11 +6678,11 @@
       "status": "quoted",
       "intermediateRaw": "454305282850373817206734",
       "grossProfitRaw": "-987438952492209",
-      "netAfterGasEstimateRaw": "-1015017552492209",
+      "netAfterGasEstimateRaw": "-1014790752492209",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "12561047507791",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6443,11 +6694,11 @@
       "status": "quoted",
       "intermediateRaw": "75943115553837885105671",
       "grossProfitRaw": "-836251196010884",
-      "netAfterGasEstimateRaw": "-863829796010884",
+      "netAfterGasEstimateRaw": "-863602996010884",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "163748803989116",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6459,11 +6710,11 @@
       "status": "quoted",
       "intermediateRaw": "1361664940823862672757274",
       "grossProfitRaw": "-2979713082411113",
-      "netAfterGasEstimateRaw": "-3007291682411113",
+      "netAfterGasEstimateRaw": "-3007064882411113",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "20286917588887",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6475,11 +6726,11 @@
       "status": "quoted",
       "intermediateRaw": "85241095974418486319776",
       "grossProfitRaw": "-2816204586707238",
-      "netAfterGasEstimateRaw": "-2843783186707238",
+      "netAfterGasEstimateRaw": "-2843556386707238",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "183795413292762",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6491,11 +6742,11 @@
       "status": "quoted",
       "intermediateRaw": "4524349295086929613286023",
       "grossProfitRaw": "-9974147801854681",
-      "netAfterGasEstimateRaw": "-10001726401854681",
+      "netAfterGasEstimateRaw": "-10001499601854681",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "25852198145319",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6507,11 +6758,11 @@
       "status": "quoted",
       "intermediateRaw": "89057356924937359999756",
       "grossProfitRaw": "-9807976770070756",
-      "netAfterGasEstimateRaw": "-9835555370070756",
+      "netAfterGasEstimateRaw": "-9835328570070756",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "192023229929244",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6523,11 +6774,11 @@
       "status": "quoted",
       "intermediateRaw": "13449996774223080168214037",
       "grossProfitRaw": "-29971949191127545",
-      "netAfterGasEstimateRaw": "-29999527791127545",
+      "netAfterGasEstimateRaw": "-29999300991127545",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28050808872455",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6539,11 +6790,11 @@
       "status": "quoted",
       "intermediateRaw": "90211293406556373148135",
       "grossProfitRaw": "-29805488908208718",
-      "netAfterGasEstimateRaw": "-29833067508208718",
+      "netAfterGasEstimateRaw": "-29832840708208718",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "194511091791282",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6555,11 +6806,11 @@
       "status": "quoted",
       "intermediateRaw": "43454492084082438128885478",
       "grossProfitRaw": "-99971088618035933",
-      "netAfterGasEstimateRaw": "-99998667218035933",
+      "netAfterGasEstimateRaw": "-99998440418035933",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "28911381964067",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6571,11 +6822,11 @@
       "status": "quoted",
       "intermediateRaw": "90622268093926367362842",
       "grossProfitRaw": "-99804602857156803",
-      "netAfterGasEstimateRaw": "-99832181457156803",
+      "netAfterGasEstimateRaw": "-99831954657156803",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195397142843197",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6587,11 +6838,11 @@
       "status": "quoted",
       "intermediateRaw": "119833661296331085372003724",
       "grossProfitRaw": "-299970832955701414",
-      "netAfterGasEstimateRaw": "-299998411555701414",
+      "netAfterGasEstimateRaw": "-299998184755701414",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29167044298586",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6603,11 +6854,11 @@
       "status": "quoted",
       "intermediateRaw": "90740378103421597442141",
       "grossProfitRaw": "-299804348215093936",
-      "netAfterGasEstimateRaw": "-299831926815093936",
+      "netAfterGasEstimateRaw": "-299831700015093936",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195651784906064",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6619,11 +6870,11 @@
       "status": "quoted",
       "intermediateRaw": "311408833009553013013781648",
       "grossProfitRaw": "-999970742402333682",
-      "netAfterGasEstimateRaw": "-999998321002333682",
+      "netAfterGasEstimateRaw": "-999998094202333682",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29257597666318",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6635,11 +6886,11 @@
       "status": "quoted",
       "intermediateRaw": "90781789374411442776485",
       "grossProfitRaw": "-999804258933501163",
-      "netAfterGasEstimateRaw": "-999831837533501163",
+      "netAfterGasEstimateRaw": "-999831610733501163",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195741066498837",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6651,11 +6902,11 @@
       "status": "quoted",
       "intermediateRaw": "573248319759710885742568948",
       "grossProfitRaw": "-2999970716426576684",
-      "netAfterGasEstimateRaw": "-2999998295026576684",
+      "netAfterGasEstimateRaw": "-2999998068226576684",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29283573423316",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6667,11 +6918,11 @@
       "status": "quoted",
       "intermediateRaw": "90793628109481379303077",
       "grossProfitRaw": "-2999804233409506335",
-      "netAfterGasEstimateRaw": "-2999831812009506335",
+      "netAfterGasEstimateRaw": "-2999831585209506335",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195766590493665",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6683,11 +6934,11 @@
       "status": "quoted",
       "intermediateRaw": "812297590644246575311181055",
       "grossProfitRaw": "-9999970707324161532",
-      "netAfterGasEstimateRaw": "-9999998285924161532",
+      "netAfterGasEstimateRaw": "-9999998059124161532",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29292675838468",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6699,11 +6950,11 @@
       "status": "quoted",
       "intermediateRaw": "90797772396269638926689",
       "grossProfitRaw": "-9999804224474535477",
-      "netAfterGasEstimateRaw": "-9999831803074535477",
+      "netAfterGasEstimateRaw": "-9999831576274535477",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195775525464523",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6715,11 +6966,11 @@
       "status": "quoted",
       "intermediateRaw": "882852724082356028127721365",
       "grossProfitRaw": "-18088708988409613566",
-      "netAfterGasEstimateRaw": "-18088736567009613566",
+      "netAfterGasEstimateRaw": "-18088736340209613566",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29294420909897",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x16cB02050b7fB40245df41D639C4198dC5954663",
@@ -6731,11 +6982,11 @@
       "status": "quoted",
       "intermediateRaw": "90798566668075215036398",
       "grossProfitRaw": "-18088542505592630298",
-      "netAfterGasEstimateRaw": "-18088570084192630298",
+      "netAfterGasEstimateRaw": "-18088569857392630298",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "195777237893165",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6747,11 +6998,11 @@
       "status": "quoted",
       "intermediateRaw": "221989436908505246313",
       "grossProfitRaw": "-828350418771",
-      "netAfterGasEstimateRaw": "-28406950418771",
+      "netAfterGasEstimateRaw": "-28180150418771",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "171649581229",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6763,11 +7014,11 @@
       "status": "quoted",
       "intermediateRaw": "51340169203595431232",
       "grossProfitRaw": "-773329395910",
-      "netAfterGasEstimateRaw": "-28351929395910",
+      "netAfterGasEstimateRaw": "-28125129395910",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "226670604090",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6779,11 +7030,11 @@
       "status": "quoted",
       "intermediateRaw": "665967879233512210767",
       "grossProfitRaw": "-2487694020182",
-      "netAfterGasEstimateRaw": "-30066294020182",
+      "netAfterGasEstimateRaw": "-29839494020182",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "512305979818",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6795,11 +7046,11 @@
       "status": "quoted",
       "intermediateRaw": "153104050421273848820",
       "grossProfitRaw": "-2324034513678",
-      "netAfterGasEstimateRaw": "-29902634513678",
+      "netAfterGasEstimateRaw": "-29675834513678",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "675965486322",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6811,11 +7062,11 @@
       "status": "quoted",
       "intermediateRaw": "2219887896719676978658",
       "grossProfitRaw": "-8322446157674",
-      "netAfterGasEstimateRaw": "-35901046157674",
+      "netAfterGasEstimateRaw": "-35674246157674",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "1677553842326",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6827,11 +7078,11 @@
       "status": "quoted",
       "intermediateRaw": "499935282925273840676",
       "grossProfitRaw": "-7792750585788",
-      "netAfterGasEstimateRaw": "-35371350585788",
+      "netAfterGasEstimateRaw": "-35144550585788",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "2207249414212",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6843,11 +7094,11 @@
       "status": "quoted",
       "intermediateRaw": "6659620541461901022406",
       "grossProfitRaw": "-25208884181062",
-      "netAfterGasEstimateRaw": "-52787484181062",
+      "netAfterGasEstimateRaw": "-52560684181062",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "4791115818938",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6859,11 +7110,11 @@
       "status": "quoted",
       "intermediateRaw": "1417199579334401611982",
       "grossProfitRaw": "-23742972618953",
-      "netAfterGasEstimateRaw": "-51321572618953",
+      "netAfterGasEstimateRaw": "-51094772618953",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "6257027381047",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6875,11 +7126,11 @@
       "status": "quoted",
       "intermediateRaw": "22198231751416660095555",
       "grossProfitRaw": "-86326544779027",
-      "netAfterGasEstimateRaw": "-113905144779027",
+      "netAfterGasEstimateRaw": "-113678344779027",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "13673455220973",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6891,11 +7142,11 @@
       "status": "quoted",
       "intermediateRaw": "3960518003552259112067",
       "grossProfitRaw": "-82514122938988",
-      "netAfterGasEstimateRaw": "-110092722938988",
+      "netAfterGasEstimateRaw": "-109865922938988",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "17485877061012",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6907,11 +7158,11 @@
       "status": "quoted",
       "intermediateRaw": "66590380887707444977663",
       "grossProfitRaw": "-270926652021929",
-      "netAfterGasEstimateRaw": "-298505252021929",
+      "netAfterGasEstimateRaw": "-298278452021929",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "29073347978071",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6923,11 +7174,11 @@
       "status": "quoted",
       "intermediateRaw": "8128229258029369023478",
       "grossProfitRaw": "-264113695994859",
-      "netAfterGasEstimateRaw": "-291692295994859",
+      "netAfterGasEstimateRaw": "-291465495994859",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "35886304005141",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6939,11 +7190,11 @@
       "status": "quoted",
       "intermediateRaw": "221917616686878736004927",
       "grossProfitRaw": "-952008997483037",
-      "netAfterGasEstimateRaw": "-979587597483037",
+      "netAfterGasEstimateRaw": "-979360797483037",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "47991002516963",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6955,11 +7206,11 @@
       "status": "quoted",
       "intermediateRaw": "12867436646562122342492",
       "grossProfitRaw": "-943190388085298",
-      "netAfterGasEstimateRaw": "-970768988085298",
+      "netAfterGasEstimateRaw": "-970542188085298",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "56809611914702",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6971,11 +7222,11 @@
       "status": "quoted",
       "intermediateRaw": "665321916052884573306985",
       "grossProfitRaw": "-2941049467407489",
-      "netAfterGasEstimateRaw": "-2968628067407489",
+      "netAfterGasEstimateRaw": "-2968401267407489",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "58950532592511",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -6987,11 +7238,11 @@
       "status": "quoted",
       "intermediateRaw": "15439452355366509650518",
       "grossProfitRaw": "-2931835218741456",
-      "netAfterGasEstimateRaw": "-2959413818741456",
+      "netAfterGasEstimateRaw": "-2959187018741456",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "68164781258544",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7003,11 +7254,11 @@
       "status": "quoted",
       "intermediateRaw": "2212726767923418114576097",
       "grossProfitRaw": "-9935928332948423",
-      "netAfterGasEstimateRaw": "-9963506932948423",
+      "netAfterGasEstimateRaw": "-9963280132948423",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "64071667051577",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7019,11 +7270,11 @@
       "status": "quoted",
       "intermediateRaw": "16600847144622626320707",
       "grossProfitRaw": "-9926707815120994",
-      "netAfterGasEstimateRaw": "-9954286415120994",
+      "netAfterGasEstimateRaw": "-9954059615120994",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "73292184879006",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7035,11 +7286,11 @@
       "status": "quoted",
       "intermediateRaw": "6595584361625371524574469",
       "grossProfitRaw": "-29934297566157556",
-      "netAfterGasEstimateRaw": "-29961876166157556",
+      "netAfterGasEstimateRaw": "-29961649366157556",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "65702433842444",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7051,11 +7302,11 @@
       "status": "quoted",
       "intermediateRaw": "16965471668860423353801",
       "grossProfitRaw": "-29925098049897691",
-      "netAfterGasEstimateRaw": "-29952676649897691",
+      "netAfterGasEstimateRaw": "-29952449849897691",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "74901950102309",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7067,11 +7318,11 @@
       "status": "quoted",
       "intermediateRaw": "21502363174355219935503518",
       "grossProfitRaw": "-99933707009609557",
-      "netAfterGasEstimateRaw": "-99961285609609557",
+      "netAfterGasEstimateRaw": "-99961058809609557",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66292990390443",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7083,11 +7334,11 @@
       "status": "quoted",
       "intermediateRaw": "17096903674096624995553",
       "grossProfitRaw": "-99924517796776917",
-      "netAfterGasEstimateRaw": "-99952096396776917",
+      "netAfterGasEstimateRaw": "-99951869596776917",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75482203223083",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7099,11 +7350,11 @@
       "status": "quoted",
       "intermediateRaw": "60697780851650658386130331",
       "grossProfitRaw": "-299933536324221601",
-      "netAfterGasEstimateRaw": "-299961114924221601",
+      "netAfterGasEstimateRaw": "-299960888124221601",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66463675778399",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7115,11 +7366,11 @@
       "status": "quoted",
       "intermediateRaw": "17134830540773892887681",
       "grossProfitRaw": "-299924350355237300",
-      "netAfterGasEstimateRaw": "-299951928955237300",
+      "netAfterGasEstimateRaw": "-299951702155237300",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75649644762700",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7131,11 +7382,11 @@
       "status": "quoted",
       "intermediateRaw": "167671025568162607808690718",
       "grossProfitRaw": "-999933476376500939",
-      "netAfterGasEstimateRaw": "-999961054976500939",
+      "netAfterGasEstimateRaw": "-999960828176500939",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66523623499061",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7147,11 +7398,11 @@
       "status": "quoted",
       "intermediateRaw": "17148144728766689053622",
       "grossProfitRaw": "-999924291575059425",
-      "netAfterGasEstimateRaw": "-999951870175059425",
+      "netAfterGasEstimateRaw": "-999951643375059425",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75708424940575",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7163,11 +7414,11 @@
       "status": "quoted",
       "intermediateRaw": "337733467098652870948315600",
       "grossProfitRaw": "-2999933459228712969",
-      "netAfterGasEstimateRaw": "-2999961037828712969",
+      "netAfterGasEstimateRaw": "-2999960811028712969",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66540771287031",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7179,11 +7430,11 @@
       "status": "quoted",
       "intermediateRaw": "17151952583693686349953",
       "grossProfitRaw": "-2999924274763941506",
-      "netAfterGasEstimateRaw": "-2999951853363941506",
+      "netAfterGasEstimateRaw": "-2999951626563941506",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75725236058494",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7195,11 +7446,11 @@
       "status": "quoted",
       "intermediateRaw": "523611196059096660159727514",
       "grossProfitRaw": "-9999933453224898454",
-      "netAfterGasEstimateRaw": "-9999961031824898454",
+      "netAfterGasEstimateRaw": "-9999960805024898454",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66546775101546",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7211,11 +7462,11 @@
       "status": "quoted",
       "intermediateRaw": "17153285732475569416110",
       "grossProfitRaw": "-9999924268878286291",
-      "netAfterGasEstimateRaw": "-9999951847478286291",
+      "netAfterGasEstimateRaw": "-9999951620678286291",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75731121713709",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7227,11 +7478,11 @@
       "status": "quoted",
       "intermediateRaw": "585351016064521265889773178",
       "grossProfitRaw": "-18088671734904701860",
-      "netAfterGasEstimateRaw": "-18088699313504701860",
+      "netAfterGasEstimateRaw": "-18088699086704701860",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66547925821603",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7243,11 +7494,11 @@
       "status": "quoted",
       "intermediateRaw": "17153541246396941993214",
       "grossProfitRaw": "-18088662550580753485",
-      "netAfterGasEstimateRaw": "-18088690129180753485",
+      "netAfterGasEstimateRaw": "-18088689902380753485",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "75732249769978",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7259,11 +7510,11 @@
       "status": "quoted",
       "intermediateRaw": "221989436908505246313",
       "grossProfitRaw": "-275890045162",
-      "netAfterGasEstimateRaw": "-27854490045162",
+      "netAfterGasEstimateRaw": "-27627690045162",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "724109954838",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7275,11 +7526,11 @@
       "status": "quoted",
       "intermediateRaw": "141471613247009965232",
       "grossProfitRaw": "-375392556829",
-      "netAfterGasEstimateRaw": "-27953992556829",
+      "netAfterGasEstimateRaw": "-27727192556829",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "624607443171",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7291,11 +7542,11 @@
       "status": "quoted",
       "intermediateRaw": "665967879233512210767",
       "grossProfitRaw": "-827709157061",
-      "netAfterGasEstimateRaw": "-28406309157061",
+      "netAfterGasEstimateRaw": "-28179509157061",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "2172290842939",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7307,11 +7558,11 @@
       "status": "quoted",
       "intermediateRaw": "424407945557748381304",
       "grossProfitRaw": "-1126208882500",
-      "netAfterGasEstimateRaw": "-28704808882500",
+      "netAfterGasEstimateRaw": "-28478008882500",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "1873791117500",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7323,11 +7574,11 @@
       "status": "quoted",
       "intermediateRaw": "2219887896719676978658",
       "grossProfitRaw": "-2759485738444",
-      "netAfterGasEstimateRaw": "-30338085738444",
+      "netAfterGasEstimateRaw": "-30111285738444",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "7240514261556",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7339,11 +7590,11 @@
       "status": "quoted",
       "intermediateRaw": "1414612725599961430921",
       "grossProfitRaw": "-3754393721152",
-      "netAfterGasEstimateRaw": "-31332993721152",
+      "netAfterGasEstimateRaw": "-31106193721152",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "6245606278848",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7355,11 +7606,11 @@
       "status": "quoted",
       "intermediateRaw": "6659620541461901022406",
       "grossProfitRaw": "-8282358111437",
-      "netAfterGasEstimateRaw": "-35860958111437",
+      "netAfterGasEstimateRaw": "-35634158111437",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "21717641888563",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7371,11 +7622,11 @@
       "status": "quoted",
       "intermediateRaw": "4243148960004744158007",
       "grossProfitRaw": "-11266301428841",
-      "netAfterGasEstimateRaw": "-38844901428841",
+      "netAfterGasEstimateRaw": "-38618101428841",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "18733698571159",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7387,11 +7638,11 @@
       "status": "quoted",
       "intermediateRaw": "22198231751416660095555",
       "grossProfitRaw": "-27653334070349",
-      "netAfterGasEstimateRaw": "-55231934070349",
+      "netAfterGasEstimateRaw": "-55005134070349",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "72346665929651",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7403,11 +7654,11 @@
       "status": "quoted",
       "intermediateRaw": "14135794877145565855117",
       "grossProfitRaw": "-37590713928013",
-      "netAfterGasEstimateRaw": "-65169313928013",
+      "netAfterGasEstimateRaw": "-64942513928013",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "62409286071987",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7419,11 +7670,11 @@
       "status": "quoted",
       "intermediateRaw": "66590380887707444977663",
       "grossProfitRaw": "-83348834082047",
-      "netAfterGasEstimateRaw": "-110927434082047",
+      "netAfterGasEstimateRaw": "-110700634082047",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "216651165917953",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7435,11 +7686,11 @@
       "status": "quoted",
       "intermediateRaw": "42338663959570050012570",
       "grossProfitRaw": "-113083235237235",
-      "netAfterGasEstimateRaw": "-140661835237235",
+      "netAfterGasEstimateRaw": "-140435035237235",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "186916764762765",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7451,11 +7702,11 @@
       "status": "quoted",
       "intermediateRaw": "221917616686878736004927",
       "grossProfitRaw": "-282329475116015",
-      "netAfterGasEstimateRaw": "-309908075116015",
+      "netAfterGasEstimateRaw": "-309681275116015",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "717670524883985",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7467,11 +7718,11 @@
       "status": "quoted",
       "intermediateRaw": "140332952176027169320943",
       "grossProfitRaw": "-380546560438146",
-      "netAfterGasEstimateRaw": "-408125160438146",
+      "netAfterGasEstimateRaw": "-407898360438146",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "619453439561854",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7483,11 +7734,11 @@
       "status": "quoted",
       "intermediateRaw": "665321916052884573306985",
       "grossProfitRaw": "-884649247971563",
-      "netAfterGasEstimateRaw": "-912227847971563",
+      "netAfterGasEstimateRaw": "-912001047971563",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "2115350752028437",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7499,11 +7750,11 @@
       "status": "quoted",
       "intermediateRaw": "414322671373729968099277",
       "grossProfitRaw": "-1171840324738748",
-      "netAfterGasEstimateRaw": "-1199418924738748",
+      "netAfterGasEstimateRaw": "-1199192124738748",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "1828159675261252",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7515,11 +7766,11 @@
       "status": "quoted",
       "intermediateRaw": "2212726767923418114576097",
       "grossProfitRaw": "-3355616962281964",
-      "netAfterGasEstimateRaw": "-3383195562281964",
+      "netAfterGasEstimateRaw": "-3382968762281964",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "6644383037718036",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7531,11 +7782,11 @@
       "status": "quoted",
       "intermediateRaw": "1308452682073461446047830",
       "grossProfitRaw": "-4234095105624968",
-      "netAfterGasEstimateRaw": "-4261673705624968",
+      "netAfterGasEstimateRaw": "-4261446905624968",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "5765904894375032",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7547,11 +7798,11 @@
       "status": "quoted",
       "intermediateRaw": "6595584361625371524574469",
       "grossProfitRaw": "-12887507590659501",
-      "netAfterGasEstimateRaw": "-12915086190659501",
+      "netAfterGasEstimateRaw": "-12914859390659501",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "17112492409340499",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7563,11 +7814,11 @@
       "status": "quoted",
       "intermediateRaw": "3412640094415877334997244",
       "grossProfitRaw": "-15007608376621546",
-      "netAfterGasEstimateRaw": "-15035186976621546",
+      "netAfterGasEstimateRaw": "-15034960176621546",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "14992391623378454",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7579,11 +7830,11 @@
       "status": "quoted",
       "intermediateRaw": "21502363174355219935503518",
       "grossProfitRaw": "-61851955416585681",
-      "netAfterGasEstimateRaw": "-61879534016585681",
+      "netAfterGasEstimateRaw": "-61879307216585681",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "38148044583414319",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7595,11 +7846,11 @@
       "status": "quoted",
       "intermediateRaw": "7806606442859614374325524",
       "grossProfitRaw": "-65921498385780221",
-      "netAfterGasEstimateRaw": "-65949076985780221",
+      "netAfterGasEstimateRaw": "-65948850185780221",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "34078501614219779",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7611,11 +7862,11 @@
       "status": "quoted",
       "intermediateRaw": "60697780851650658386130331",
       "grossProfitRaw": "-241200824491443750",
-      "netAfterGasEstimateRaw": "-241228403091443750",
+      "netAfterGasEstimateRaw": "-241228176291443750",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "58799175508556250",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7627,11 +7878,11 @@
       "status": "quoted",
       "intermediateRaw": "12349748332437661875261164",
       "grossProfitRaw": "-246440234674087936",
-      "netAfterGasEstimateRaw": "-246467813274087936",
+      "netAfterGasEstimateRaw": "-246467586474087936",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "53559765325912064",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7643,11 +7894,11 @@
       "status": "quoted",
       "intermediateRaw": "167671025568162607808690718",
       "grossProfitRaw": "-927455925706989953",
-      "netAfterGasEstimateRaw": "-927483504306989953",
+      "netAfterGasEstimateRaw": "-927483277506989953",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "72544074293010047",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7659,11 +7910,11 @@
       "status": "quoted",
       "intermediateRaw": "15508649517844888031546617",
       "grossProfitRaw": "-933043559149431320",
-      "netAfterGasEstimateRaw": "-933071137749431320",
+      "netAfterGasEstimateRaw": "-933070910949431320",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "66956440850568680",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7675,11 +7926,11 @@
       "status": "quoted",
       "intermediateRaw": "337733467098652870948315600",
       "grossProfitRaw": "-2922264051424275838",
-      "netAfterGasEstimateRaw": "-2922291630024275838",
+      "netAfterGasEstimateRaw": "-2922291403224275838",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "77735948575724162",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7691,11 +7942,11 @@
       "status": "quoted",
       "intermediateRaw": "16731413147203746840423338",
       "grossProfitRaw": "-2927890274000113623",
-      "netAfterGasEstimateRaw": "-2927917852600113623",
+      "netAfterGasEstimateRaw": "-2927917625800113623",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "72109725999886377",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7707,11 +7958,11 @@
       "status": "quoted",
       "intermediateRaw": "523611196059096660159727514",
       "grossProfitRaw": "-9920266815453932357",
-      "netAfterGasEstimateRaw": "-9920294394053932357",
+      "netAfterGasEstimateRaw": "-9920294167253932357",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "79733184546067643",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7723,11 +7974,11 @@
       "status": "quoted",
       "intermediateRaw": "17206225698447323086225095",
       "grossProfitRaw": "-9925894032688757205",
-      "netAfterGasEstimateRaw": "-9925921611288757205",
+      "netAfterGasEstimateRaw": "-9925921384488757205",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "74105967311242795",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7739,11 +7990,11 @@
       "status": "quoted",
       "intermediateRaw": "585351016064521265889773178",
       "grossProfitRaw": "-18008610562877000858",
-      "netAfterGasEstimateRaw": "-18008638141477000858",
+      "netAfterGasEstimateRaw": "-18008637914677000858",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "80127719953522605",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     },
     {
       "token": "0x75433ACd341afebA09C2118771dE613c539d4663",
@@ -7755,426 +8006,25 @@
       "status": "quoted",
       "intermediateRaw": "17300314794486618308260147",
       "grossProfitRaw": "-18014237059657055296",
-      "netAfterGasEstimateRaw": "-18014264638257055296",
+      "netAfterGasEstimateRaw": "-18014264411457055296",
       "positiveGross": false,
       "positiveNetEstimate": false,
       "returnedRaw": "74501223173468167",
-      "gasEstimateRaw": "27578600000000"
+      "gasEstimateRaw": "27351800000000"
     }
   ],
-  "failures": [
-    {
-      "stage": "curve",
-      "target": "0x45AdFB55A759Ab3c011000674cF1b08B55b44663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4c664C7243F876277bE02114f72e8883997e4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xc734417ffD0E065D5353c65Ab64F85895c504663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x19E2C6Df02FD2f27737824951dC73Af3C5194663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xa6982D82e7C7034b40d7C7818847fcA995Df4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4173a7d5D16bCa6030Ad94a41C65cB38Dd384663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x90D72CcecCC335c93f63512F21ACC7A75E734663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4e2c81aF36aD6FC616Ac5F362Aa9B9CB97854663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xf0Ff171f7e4150F48826a5d01AeCf74aE9314663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xcc85CA0D103DF7344726c9E825A87A48822C4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xd399F6F82eaa7fd547C0ed901230e9d725934663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x520d7669C8937D054DB785D0b6b6b81D9Bff4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x69c954adB46d3b357bAf46e2b573d9BB74454663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x27DD58cd42536b13b2d85aDf3C2f9173b6C44663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x358197116Ae772e8dB0D743ea0388bfb75C94663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x956241396D7401Bf74b879D89AD022df145C4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x433ff87CED4eA197306457d7510B18dAb8a34663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x5161212cE069A1F7833b623E5eBe0674BB194663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x45C2A2462E4Ffc37E9698b46361f0f6444544663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xF7ae8f01574fcf5efe2b501AA8ea69fF333D4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xC1AbB2660A9140774e44d069185BdD7A05E64663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x7545523A04B916bae2DD1c69d2f907e84dA94663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x006D20C41A14aa1CE45C0d54E6844828B0664663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xd7F28e31c7fDF32Fc9Cab0B9Bc093b66a4ea4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xB6888988D407d9174d2f1def8AF1361b10A04663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x6C66abA34Ffa3471745eF64f8d87E73d6D8a4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xDFEbB221bF6809d7868Eb712d35221AC31d54663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xdED5810a17A550A894A1de895eC0DFe083904663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x5088CbE8F983a17DeA1c7b862AF1dC2F2DF34663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xa1db04a3863574c055c410BC28F61AE431144663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x04D58892B380307f89DB0a564f689b399EeD4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xC06309Dd459AFc38959440F52dE365587Cf54663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xFBc71cac9d7401BE5f7Da20e553F6F5496414663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x0497c91071af7374e3F7f6BFE5C769542FDd4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xb58F0C2e3009Aa65feDED1945d26ED0dcea34663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xe63Fd3D4E722A6FCcf8f336f02cf7D1cc3Ae4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xC455C25b41221BB431baea51f058439dadfB4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xD17878e22548f538C8c9407D0F41Ce988B624663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xB913f177fC312c24B11A1786F974fb9f4b3a4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x862A0d66e730c0D1f37D16a54B4663dA77834663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x683E43c203ae57F279B114D88ac96f8BC32A4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x1B38e76C91a9c4ecC9cA367181660F54820b4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x9497744C8130a976d378C9f21Bbc1F064d1B4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xc479703fD86515EE98731115D0EDB22e95124663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xe2FCd39A8b9Cbfa2F9dc6ed2D0C1B1164DCA4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x896ff9AA30708EBfB7FB75428A988C79aa9C4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x914BF7D34745d7F8E26ea043bA5ecB68e8C14663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xaDD53FFafA21b8458aBfA3187772Faa4b0C84663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x0c653A9892dA9DC85C9cbbE09ce5bb81295A4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x2445BBDCe35fdc1f34740f658c4156df7c464663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4F2211E7f82eE09358c60BD33CCE829D76F64663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xAaD5A7d86d419A009c5D8491ec6815C6cbFa4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x31C419CCa446012eDa8a91F1CF78Ebb66Ea54663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x7aB0076e05E647e2eF9a5b6a0Bc35e110AfE4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xC3D8828c8eEe656D8AEDf7E8e16Bb25A66e54663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x172c9445b87ec92Ed5c63eF483913130c1884663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x828C62C1dDabF79786181335D26acBe994a44663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4E87b36BC23a644F23035653B4eE5490A50b4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xAb3e14e1dB0B6dd824583BC44FF6261b4f294663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4e454132466aD1010A83AB30dea496e570AD4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xbf7B2Afda3b1E9EB1e255c7bC859311156774663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xF23E50183FDc3c024843d5d9aC73ec608dCb4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x57BE790caE1fFa4c92d33458bee14A3DB0c74663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x1146AeD92de2300e520258b37e850b2E74D64663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x1d11e18309651Ea2998284DC7c4fC76b3d284663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x390ABF06f00EFCAB259192b06F54289dC3834663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xc258F133aE21F904Dda50488e9B27eD27a054663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x0Bbc2Fe3AcC531EeD1DB654264367d36D5cB4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x4F03BF029242fe147C807Ebe1D39e513387c4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x1D932EF645E6B134780bb2b8973dA71c30134663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xF9513dF16b4d39636630de932C9f16EF91094663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x7222CdAb0a2f54f6ffE293dAe4d67089CC6f4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x5C33beB8f889B2B5f000eF577eE57b75C1e84663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xBfF9C4ea35E8A012559b69Bccf99167A7F824663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x338A6F8f34Edd58708FAB1768658E324DFaa4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x04433A54bdaB663f6443dDB0f07F6B8Cd3B24663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xe2B004fba2e98F7Bf35EDf53Cb146c12bb144663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0xe3E1f0688afCf9Cd38000685C26DA41c7EA64663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x9c2481C1Fc64B79f1AB6AD37723c6BB8cc9D4663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    },
-    {
-      "stage": "curve",
-      "target": "0x768c54a5d1d567E14C304D9Ca83AA124d6484663:0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
-      "error": "An unknown RPC error occurred. RPC timeout"
-    }
-  ],
+  "failures": [],
   "counts": {
     "discoveredPools": 77,
     "tokens": 775,
-    "activeTokens": 691,
+    "activeTokens": 771,
     "liquidPools": 5,
     "attemptedRoutes": 160,
     "validQuotes": 160,
     "failedRoutes": 0,
     "positiveGrossEstimates": 10,
     "positiveNetEstimates": 0,
-    "failures": 80
+    "failures": 0
   },
   "limitations": [
     "Read-only quotes, not executed profit. No USD or bps profit floor.",
