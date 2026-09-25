@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-23T14:24:17.584Z",
+  "status": "complete",
+  "blockNumber": "51692060",
+  "blockHash": "0xf29f5ca3615872b9b51872b26015ce12bcd70d3103d1d55e9b013869775672c9",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29387",
+    "requestedPoolLimit": 30,
+    "tokenLimit": 12,
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      29372,
+      29373,
+      29374,
+      29375,
+      29376,
+      29377,
+      29378,
+      29379,
+      29380,
+      29381,
+      29382,
+      29383,
+      29384,
+      29385,
+      29386
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 1,
+        "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 2,
+        "address": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 3,
+        "address": "0x2B7704f1cb9324cD8586B33C6c540CbD64E58237",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 4,
+        "address": "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 7,
+        "address": "0x218F511431194B2C756D67a137DE536beA74E498",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 8,
+        "address": "0xf6Aec4F97623E691a9426a69BaF5501509fCa05D",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 9,
+        "address": "0x8b432C54d6e8E1B8D1802753514AB53044Af1861",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 10,
+        "address": "0xb680190fB16f417647e69D6A84719aE9c7E5E20a",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 11,
+        "address": "0x2d25E0514f23c6367687dE89Bd5167dc754D4934",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 14,
+        "address": "0x75D18ee68bB93BE5cB2dcCFa0d8151E25CBC8Eb8",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29372,
+        "address": "0x61f7EE638077f638342633b7b422776A5d5BbdcE",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29373,
+        "address": "0x572b001bF3b1e1e40b339D3496e2EafACF3beFbd",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29374,
+        "address": "0x19DA399dAE5E0fe3d03Dd5EE41dbad583fAc497F",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29375,
+        "address": "0x3E3fF9B5D4a84A008f1c1eC31B249A6CEBb45100",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29378,
+        "address": "0x7781AbFa72f0002719249609EfedeA31EEB24897",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29379,
+        "address": "0x92ca6AFE8e52F1914a39ea06d80bDBF9AB79d6e4",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29380,
+        "address": "0x9899988376A25C8b16ad915c9591bD78FD3Af6b2",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29381,
+        "address": "0x745e21A30B77B919642da49A32D657577c805638",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29382,
+        "address": "0xddC3Fd9927AbBaf138eFaD1Db1AF062425c9B7B5",
+        "failure": "ContractFunctionExecutionError: An unknown RPC error occurred."
+      },
+      {
+        "index": 29385,
+        "address": "0xF8C1fF2A139a67198566A861955EDBEac51e5132",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc"
+      },
+      {
+        "index": 29386,
+        "address": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xb26FbD1433BB4eBa961C8778Cd50EA129ad63ac0"
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc",
+      "status": "insufficient-pools",
+      "symbol": "JEVMFI",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0xb26FbD1433BB4eBa961C8778Cd50EA129ad63ac0",
+      "status": "insufficient-pools",
+      "symbol": "NBTT",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    }
+  ],
+  "pools": [
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0xF8C1fF2A139a67198566A861955EDBEac51e5132",
+      "token": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+      "token": "0xb26FbD1433BB4eBa961C8778Cd50EA129ad63ac0"
+    }
+  ],
+  "routes": [],
+  "failures": [
+    {
+      "stage": "pool-index",
+      "target": "5",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "pool-index",
+      "target": "6",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x2B7704f1cb9324cD8586B33C6c540CbD64E58237",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-index",
+      "target": "12",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "pool-index",
+      "target": "13",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x218F511431194B2C756D67a137DE536beA74E498",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xf6Aec4F97623E691a9426a69BaF5501509fCa05D",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x8b432C54d6e8E1B8D1802753514AB53044Af1861",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xb680190fB16f417647e69D6A84719aE9c7E5E20a",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x2d25E0514f23c6367687dE89Bd5167dc754D4934",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29376",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29377",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x75D18ee68bB93BE5cB2dcCFa0d8151E25CBC8Eb8",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x61f7EE638077f638342633b7b422776A5d5BbdcE",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x572b001bF3b1e1e40b339D3496e2EafACF3beFbd",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x19DA399dAE5E0fe3d03Dd5EE41dbad583fAc497F",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x3E3fF9B5D4a84A008f1c1eC31B249A6CEBb45100",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29383",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29384",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x7781AbFa72f0002719249609EfedeA31EEB24897",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x92ca6AFE8e52F1914a39ea06d80bDBF9AB79d6e4",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x9899988376A25C8b16ad915c9591bD78FD3Af6b2",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x745e21A30B77B919642da49A32D657577c805638",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xddC3Fd9927AbBaf138eFaD1Db1AF062425c9B7B5",
+      "reason": "ContractFunctionExecutionError: An unknown RPC error occurred."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Uniswap V3:100",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0xb26FbD1433BB4eBa961C8778Cd50EA129ad63ac0:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79701660101665658529054"
+  },
+  "counts": {
+    "tokens": 2,
+    "discoveredPools": 22,
+    "pools": 2,
+    "attemptedRoutes": 0,
+    "validQuotes": 0,
+    "failedRoutes": 0,
+    "positiveGrossEstimates": 0,
+    "failures": 32
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

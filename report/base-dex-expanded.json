@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-25T04:56:54.540Z",
+  "status": "running",
+  "blockNumber": "0",
+  "blockHash": null,
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "0",
+    "requestedPoolLimit": 80,
+    "tokenLimit": 30,
+    "indices": [],
+    "pools": []
+  },
+  "tokens": [],
+  "pools": [],
+  "routes": [],
+  "failures": [],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "0"
+  },
+  "counts": {
+    "tokens": 0,
+    "discoveredPools": 0,
+    "pools": 0,
+    "attemptedRoutes": 0,
+    "validQuotes": 0,
+    "failedRoutes": 0,
+    "positiveGrossEstimates": 0,
+    "failures": 0
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

@@ -76,12 +76,17 @@ npx tsx src/arb/scan-morpho.ts --chain base --max-tokens 100 --min-usd 0
 
 ```bash
 npm run cli -- arb-scan --chain base
-npm run cli -- arb-scan --chain base --min-net 5
+npm run cli -- arb-scan --chain base --pool-limit 40 --token-limit 16
 npm run cli -- arb-scan --chain base --watch --interval 20
 npm run cli -- arb-scan --chain base --json
+npm run cli -- arb-scan --chain robinhood --max-seconds 300 --report ../report/robin-scan.json
+npx tsx verify-robin-fork.mts ../report/robin-scan.json 0
 ```
 
-`arb-scan` read-only. `arb-plan` membuat plan dan fresh quote:
+`arb-scan` read-only. Base memakai [DEX discovery terbatas](../docs/BASE-DEX-SCAN.md); Robinhood memakai [RobinFun/V4 + POC flashloan](../docs/ROBIN-FLASHLOAN-SCAN.md). Semua gross positif tetap dilaporkan, tanpa ambang profit minimum arbitrer. Gross bukan net. Verifier Robinhood hanya menjalankan fork lokal, tanpa deploy/broadcast.
+
+`arb-plan`/`arb-execute` masih jalur scanner lama; **tidak mengambil kandidat dari laporan DEX baru**. Keduanya bukan langkah eksekusi untuk kandidat Robinhood di atas:
+
 
 ```bash
 npm run cli -- arb-plan --chain base --opportunity 1

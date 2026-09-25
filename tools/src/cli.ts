@@ -1003,8 +1003,9 @@ Usage:
   npm run cli -- chains
   npm run cli -- scan  --chain ethereum [--min-usd 100000] [--token 0x...]
   npm run cli -- scan-all [--chains ethereum,base,arbitrum] [--min-usd 100000]
-  npm run cli -- arb-scan --chain base [--gas-units 400000] [--min-net 0]
+  npm run cli -- arb-scan --chain base [--pool-limit 80] [--token-limit 30]
   npm run cli -- arb-scan --chain base --watch [--interval 20]
+  npm run cli -- arb-scan --chain robinhood [--max-seconds 300] [--report ../report/robin-scan.json]
   npm run cli -- arb-setup --chain base [--broadcast --yes]
   npm run cli -- arb-plan --chain base [--opportunity 1 --slippage-bps 50]
   npm run cli -- arb-execute --chain base [--opportunity 1] [--broadcast --min-net-raw N]
@@ -1047,6 +1048,44 @@ async function main(): Promise<void> {
       await scanAll(args);
       break;
     case 'arb-scan': {
+      const chain = chainFromArgs(args);
+      if (chain.key === 'robinhood' && !hasFlag(args, 'legacy-scan')) {
+        if (hasFlag(args,'broadcast')) throw new Error('Scanner is read-only; --broadcast prohibited');
+        const {scanRobin} = await import('./arb/robin-scan.js');
+        const registry = await loadDeployments();
+        const result = await scanRobin({
+          morpho:morphoAddress(deploymentFor(registry,chain.key),chain),
+          rpcUrl:flag(args,'read-rpc'), reportPath:flag(args,'report')??'../report/robin-scan.json',
+          maxSeconds:numberFlag(args,'max-seconds',300),tokenLimit:numberFlag(args,'token-limit',100),
+          fromBlock:flag(args,'from-block')?BigInt(flag(args,'from-block')!):undefined,
+          amounts:flag(args,'amounts-raw')?.split(',').map(n=>BigInt(n)),
+          onProgress:hasFlag(args,'json')?undefined:s=>console.log(s),
+        });
+        console.log(JSON.stringify(hasFlag(args,'json')?result:{status:result.status,block:result.blockNumber,...result.counts,candidates:result.routes.filter(r=>r.positiveGross)},(_,v)=>typeof v==='bigint'?v.toString():v,2));
+        if(result.status==='failed')process.exitCode=1;
+        break;
+      }
+      if (chain.key === 'base' && !hasFlag(args, 'legacy-scan')) {
+        if (hasFlag(args, 'broadcast')) throw new Error('DEX scanner is read-only; --broadcast prohibited');
+        const { scanBaseDex } = await import('./arb/dex-scan.js');
+        const registry = await loadDeployments();
+        const record = deploymentFor(registry, chain.key);
+        const reportPath = flag(args, 'report') ?? '../report/base-dex-scan.json';
+        do {
+          const result = await scanBaseDex({
+            rpcUrls: flag(args, 'read-rpc') ? [flag(args, 'read-rpc')!] : [...(chain.readRpcFallbacks ?? []), process.env[chain.rpcEnv]].filter((s): s is string => !!s),
+            morpho: morphoAddress(record, chain), reportPath,
+            poolLimit: numberFlag(args, 'pool-limit', 80), tokenLimit: numberFlag(args, 'token-limit', 30),
+            concurrency: numberFlag(args, 'concurrency', 2), maxSeconds: numberFlag(args, 'max-seconds', 300),
+            amounts: flag(args, 'amounts-raw')?.split(',').map(n => BigInt(n)),
+            onProgress: hasFlag(args, 'json') ? undefined : message => console.log(message),
+          });
+          console.log(JSON.stringify(hasFlag(args, 'json') ? result : {status:result.status, block:result.blockNumber, ...result.counts, report:reportPath, executable:false}, (_,v) => typeof v === 'bigint' ? v.toString() : v, 2));
+          if (result.status === 'failed') { process.exitCode = 1; break; }
+          if (hasFlag(args, 'watch')) await new Promise(resolve => setTimeout(resolve, Math.max(1, numberFlag(args, 'interval', 20)) * 1000));
+        } while (hasFlag(args, 'watch'));
+        break;
+      }
       const minNet = numberFlag(args, 'min-net', 0);
       if (hasFlag(args, 'watch')) {
         await watchArbScan(args, minNet);

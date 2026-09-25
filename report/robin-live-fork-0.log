@@ -1,0 +1,12 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/MorphoRobinArbFork.t.sol:MorphoRobinArbForkTest
+[PASS] testScannerCandidateFlashloan() (gas: 1778442)
+Logs:
+  FLASHLOAN_PRINCIPAL_WEI 30000000000000
+  REALIZED_GROSS_WEI 10596101626575
+  CALL_GAS_USED 437503
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 16.62s (16.61s CPU time)
+
+Ran 1 test suite in 16.66s (16.62s CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)

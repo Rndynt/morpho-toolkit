@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-23T14:43:30.729Z",
+  "status": "partial",
+  "blockNumber": "51692636",
+  "blockHash": "0xfc013720a91a31e84910e023275493673d5253d6e57aee16c801b2a31a146186",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29387",
+    "requestedPoolLimit": 2,
+    "tokenLimit": 1,
+    "indices": [
+      0,
+      29386
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: RPC Request failed."
+    }
+  ],
+  "pools": [],
+  "routes": [],
+  "failures": [
+    {
+      "stage": "rpc-probe",
+      "target": "endpoint-1",
+      "reason": "TimeoutError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29386",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "metadata",
+      "target": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "router-factory",
+      "target": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "router-factory",
+      "target": "0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79714436358719083369545"
+  },
+  "counts": {
+    "tokens": 2,
+    "discoveredPools": 1,
+    "pools": 0,
+    "attemptedRoutes": 0,
+    "validQuotes": 0,
+    "failedRoutes": 0,
+    "positiveGrossEstimates": 0,
+    "failures": 6
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

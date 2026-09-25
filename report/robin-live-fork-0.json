@@ -1,0 +1,31 @@
+{
+  "readOnly": true,
+  "block": "72006614",
+  "candidate": {
+    "token": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
+    "symbol": "RDOG",
+    "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+    "pool": "0x6961d3c4fd42d1f26bcd765165c9d2a365b34c67ba873613820ddfbf35bc9ce5",
+    "direction": "v4-curve",
+    "amountInRaw": "30000000000000",
+    "status": "quoted",
+    "intermediateRaw": "19299273976309702613835",
+    "grossProfitRaw": "10596101626575",
+    "netAfterGasEstimateRaw": "-17164498373425",
+    "positiveGross": true,
+    "positiveNetEstimate": false,
+    "returnedRaw": "40596101626575",
+    "gasEstimateRaw": "27760600000000"
+  },
+  "pool": {
+    "currency0": "0x0000000000000000000000000000000000000000",
+    "currency1": "0x0E51cFf72247C5a2d0CF6Ee7C618aF5333504663",
+    "fee": 850000,
+    "tickSpacing": 8500,
+    "hooks": "0x0000000000000000000000000000000000000000"
+  },
+  "verifiedFlashloan": true,
+  "realizedGrossWei": "10596101626575",
+  "callGasUsed": "437503",
+  "exitCode": 0
+}

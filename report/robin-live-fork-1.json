@@ -1,0 +1,31 @@
+{
+  "readOnly": true,
+  "block": "72006614",
+  "candidate": {
+    "token": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
+    "symbol": "$PET",
+    "curve": "0xd861cb5DC71A0171E8F0f6586cADb069f3A35E4d",
+    "pool": "0xdd7a6d7337622c0a345dc76e13458107424241fadf52d0b98443bf74f7f3fe36",
+    "direction": "v4-curve",
+    "amountInRaw": "30000000000000",
+    "status": "quoted",
+    "intermediateRaw": "19382461570661174608093",
+    "grossProfitRaw": "10087253196020",
+    "netAfterGasEstimateRaw": "-17673346803980",
+    "positiveGross": true,
+    "positiveNetEstimate": false,
+    "returnedRaw": "40087253196020",
+    "gasEstimateRaw": "27760600000000"
+  },
+  "pool": {
+    "currency0": "0x0000000000000000000000000000000000000000",
+    "currency1": "0x6F29AA0c4089D8a1230F34D835A20Ed66d174663",
+    "fee": 850000,
+    "tickSpacing": 8500,
+    "hooks": "0x0000000000000000000000000000000000000000"
+  },
+  "verifiedFlashloan": true,
+  "realizedGrossWei": "10087253196020",
+  "callGasUsed": "434928",
+  "exitCode": 0
+}

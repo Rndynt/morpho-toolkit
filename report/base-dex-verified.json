@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-23T14:46:23.027Z",
+  "status": "partial",
+  "blockNumber": "51692719",
+  "blockHash": "0xdc43dca91f16ead7057067630a21aabde4477f14382e7ddd0ba9191347467c56",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29387",
+    "requestedPoolLimit": 2,
+    "tokenLimit": 1,
+    "indices": [
+      0,
+      29386
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: RPC Request failed."
+    }
+  ],
+  "pools": [],
+  "routes": [],
+  "failures": [
+    {
+      "stage": "pool-index",
+      "target": "29386",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    },
+    {
+      "stage": "metadata",
+      "target": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "reason": "ContractFunctionExecutionError: RPC Request failed."
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79714432612727294583545"
+  },
+  "counts": {
+    "tokens": 2,
+    "discoveredPools": 1,
+    "pools": 0,
+    "attemptedRoutes": 0,
+    "validQuotes": 0,
+    "failedRoutes": 0,
+    "positiveGrossEstimates": 0,
+    "failures": 3
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

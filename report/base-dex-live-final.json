@@ -1,0 +1,511 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-23T14:34:54.170Z",
+  "status": "running",
+  "blockNumber": "51692377",
+  "blockHash": "0x3bd9d9e1e69deff317b7a4c79945a9b9d46c21acc6ec105999b2fa47c0f9bd67",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29387",
+    "requestedPoolLimit": 12,
+    "tokenLimit": 6,
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      29381,
+      29382,
+      29383,
+      29384,
+      29385,
+      29386
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 1,
+        "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+        "token0": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 2,
+        "address": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+        "token0": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+        "token1": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "index": 3,
+        "address": "0x2B7704f1cb9324cD8586B33C6c540CbD64E58237",
+        "token0": "0x2dAD3a13ef0C6366220f989157009e501e7938F8",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 4,
+        "address": "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528",
+        "token0": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 5,
+        "address": "0xA819Af1CC8AbE618eA8abaDeb464960F7451CEAB",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF"
+      },
+      {
+        "index": 29381,
+        "address": "0x745e21A30B77B919642da49A32D657577c805638",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29382,
+        "address": "0xddC3Fd9927AbBaf138eFaD1Db1AF062425c9B7B5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xc3b78820c195BEdf570ccdb17ba68Fa22Ad98BEc"
+      },
+      {
+        "index": 29383,
+        "address": "0x94b78d3F98fA1Bc4e8c258dDfC44819BE28A5DA1",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x63639e0507D5157c08aC478c15c9bEfa43d2051B"
+      },
+      {
+        "index": 29385,
+        "address": "0xF8C1fF2A139a67198566A861955EDBEac51e5132",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc"
+      },
+      {
+        "index": 29386,
+        "address": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "status": "quoted",
+      "symbol": "tBTC",
+      "decimals": 18,
+      "poolCount": 5,
+      "attempts": 20,
+      "validQuotes": 3
+    },
+    {
+      "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "status": "excluded-stable",
+      "symbol": "USDbC",
+      "decimals": 6
+    },
+    {
+      "address": "0x26f3901aC8a79c50fb0d8289C74f0d09AdC42E29",
+      "status": "discovered",
+      "symbol": "T",
+      "decimals": 18
+    },
+    {
+      "address": "0x2dAD3a13ef0C6366220f989157009e501e7938F8",
+      "status": "discovered",
+      "symbol": "EXTRA",
+      "decimals": 18
+    },
+    {
+      "address": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+      "status": "discovered",
+      "symbol": "DOLA",
+      "decimals": 18
+    },
+    {
+      "address": "0x6B4712AE9797C199edd44F897cA09BC57628a1CF",
+      "status": "discovered",
+      "symbol": "UNIDX",
+      "decimals": 18
+    },
+    {
+      "address": "0xc3b78820c195BEdf570ccdb17ba68Fa22Ad98BEc",
+      "status": "discovered",
+      "symbol": "DEVAGENT",
+      "decimals": 18
+    },
+    {
+      "address": "0x63639e0507D5157c08aC478c15c9bEfa43d2051B",
+      "status": "excluded-token-cap",
+      "symbol": "MUSEWORLD",
+      "decimals": 18
+    },
+    {
+      "address": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc",
+      "status": "excluded-token-cap",
+      "symbol": "JEVMFI",
+      "decimals": 18
+    }
+  ],
+  "pools": [
+    {
+      "venue": "Uniswap V2",
+      "kind": "v2",
+      "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+      "router": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+      "key": 30,
+      "address": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Aerodrome stable",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": true,
+      "address": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 3000,
+      "address": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    },
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 10000,
+      "address": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+    }
+  ],
+  "routes": [
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "754913335747",
+      "returnedRaw": "23872247008571",
+      "grossProfitRaw": "-976127752991429",
+      "gasCostEstimateRaw": "5109043200000",
+      "netBeforeL1FeeRaw": "-981236796191429"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V2",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"getAmountsOut\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V2",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31431841418962",
+      "returnedRaw": "23845089205918",
+      "grossProfitRaw": "-976154910794082",
+      "gasCostEstimateRaw": "5109043200000",
+      "netBeforeL1FeeRaw": "-981263953994082"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Aerodrome volatile",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome volatile",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: read failed"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Aerodrome stable",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: read failed"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: read failed"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Aerodrome stable",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: read failed"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "quoted",
+      "executable": false,
+      "intermediateRaw": "31428705002779",
+      "returnedRaw": "23845031891499",
+      "grossProfitRaw": "-976154968108501",
+      "gasCostEstimateRaw": "5109043200000",
+      "netBeforeL1FeeRaw": "-981264011308501"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "Error: read failed"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "second": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x18a9B853F0F55D5AF8c57EB2574471f1Ce10E79F",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V2",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome volatile",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x3d7db2f40AB1F8c960769b25c4A370F72B4b53b4",
+      "buy": "Uniswap V3",
+      "sell": "Aerodrome stable",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    },
+    {
+      "token": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "symbol": "tBTC",
+      "first": "0x1CC3aDD0725c847A36110118a8E0A2cC410FEC5c",
+      "second": "0x9fee7385a2979D15277C3467Db7D99EF1A2669D7",
+      "buy": "Uniswap V3",
+      "sell": "Uniswap V3",
+      "amountInRaw": "1000000000000000",
+      "status": "failed",
+      "executable": false,
+      "failure": "ContractFunctionExecutionError: The contract function \"quoteExactInputSingle\" reverted with the following reason:"
+    }
+  ],
+  "failures": [
+    {
+      "stage": "pool-tokens",
+      "target": "0x745e21A30B77B919642da49A32D657577c805638",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29384",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b:Uniswap V3:500",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: Invalid parameters were provided to the RPC method."
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79703165027566940603151"
+  },
+  "counts": {
+    "tokens": 9,
+    "discoveredPools": 11,
+    "pools": 5,
+    "attemptedRoutes": 20,
+    "validQuotes": 3,
+    "failedRoutes": 17,
+    "positiveGrossEstimates": 0,
+    "failures": 6
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}

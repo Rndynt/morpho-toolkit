@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "chain": "base",
+  "chainId": 8453,
+  "readOnly": true,
+  "startedAt": "2026-09-23T14:28:11.707Z",
+  "status": "complete",
+  "blockNumber": "51692173",
+  "blockHash": "0xe52fd02651d4799f33814bfcf687a963829cac0658e689e11a68d4293e89c131",
+  "discovery": {
+    "source": "Aerodrome on-chain allPools; first + latest bounded indices; WETH counter-pools across venues",
+    "totalFactoryPools": "29387",
+    "requestedPoolLimit": 40,
+    "tokenLimit": 16,
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      29367,
+      29368,
+      29369,
+      29370,
+      29371,
+      29372,
+      29373,
+      29374,
+      29375,
+      29376,
+      29377,
+      29378,
+      29379,
+      29380,
+      29381,
+      29382,
+      29383,
+      29384,
+      29385,
+      29386
+    ],
+    "pools": [
+      {
+        "index": 0,
+        "address": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 1,
+        "address": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 2,
+        "address": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 4,
+        "address": "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528",
+        "token0": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 5,
+        "address": "0xA819Af1CC8AbE618eA8abaDeb464960F7451CEAB",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 6,
+        "address": "0x6e23f90E25f432c9dF9eF9276472DDa3951e4465",
+        "token0": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A",
+        "token1": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069"
+      },
+      {
+        "index": 9,
+        "address": "0x8b432C54d6e8E1B8D1802753514AB53044Af1861",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 10,
+        "address": "0xb680190fB16f417647e69D6A84719aE9c7E5E20a",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 11,
+        "address": "0x2d25E0514f23c6367687dE89Bd5167dc754D4934",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 13,
+        "address": "0x535d457FFC1c4459300Bb1dd775f37808F808282",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D"
+      },
+      {
+        "index": 14,
+        "address": "0x75D18ee68bB93BE5cB2dcCFa0d8151E25CBC8Eb8",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 15,
+        "address": "0x1b05e4e814b3431a48b8164c41eaC834d9cE2Da6",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 19,
+        "address": "0x2223F9FE624F69Da4D8256A7bCc9104FBA7F8f75",
+        "token0": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "token1": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
+      },
+      {
+        "index": 29367,
+        "address": "0x16770A8F2e229c464241bC98AAc3507E0ac29002",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x6ff02a41fA0B98aA631f088600824D148FA2A043"
+      },
+      {
+        "index": 29368,
+        "address": "0xe72D87A805c7B05151D7CF5217A27126B62F397d",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29373,
+        "address": "0x572b001bF3b1e1e40b339D3496e2EafACF3beFbd",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x4dA14EeD5E4f946Ee88FE31591026a98d9851D0c"
+      },
+      {
+        "index": 29374,
+        "address": "0x19DA399dAE5E0fe3d03Dd5EE41dbad583fAc497F",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x9B926c1aE274ec5bFE68BCD52A259480330F3170"
+      },
+      {
+        "index": 29375,
+        "address": "0x3E3fF9B5D4a84A008f1c1eC31B249A6CEBb45100",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29379,
+        "address": "0x92ca6AFE8e52F1914a39ea06d80bDBF9AB79d6e4",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0xa0aC41a31FbeC42090EcBc013fC984130cd025A2"
+      },
+      {
+        "index": 29380,
+        "address": "0x9899988376A25C8b16ad915c9591bD78FD3Af6b2",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29381,
+        "address": "0x745e21A30B77B919642da49A32D657577c805638",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29383,
+        "address": "0x94b78d3F98fA1Bc4e8c258dDfC44819BE28A5DA1",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      },
+      {
+        "index": 29385,
+        "address": "0xF8C1fF2A139a67198566A861955EDBEac51e5132",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc"
+      },
+      {
+        "index": 29386,
+        "address": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+        "failure": "ContractFunctionExecutionError: The request took too long to respond."
+      }
+    ]
+  },
+  "tokens": [
+    {
+      "address": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D",
+      "status": "insufficient-pools",
+      "symbol": "MIM",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0x6ff02a41fA0B98aA631f088600824D148FA2A043",
+      "status": "insufficient-pools",
+      "symbol": "XXXAI",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    },
+    {
+      "address": "0x4dA14EeD5E4f946Ee88FE31591026a98d9851D0c",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0x9B926c1aE274ec5bFE68BCD52A259480330F3170",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0xa0aC41a31FbeC42090EcBc013fC984130cd025A2",
+      "status": "metadata-failed",
+      "failure": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "address": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc",
+      "status": "insufficient-pools",
+      "symbol": "JEVMFI",
+      "decimals": 18,
+      "poolCount": 1,
+      "attempts": 0,
+      "validQuotes": 0
+    }
+  ],
+  "pools": [
+    {
+      "venue": "Uniswap V3",
+      "kind": "v3",
+      "factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "router": "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+      "key": 10000,
+      "address": "0x3CC25Db9Fe174438B763466A1f40050C2e870308",
+      "token": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0x16770A8F2e229c464241bC98AAc3507E0ac29002",
+      "token": "0x6ff02a41fA0B98aA631f088600824D148FA2A043"
+    },
+    {
+      "venue": "Aerodrome volatile",
+      "kind": "solidly",
+      "factory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "router": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "key": false,
+      "address": "0xF8C1fF2A139a67198566A861955EDBEac51e5132",
+      "token": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc"
+    }
+  ],
+  "routes": [],
+  "failures": [
+    {
+      "stage": "pool-index",
+      "target": "3",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x723AEf6543aecE026a15662Be4D3fb3424D502A9",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x2722C8f9B5E2aC72D1f225f8e8c990E449ba0078",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xAf58FDeE432a104a932a899968d60F92838886cd",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xA819Af1CC8AbE618eA8abaDeb464960F7451CEAB",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "7",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "8",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x8b432C54d6e8E1B8D1802753514AB53044Af1861",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "12",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xb680190fB16f417647e69D6A84719aE9c7E5E20a",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x2d25E0514f23c6367687dE89Bd5167dc754D4934",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "16",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x75D18ee68bB93BE5cB2dcCFa0d8151E25CBC8Eb8",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "17",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x1b05e4e814b3431a48b8164c41eaC834d9cE2Da6",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "18",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0xe72D87A805c7B05151D7CF5217A27126B62F397d",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29369",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29370",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29371",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29372",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29376",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29377",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29378",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x3E3fF9B5D4a84A008f1c1eC31B249A6CEBb45100",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x9899988376A25C8b16ad915c9591bD78FD3Af6b2",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29382",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x745e21A30B77B919642da49A32D657577c805638",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-index",
+      "target": "29384",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x93A3f6e4bC9f7ceAbe05Ee8E645d21cD772C92b5",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "pool-tokens",
+      "target": "0x94b78d3F98fA1Bc4e8c258dDfC44819BE28A5DA1",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x4621b7A9c75199271F773Ebd9A499dbd165c3191",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x00e1724885473B63bCE08a9f0a52F35b0979e35A",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0xf7A0dd3317535eC4f4d29ADF9d620B3d8D5D5069",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x9B926c1aE274ec5bFE68BCD52A259480330F3170",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0x4dA14EeD5E4f946Ee88FE31591026a98d9851D0c",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "metadata",
+      "target": "0xa0aC41a31FbeC42090EcBc013fC984130cd025A2",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Uniswap V2:30",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Sushi V2:30",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome volatile:false",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome stable:true",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D:Aerodrome Slipstream:200",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6ff02a41fA0B98aA631f088600824D148FA2A043:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6ff02a41fA0B98aA631f088600824D148FA2A043:Aerodrome Slipstream:50",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x6ff02a41fA0B98aA631f088600824D148FA2A043:Aerodrome Slipstream:100",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Uniswap V3:3000",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Uniswap V3:10000",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Aerodrome Slipstream:1",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    },
+    {
+      "stage": "counter-pool",
+      "target": "0x85D715499334E873e9c37D2B6C75296e1D21e8Bc:Aerodrome Slipstream:10",
+      "reason": "ContractFunctionExecutionError: The request took too long to respond."
+    }
+  ],
+  "loan": {
+    "token": "0x4200000000000000000000000000000000000006",
+    "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "balanceRaw": "79701877431350662498769"
+  },
+  "counts": {
+    "tokens": 11,
+    "discoveredPools": 24,
+    "pools": 3,
+    "attemptedRoutes": 0,
+    "validQuotes": 0,
+    "failedRoutes": 0,
+    "positiveGrossEstimates": 0,
+    "failures": 54
+  },
+  "limitations": [
+    "Bounded factory sample, not all Base tokens/pools; WETH loan anchor only.",
+    "Quotes are estimates, not executor simulations. All routes remain non-executable pending policy, fork/preflight and fresh re-quote.",
+    "CL unsupported by deployed POC V2; no CL calldata exported.",
+    "Gas uses 600000 units; Base L1 data fee, MEV and slippage not deducted; netBeforeL1FeeRaw is not net profit.",
+    "Slipstream initial factory only; newer factories, Uniswap V4, Curve, Balancer, multihop unsupported."
+  ]
+}
